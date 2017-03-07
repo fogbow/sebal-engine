@@ -65,12 +65,21 @@ dashboardServices.service('AuthenticationService', function($log, $http,
     }
   
     var loginErrorHandler = function(error){
+      console.log("Error no login")
       Session.destroy();
       callbackError(error);
     }
     console.log("Getting images with headers: "+JSON.stringify(headerCredentials))
-    $http.get(resourceUrl, {headers: headerCredentials})
+    $http.get(resourceUrl, {headers: {'userEmail': userLogin, 'userPass': password}})
       .success(loginSuccessHandler).error(loginErrorHandler);
+
+      // $.ajax({
+      //   type: 'GET',
+      //   url: 'http://dashboard.sebal.lsd.ufcg.edu.br:9193/images',
+      //   headers: {'userEmail': userLogin, 'userPass': password},
+      //   success: loginSuccessHandler,
+      //   error:loginErrorHandler
+      // });
 
   }
 

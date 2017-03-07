@@ -45,12 +45,10 @@
               <div class="modal-body" style="background-color: rgb(120, 130, 140)">
                 <form>
                   <div style="margin-left: 10%; margin-right: 20%; margin-bottom: 20px;">
-                      <input type="date" class="sebal-input sb-md sb-thin" id="firstYearField"
-                        ng-model="firstYear" required placeholder="First Year">
+                      <input type="text" class="sebal-input sb-md sb-thin sebal-datapicker" id="firstYearField" ng-model="firstYear" required placeholder="First Year">
                   </div>
                   <div style="margin-left: 10%; margin-right: 20%; margin-bottom: 20px;">
-                      <input type="date" class="sebal-input sb-md sb-thin" id="secondYearField" 
-                        ng-model="lastYear" required placeholder="Last Year">
+                      <input type="text" class="sebal-input sb-md sb-thin sebal-datapicker" id="secondYearField" ng-model="lastYear" required placeholder="Last Year">
                   </div>
                   <div style="margin-left: 10%; margin-right: 20%; margin-bottom: 20px;">
                       <input type="text" class="sebal-input sb-md sb-thin"  id="regionField" 
@@ -69,10 +67,11 @@
                       SUBMIT
                     </div>
                   </div>
+                  
                 </form>
               </div>
               <div class="modal-footer">
-               
+                
               </div>
             </div>
           </div>

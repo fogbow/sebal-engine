@@ -26,6 +26,9 @@ dashboardControllers.controller('MainController', function($scope, $log, $filter
     //GlobalMsgService.pushMessageSuccess(value);
     getUserName();
   });
+
+  
+
 });
 
 dashboardControllers.controller('LoginController', function($scope, $rootScope, $log, $filter, $timeout,
@@ -61,6 +64,24 @@ dashboardControllers.controller('MonitorController', function($scope, $log, $fil
   $scope.sebalImages = [];
   $scope.elementShowingDetail = undefined;
 
+  $scope.detail={
+    downloadLink:"",
+    state:"",
+    federationMember:"",
+    priority:"",
+    stationId:"",
+    sebalVersion:"",
+    sebalTag:"",
+    crawlerVersion:"",
+    fetcherVersion:"",
+    blowoutVersion:"",
+    fmaskVersion:"",
+    creationTime:"",
+    updateTime:"",
+    status:"",
+    error:""
+  }
+
   $scope.getSebalImages = function(){
     ImageService.getImages(
           function(data){
@@ -73,15 +94,55 @@ dashboardControllers.controller('MonitorController', function($scope, $log, $fil
           }
     ); 
   }
-  $scope.showDetail = function(elementId){
-    console.log(elementId);
-    if($scope.elementShowingDetail !== undefined){
-      $("#"+$scope.elementShowingDetail).addClass('hidden');
-    }
-    if($scope.elementShowingDetail === elementId){
-      $("#"+$scope.elementShowingDetail).addClass('hidden');
+  $scope.showDetail = function(elementId, item){
+
+    var detailContent = 
+    "<div class='col-md-12'>"+
+      "<dl class='dl-horizontal'>"+
+        "<dt>Download Link</dt>"+
+        "<dd>"+item.downloadLink+"</dd>"+
+        "<dt>State</dt>"+
+        "<dd>"+item.state+"</dd>"+
+        "<dt>Federation Member</dt>"+
+        "<dd>"+item.federationMember+"</dd>"+
+        "<dt>Priority</dt>"+
+        "<dd>"+item.priority+"</dd>"+
+        "<dt>Station ID</dt>"+
+        "<dd>"+item.stationId+"</dd>"+
+        "<dt>Sebal Version</dt>"+
+        "<dd>"+item.sebalVersion+"</dd>"+
+        "<dt>Sebal Tag</dt>"+
+        "<dd>"+item.sebalTag+"</dd>"+
+        "<dt>Crawler Version</dt>"+
+        "<dd>"+item.crawlerVersion+"</dd>"+
+        "<dt>Fetcher Version</dt>"+
+        "<dd>"+item.fetcherVersion+"</dd>"+
+        "<dt>Blowout Version</dt>"+
+        "<dd>"+item.blowoutVersion+"</dd>"+
+        "<dt>Fmask Version</dt>"+
+        "<dd>"+item.fmaskVersion+"</dd>"+
+        "<dt>Creation Time</dt>"+
+        "<dd>"+item.creationTime+"</dd>"+
+        "<dt>Update Time</dt>"+
+        "<dd>"+item.updateTime+"</dd>"+
+        "<dt>Status</dt>"+
+        "<dd>"+item.status+"</dd>"+
+        "<dt>Error</dt>"+
+        "<dd>"+item.error+"</dd>"+
+      "</dl>"+
+    "</div>";
+
+    console.log(elementId+" -- "+JSON.stringify(item));
+    if($scope.elementShowingDetail !== undefined ||
+        $scope.elementShowingDetail === elementId){
+      $("#"+elementId).empty();
+      $("#"+elementId).addClass('hidden');
       $scope.elementShowingDetail = undefined;
+
     }else{
+      
+
+      $("#"+elementId).append(detailContent);
       $("#"+elementId).removeClass('hidden');
       $scope.elementShowingDetail = elementId;
     }
@@ -94,6 +155,33 @@ dashboardControllers.controller('MonitorController', function($scope, $log, $fil
 
 dashboardControllers.controller('JobController', function($scope, $log, $filter, $timeout, 
   AuthenticationService, JobService, GlobalMsgService, appConfig) {
+  
+  function validateDate(date){
+
+    re = /^[0-3]?[0-9]\/[01]?[0-9]\/[12][90][0-9][0-9]$/
+
+    if(date == '' || !date.match(re)) {
+      console.log('Invalid date');
+      return false;
+    }
+    console.log('Valid date');
+    return true;
+  }
+  
+  function parseDate(date) {
+    var arrDate = date.split("/");
+    var d = parseInt(arrDate[0], 10),
+        m = parseInt(arrDate[1], 10),
+        y = parseInt(arrDate[2], 10);
+    return new Date(y, m - 1, d);
+  }
+
+  //Managing datepickers
+  $(function () {
+      $('.sebal-datapicker').datetimepicker({
+          format: 'DD/MM/YYYY'
+      });
+  });
 
   $scope.cleanForm = function(){
       $scope.firstYear = undefined;
@@ -104,6 +192,22 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
   }
 
   $scope.submitJob = function(){
+    
+    if(!validateDate($('#firstYearField').val())){
+      GlobalMsgService.pushMessageFail('First Year date invalid.');
+      return;
+    }else{
+      $scope.firstYear = parseDate($('#firstYearField').val())
+    }
+    if(!validateDate($('#secondYearField').val())){
+      GlobalMsgService.pushMessageFail('Last Year date invalid');
+      return;
+    }else{
+      $scope.firstYear = parseDate($('#secondYearField').val())
+    }
+    
+    $scope.firstYear = $('#firstYearField').val();
+    $scope.firstYear = $('#secondYearField').val();
 
     var data = {
       'firstYear': $scope.firstYear, 
@@ -170,8 +274,8 @@ dashboardControllers.controller("PaginationController", function($scope, $log) {
       
       var rex = new RegExp($scope.filterValue, 'i');
 
-      $('.div-table-row').hide();
-      $('.div-table-row').filter(function () {
+      $('.searchable tr').hide();
+      $('.searchable tr').filter(function () {
           $log.debug("Testing "+JSON.stringify($(this)));
           $log.debug("Testing "+$(this).text());
           var filterResult = rex.test($(this).text());
