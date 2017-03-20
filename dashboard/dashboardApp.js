@@ -5,8 +5,8 @@ var app = angular.module('schedulerDashboard', [
 	//'ui.bootstrap'
 ]);
 app.constant("appConfig", {
-	"urlSebalSchedulerService":"http://localhost:9192/sebal-scheduler/",
-	"imagePath":"images/",
+	"urlSebalSchedulerService":"http://localhost:9192/",
+	"imagePath":"images",
 	"getImageByIdPath":"images/:imageId",
 	"regionResourcePath":"regions/",
 	"LOGIN_SUCCEED":"login.succeed",

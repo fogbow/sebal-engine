@@ -1,27 +1,33 @@
         <!-- HEADER AND NAVBAR OF SEBAL DASHBOARD-->
         <header>
             <nav class="sb-nav">
-                <div class="row"
-                  style="padding-top: 15px; padding-bottom: 15px;">
+                <div class="row" style="height: 20%">
                     <div class="col-md-3" style="padding-left: 10%;">
                         <a href="#monitor">
-                            <img src="../images/sebal-logo-small.png" style="max-width:40%; height: auto; display: block;"></img>
+                            <img class="sb-logo" src="../images/sebal-logo-small.png"></img>
                         </a>
                     </div>
-                    <div class="col-md-6" style="text-align: center; font-size:5.5em;">
-                        <a href="#selectRegion" style="color:white !important;">
-                            <span class="glyphicon glyphicon-th span-button" aria-hidden="true" style="padding: 20px 60px 20px 60px;">
-                            </span></a>
-                        <a href="#monitor" style="color:white !important;">
-                            <span class="glyphicon glyphicon-th-list span-button" aria-hidden="true" style="padding: 20px 60px 20px 60px;"></span></a>
-                        <a href="" style="color:white !important;" data-toggle="modal" data-target="#myModal">
-                            <span class="glyphicon glyphicon-plus span-button" aria-hidden="true" style="padding: 20px 60px 20px 60px;"></span></a>
+                    <div class="col-md-6 sb-nav-buttons" >
+                        <div id="selectRegionBtn" class="col-md-4 span-button" >
+                          <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
+                              <span class="glyphicon glyphicon-th" aria-hidden="true"></span></a>
+                        </div>
+                        <div id="monitorBtn" class="col-md-4 span-button">
+                          <a href="#monitor" ng-click="activateButton('monitorBtn')">
+                              <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
+                        </div>
+                        <div id="submitBtn" class="col-md-4 span-button">
+                          <a href="" data-toggle="modal" data-target="#myModal" ng-click="activateButton('submitBtn')">
+                              <span class="glyphicon glyphicon-plus " aria-hidden="true"></span></a>
+                        </div>
                     </div>
-                    <div class="col-md-3" style="text-align: center; font-size:2em;">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li style="padding: 20px 80px 20px 80px;">
-                                <a href="" ng-click="doLogout()">{{user.name}}<span class="glyphicon glyphicon-user" aria-hidden="true" style="padding-left:10px;"></span></a></li>
-                        </ul>
+                    <div class="col-md-3 sb-nav-buttons">
+                      <div class="span-button sb-dropdown" style="font-size: 2.5em; width: 60%; text-align: right">
+                        <div class="sb-dropdown">
+                          {{user.name}}<a href=""><span class="glyphicon glyphicon-user" aria-hidden="true" style="padding-left:10px;"></span></a>
+                        </div>
+                        <div class="sb-dropdown-item" ng-click="doLogout()">Logout</div>
+                      </div>
                     </div>
                 </div>
             </nav>
@@ -62,7 +68,11 @@
                       <input type="text" class="sebal-input sb-md sb-thin" id="tagField" 
                        ng-model="sebalTag" required placeholder="Sebal Tag">
                   </div>
-                  <div style="margin-left: 8%; margin-right: 20%;">
+                  <div style="margin-left: 10%; margin-right: 20%; margin-bottom: 20px;">
+                      <input type="text" class="sebal-input sb-md sb-thin" id="satelliteField" 
+                       ng-model="sebalTag" required placeholder="Satellite">
+                  </div>
+                  <div style="margin-left: 10%; margin-right: 20%;">
                     <div ng-click="submitJob()" data-dismiss="modal" class="sebal-button sb-main sb-md">
                       SUBMIT
                     </div>

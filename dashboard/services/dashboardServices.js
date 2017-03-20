@@ -49,7 +49,7 @@ dashboardServices.service('AuthenticationService', function($log, $http,
       return {'auth-token': Session.getUser().token}
     }else{
       console.log("Returning: "+JSON.stringify({'userEmail': Session.getUser().login, 'userPass': Session.getUser().pass}));
-      return {'userEmail': Session.getUser().login, 'userPass': Session.getUser().pass}
+      return {'Access-Control-Allow-Origin' :'*','userEmail': Session.getUser().login, 'userPass': Session.getUser().pass}
     }
   };
 
@@ -64,10 +64,16 @@ dashboardServices.service('AuthenticationService', function($log, $http,
       callbackSuccess(response)
     }
   
-    var loginErrorHandler = function(error){
-      console.log("Error no login")
+    var loginErrorHandler = function(error, status){
+      console.log("Error no login: "+JSON.stringify(error))
       Session.destroy();
-      callbackError(error);
+      var loginError = {msg:'', status:status}
+      if(loginError.status == 401){
+        loginError.msg = 'Invalid Credentials. Check your login and password.'
+      }else{
+        loginError.msg = 'Server erro while processing your login request. Contact system administrator.'
+      }
+      callbackError(loginError);
     }
     console.log("Getting images with headers: "+JSON.stringify(headerCredentials))
     $http.get(resourceUrl, {headers: {'userEmail': userLogin, 'userPass': password}})

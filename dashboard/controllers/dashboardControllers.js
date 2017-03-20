@@ -6,6 +6,35 @@ dashboardControllers.controller('MainController', function($scope, $log, $filter
   $scope.user = {name:"", token: ""};
   $scope.globalMsg = GlobalMsgService;
   getUserName();
+  $scope.previousButton = undefined;
+  $scope.actual = undefined;
+
+  $scope.activateButton = function(idButton){
+    
+    $scope.previousButton = $scope.actual;
+    $scope.actual = idButton;
+
+    if($scope.actual !== undefined){
+      console.log("Activating "+$scope.actual);
+      $("#"+idButton).addClass('span-button-selected');  
+    }
+    if($scope.previousButton !== undefined){
+      console.log("Deactivating "+$scope.previousButton);
+      $("#"+$scope.previousButton).removeClass('span-button-selected');  
+    }
+  }
+  $scope.reverseActivateButton = function(idButton){
+    console.log("Reversing "+idButton);
+    $scope.actual = $scope.previousButton;
+    $scope.previousButton = idButton;
+    
+    if($scope.previousButton !== undefined){
+      $("#"+$scope.previousButton).addClass('span-button-selected');
+    }
+    if($scope.actual !== undefined){
+      $("#"+$scope.actual).removeClass('span-button-selected');
+    }
+  }
 
   $scope.doLogout = function(){
     console.log("Logout success");
@@ -27,7 +56,7 @@ dashboardControllers.controller('MainController', function($scope, $log, $filter
     getUserName();
   });
 
-  
+  //$scope.activateButton('monitorBtn');
 
 });
 
@@ -47,7 +76,7 @@ dashboardControllers.controller('LoginController', function($scope, $rootScope, 
       }, 
       function(response){ //Erro call back
         console.log("Login error: "+JSON.stringify(response));
-        $scope.errorMsg = response.error;
+        $scope.errorMsg = response.msg;
       }
     );
   }

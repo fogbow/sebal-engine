@@ -8,16 +8,16 @@
     <div class="tray tray-center pn">
       <div class="panel sebal-table-container" ng-controller="PaginationController">
         
-        <div class="panel-menu br-n" style="background-color: rgb(120, 130, 140);">
+        <div class="panel-menu br-n" style="background-color: rgb(120, 130, 140); padding-left: 10%; padding-right: 10%">
           <div class="row">
             <div class="hidden-xs hidden-sm col-md-2">
               <div class="btn-group">
-                <button type="button" class="btn btn-default light" ng-click="getSebalImages()" >
-                  <i class="fa fa-refresh"></i>
+                <button type="button" class="btn btn-default light btn-refresh" ng-click="getSebalImages()" >
+                  <i class="fa fa-refresh" style="font-size: 2.5em;"></i>
                 </button>
               </div>
             </div>
-            <div class="col-xs-10 col-md-7 text-right">
+            <div class="col-xs-10 col-md-6 text-right">
               <div class="btn-group">
                 <ul class="pagination" ng-if='pageCount(sebalImages) > 0' style="display:inline!important;">
                   <li ng-if='!prevPageDisabled'>
@@ -34,26 +34,23 @@
                 </ul>
               </div>
             </div>
-            <div class="col-xs-6 col-md-3 text-right">
+            <div class="col-xs-6 col-md-4 text-right">
               <input type="text" class="sebal-input sb-md sb-thin"  id="filter"  ng-model="filterValue"
                 required placeholder="SEARCH IN TABLE" ng-change="filterTable()">
-               <span class="glyphicon glyphicon-filter sebal-input-span" aria-hidden="true"></span>
               </input>
             </div>
           </div>
         </div>
-        <div id="table-div">
+        <div id="table-div" style="background-color: rgb(120, 130, 140)">
         <!-- message listings table -->
-        <table id="image-table" class="sebal-table">
+        <table id="image-table" class="sebal-table" style="width: 80%; margin-left: 10%">
           <thead>
             <tr class="table-header">
               <th>
                 <div class="div-table row">
                   <div class="col-md-1">#</div>
-                  <div class="col-md-3 main-column">Name</div>
-                  <div class="col-md-3">Created</div>
-                  <div class="col-md-3">Updated</div>
-                  <div class="col-md-2">State</div>
+                  <div class="col-md-6 main-column">Name</div>
+                  <div class="col-md-5">State</div>
                 </div>
               </th>
             </tr>
@@ -63,10 +60,8 @@
               <td>
                 <div class="div-table-row row">
                   <div class="col-md-1">{{$index + 1}}</div>
-                  <div class="col-md-3 selectable main-column" ng-click="showDetail('detail'+$index, i)">{{i.name}}</div>
-                  <div class="col-md-3">{{ i.creationTime}}</div>
-                  <div class="col-md-3">{{i.updateTime}}</div>
-                  <div class="col-md-2">{{i.state}}</div>
+                  <div class="col-md-6 selectable main-column" ng-click="showDetail('detail'+$index, i)">{{i.name}}</div>
+                  <div class="col-md-5">{{i.state}}</div>
                 </div>
                 <div id="detail{{$index}}" class="div-table row sb-table-detail hidden">
                   

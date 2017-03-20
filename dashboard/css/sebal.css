@@ -5,18 +5,68 @@
 	background-color:rgb(68, 66, 66);
 }
 
+@media screen and (max-width: 480px) {
+    .sb-nav, .sb-nav-buttons, .span-button {
+        height: 120px;
+    }
+}
+@media screen and (min-width: 720px) {
+    .sb-nav, .sb-nav-buttons, .span-button {
+        height: 120px;
+    }
+}
+@media screen and (min-width: 1080px) {
+    .sb-nav, .sb-nav-buttons, .span-button {
+        height: 130px;
+    }
+    .sb-logo{
+    	margin-top: 10px; 
+    	height: 110px;
+    	width: 110px;
+    }
+    .span-button{
+    	padding-top: 20px;
+    }
+    .span-button span{
+    	color: rgb(255,255,255) !important;
+    	padding: 20px 60px 20px 60px;
+    }
+}
+.sb-dropdown{
+  	margin-bottom: 38px;
+}
+.sb-dropdown:hover .sb-dropdown-item{
+  	display: block;
+}
+.sb-dropdown-item{
+	display: none;
+	cursor: pointer;
+	padding-top: 15px;
+	position: relative;
+	z-index: 9999;
+	text-align: center;
+	height: 80px;
+	color: rgb(255,255,255);
+	background-color: rgb(230,220,50);
+}
 .sebal-content{
 	overflow-y: auto !important;
 	height: 90%; 
 	width: 100%;
 }
 /* BUTTONS */
-.span-button:hover{
-	background-color: rgb(0,255,135);
-	color: rgb(70,75,78);
+.span-button{
+	text-align: center;
+	vertical-align: middle;
+	font-size: 2.5em;
+}
+.span-button-selected, .span-button:hover{
+	background-color: rgb(0,255,135) !important;
+}
+.span-button:hover span, .span-button-selected span{
+	color: rgb(70,75,78) !important;
 }
 .sebal-button{
-	margin-left: 10px;
 	line-height: 70px;
 	height:70px;
 	width: 300px;
@@ -55,12 +105,11 @@
 }
 /* LABELS */
 .sebal-label{
-	margin-left: 10px;
+	margin-top: 10px;
 	text-align: center;
 	vertical-align: middle;
 	font-family: monospace;
 	font-size: 1.2em;
-	height:50px;
 	width: 300px;
 	font-weight: bold;
 	background-color: rgb(255,255,255);
@@ -108,11 +157,21 @@ div.sebal-label button{
 	font-weight: bold;
 }
 .div-table{
+	background-color: rgb(120, 130, 140)
 	height: 50px;
 }
 div.div-table-row div{
 	padding: 10px;
 	height: 100%;
+}
+div.div-table-row:hover, div.div-table-row:hover .main-column{
+	background: white;
+	color: rgb(30,30,30);
+	font-size: 1.2em;
+	font-weight: bold;
+}
+div.div-table-row:hover .main-column{
+	background-color:rgb(210,205,200);
 }
 .main-column{
 	color: rgb(200,200,200);
@@ -128,6 +187,16 @@ div.div-table-row div{
 }
 
 /* MISC */
+.btn-refresh{
+	margin: 15px 15px 15px 15px;
+	font-size: 15px;
+}
+
+.btn-refresh:hover{
+	border: 4px solid rgb(70,80,90);
+	margin: 12px 12px 12px 12px;
+	color: rgb(30,120,30);
+}
 
 .sb-close-md-btn{
 	margin: 10px 10px 10px 10px;
