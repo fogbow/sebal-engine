@@ -16,15 +16,25 @@
     }
 }
 @media screen and (min-width: 1080px) {
-    .sb-nav, .sb-nav-buttons, .span-button {
+    .sb-nav, .sb-nav-buttons, .span-button, .sb-dropdown{
         height: 130px;
+    }
+    .sb-dropdown{
+    	width: 300px;
+    }
+    .sb-dropdown-item{
+    	padding-top: 20px;
+    	padding-left: 5px;
+    	padding-right: 5px;
+    	padding-bottom: 10px;
+    	height: 110px; /* sd-bropdown height - sb-dropdown padding top*/
     }
     .sb-logo{
     	margin-top: 10px; 
     	height: 110px;
     	width: 110px;
     }
-    .span-button{
+    .span-button, .sb-dropdown{
     	padding-top: 20px;
     }
     .span-button span{
@@ -32,13 +42,23 @@
     	padding: 20px 60px 20px 60px;
     }
 }
+/*  DROPDOWN */
 .sb-dropdown{
-  	margin-bottom: 38px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 1.5em !important;
 }
-.sb-dropdown:hover .sb-dropdown-item{
+.sb-dropdown span{
+	padding-left: 10px;
+	color: rgb(255,255,255) !important;
+}
+.sb-dropdown:hover{
+	background-color: rgb(0,255,135) !important;
+}
+.sb-dropdown:hover .sb-dropdown-sub-item{
   	display: block;
 }
-.sb-dropdown-item{
+.sb-dropdown-sub-item{
 	display: none;
 	cursor: pointer;
 	padding-top: 15px;
