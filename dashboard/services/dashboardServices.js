@@ -123,6 +123,32 @@ dashboardServices.service('AuthenticationService', function($log, $http,
   	 Session.destroy();
   };
 
+  authService.createNewUser = function (userName, email, password, callbackSuccess, callbackError) {
+    
+    Session.createBasicSession(userName, email, password);
+    var headerCredentials = getCredentials();
+
+    var createUserSuccessHandler = function(response){
+      //console.log("Return: "+JSON.stringify(response));
+      if(callbackSuccess){
+        callbackSuccess(response)  
+      }
+      
+    }
+  
+    var createUserErrorHandler = function(error, status){
+      if(callbackError){
+        callbackError(error);
+      }
+      
+    }
+    console.log("Creating new user: "+userName+" - "+email)
+    // $http.get(resourceUrl, {headers: {'userName' : userName, 'userEmail': email, 'userPass': password}})
+    //   .success(createUserSuccessHandler).error(createUserErrorHandler);
+    createUserSuccessHandler("Success")
+    
+  }
+
   authService.getUserName = function(){
  		return Session.getUser().name;
   };

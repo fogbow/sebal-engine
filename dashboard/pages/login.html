@@ -1,28 +1,34 @@
 <!-- Begin: Content -->
-<div class="row" ng-controller="LoginController"
-  style="width: 60%; height: 60%; margin-left: 20%; padding-top: 15%;">
-  <div align="center" class="col-md-6"><img src="/images/sebal-logo.png" style="max-width:60%; height: auto; display: block;"/></div>
-  <div align="center" class="col-md-6" style="margin-top: 5%;">
+<div class="sb-login-box" ng-controller="LoginController">
+
+  <div align="center" class="row"><img src="/images/SebalLogo.png" class="sb-logo-lg"/></div>
+  <div align="center" class="row" style="margin-top: 5%;">
     <form action="/" id="loginFormId">
-      <div style="margin-left: 10%; margin-bottom: 20px;">
-          <input type="text" class="sebal-input sb-md"  id="nameInput" 
+      <div>
+          <input type="text" class="sebal-input input-small"  id="nameInput" 
            ng-model="username" required placeholder="NAME/EMAIL">
           </input>
       </div>
-      <div style="margin-left: 10%;">
-          <input type="password" class="sebal-input sb-md" id="passwordInput" 
+      <div >
+          <input type="password" class="sebal-input input-small" id="passwordInput" 
            ng-model="password" required placeholder="PASSWORD">
           </input>
       </div>
-      <div style="margin-left: 10%; margin-top: 5px;">
+      <div margin-top: 5px;">
           <div ng-show="errorMsg !== undefined" class="sebal-label sb-error sb-md" id="alert-login">
                 <button type="button" class="close" ng-click="clearLoginMsg()" aria-hidden="true">×</button>
-                <i class="fa fa-info pr10"></i>
+                <i class="fa fa-info"></i>
                 {{errorMsg}}
           </div>
       </div>
-      <div style="margin-left: 10%; margin-top: 50px;">
-          <div ng-click="doLogin()" class="sebal-button sb-main sb-md">SING IN</div>
+      <div>
+          <div ng-click="doLogin()" class="sb-button btn-sm sb-main">Entrar</div>
+          <div style="margin-bottom: 30px">
+            <a ng-click="forgotPassword()" style="color: rgb(30,100,80); cursor: pointer; margin-bottom: 30px">Esqueceu a senha?</a>
+          </div>
+          <span ng-click="loadCreateNewUser()" class="glyphicon glyphicon-plus-sign span-button main" aria-hidden="true"></span>
+          <div style="color: rgb(30,100,80)">Criar conta</div>
+
       </div>
     </form>
   </div>

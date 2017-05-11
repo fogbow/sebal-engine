@@ -2,11 +2,115 @@
 	<div ng-include="'pages/main.html'"></div>
 </div>
 
-<div id="content" ng-controller="MonitorController" class="sebal-content">
-  <!-- Begin: Content -->
-  <!-- begin: .tray-center -->
-    <div class="tray tray-center pn">
-      <div class="panel sebal-table-container" ng-controller="PaginationController">
+<div class="panel panel-default sb-steps-panel">
+  <div class="row sb-steps-panel-ht" align="center">
+    Steps until download completion
+  </div>
+  <div class="row" align="center">
+    <div class="col-md-4"></div>
+    <div class="col-md-1">
+      <img src="/images/steps/downloading.png"/>
+      <p>Downloading</p>
+      <img src="/images/steps/01.png"/>
+    </div>
+    <div class="col-md-1">
+      <img src="/images/steps/downloaded.png"/>
+      <p>Downloaded</p>
+      <img src="/images/steps/02.png"/>
+    </div>
+    <div class="col-md-1">
+      <img src="/images/steps/queued.png"/>
+      <p>Queued</p>
+      <img src="/images/steps/03.png"/>
+    </div>
+    <div class="col-md-1">
+      <img src="/images/steps/fetched.png"/>
+      <p>Fetched</p>
+      <img src="/images/steps/04.png"/>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>
+
+<div ng-controller="MonitorController" >
+  <div class="row panel-default" >
+    <div class="col-md-3">
+      <div data-toggle="modal" data-target="#myModal" style="cursor: pointer; font-size: 1.5em; width: 70%;">
+        <img src="/images/create-subm.png" height="42" width="42"/>&nbsp;New submission
+      </div>
+    </div>
+    <div class="col-md-9" align="right" ng-controller="PaginationController">
+          <input type="text" class="sebal-input sb-md sb-height-sm" id="filter-all" ng-model="filterValue['searchable']" placeholder="Search in all submissions" ng-change="filterTable('searchable')">
+          </input>
+          <img src="/images/search.png"/>
+    </div>
+  </div>
+
+  <div id="content" class="sebal-content">
+    <!-- Begin: Content -->
+    <!-- begin: .tray-center -->
+      
+      <div class="tray tray-center pn">
+
+        <div ng-repeat="ss in sebalSubmissions" class="panel panel-default sb-submission-panel" ng-controller="PaginationController">
+          <div class="panel-heading">
+            <div class="row">
+              <div align="left" class="col-md-6"><h3>{{ss.name}} - {{ss.date}}</h3></div>
+              <div align="right" class="col-md-6">
+                {{ss.totalImages}} <img src="/images/steps/pics.png"/>&nbsp;|&nbsp;
+                {{ss.totalDownloading}}&nbsp;<img src="/images/steps/downloading.png"/>&nbsp;&nbsp;
+                {{ss.totalDownloaded}}&nbsp;<img src="/images/steps/downloaded.png"/>&nbsp;&nbsp;
+                {{ss.totalQueued}}&nbsp;<img src="/images/steps/queued.png"/>&nbsp;&nbsp;
+                {{ss.totalFeched}}&nbsp;<img src="/images/steps/fetched.png"/>&nbsp;&nbsp;
+                {{ss.totalError}}&nbsp;<img src="/images/steps/error.png"/>&nbsp;&nbsp;
+              </div>
+            </div>
+          </div>
+        <div class="panel-body">
+        <div id="table-div">
+          <!-- message listings table -->
+          <div class="text-right">
+              <input type="text" class="sebal-input sb-md sb-height-sm" id="filter-{{ss.id}}" ng-model="filterValue[ss.id]" placeholder="Search in {{ss.name}}" ng-change="filterTable(ss.id)">
+              </input>
+              <img src="/images/search.png"/>
+          </div>
+          <table id="image-table" class="sebal-table">
+            <thead>
+              <tr class="table-header">
+                <th>
+                  <div class="div-table-th row">
+                    <div class="col-md-1">#</div>
+                    <div class="col-md-4">Name</div>
+                    <div class="col-md-2">Creation date</div>
+                    <div class="col-md-2">End date</div>
+                    <div class="col-md-3">State</div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="searchable {{ss.id}}">
+              <tr ng-repeat="i in ss.images | limitTo: itemsPerPage">
+                <td>
+                  <div class="div-table-row row">
+                    <div class="col-md-1">{{$index + 1}}</div>
+                    <div class="col-md-4 selectable" ng-click="showDetail('detail'+$index, i)">{{i.name}}</div>
+                    <div class="col-md-2">{{i.creationTime | date : 'yyyy-MM-dd' }}</div>
+                    <div class="col-md-2">{{i.updateTime | date : 'yyyy-MM-dd' }}</div>
+                    <div class="col-md-3">{{i.state}}</div>
+                  </div>
+                  </div>
+                  </div>
+                  <div id="detail{{$index}}" class="div-table row sb-table-detail hidden">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>    
+        </div>
+      </div>
+  </div>
+</div>
+     <!--  <div class="panel " >
         
         <div class="panel-menu br-n" style="background-color: rgb(120, 130, 140); padding-left: 10%; padding-right: 10%">
           <div class="row">
@@ -41,38 +145,9 @@
             </div>
           </div>
         </div>
-        <div id="table-div" style="background-color: rgb(120, 130, 140)">
-        <!-- message listings table -->
-        <table id="image-table" class="sebal-table" style="width: 80%; margin-left: 10%">
-          <thead>
-            <tr class="table-header">
-              <th>
-                <div class="div-table row">
-                  <div class="col-md-1">#</div>
-                  <div class="col-md-6 main-column">Name</div>
-                  <div class="col-md-5">State</div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody class="searchable">
-            <tr ng-repeat="i in sebalImages | limitTo: itemsPerPage">
-              <td>
-                <div class="div-table-row row">
-                  <div class="col-md-1">{{$index + 1}}</div>
-                  <div class="col-md-6 selectable main-column" ng-click="showDetail('detail'+$index, i)">{{i.name}}</div>
-                  <div class="col-md-5">{{i.state}}</div>
-                </div>
-                <div id="detail{{$index}}" class="div-table row sb-table-detail hidden">
-                  
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
+        
       </div>
-    </div>
+    </div> -->
   <!-- End: Content -->
 </div>	
 

@@ -29,6 +29,9 @@ app.config(function($routeProvider){
 	.when('/', {
 	    templateUrl : '/pages/login.html',
 	})
+	.when('/new-user', {
+	    templateUrl : '/pages/create_user.html',
+	})
 	.when('/monitor', {
 		resolve: {
 			"check": checkUser

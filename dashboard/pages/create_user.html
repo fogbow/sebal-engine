@@ -1,0 +1,66 @@
+<!-- Begin: Content -->
+<div ng-controller="LoginController">
+
+  <div align="center" class="row panel-heading">
+    <img src="/images/SebalLogo.png" class="sb-logo-sm"/>
+  </div>
+  <div class="row" style="margin-top: 5%;">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Criar Conta</h3>
+    </div>
+    <div class="panel-body">
+      <div id="formContent" ng-show="create === true">
+        <form action="/" id="createUserFormId">
+ 
+          <div ng-show="errorMsg !== undefined" class="sebal-label sb-error sb-md" id="alert-login">
+                <button type="button" class="close" ng-click="clearLoginMsg()" aria-hidden="true">×</button>
+                <i class="fa fa-info"></i>
+                {{errorMsg}}
+          </div>
+     
+          <div class="row">
+              <div>Nome</div>
+              <input type="text" class="sebal-input input-small sb-width-lg"  id="nameInput" 
+               ng-model="username" required placeholder="">
+              </input>
+
+              <div>Email</div>
+              <input type="text" class="sebal-input input-small sb-width-lg" id="emailInput" 
+               ng-model="email" required placeholder="">
+              </input>
+
+              <div>Senha</div>
+              <input type="password" class="sebal-input input-small sb-width-lg" id="passwordInput" 
+               ng-model="password" required placeholder="">
+              </input>
+          </div>
+          <div class="row">
+              <div class="col-md-6">
+                <div ng-click="createNewUser()" class="sb-button btn-sm sb-main">Criar Conta</div>  
+              </div>
+              <div align="right" class="col-md-6">
+                <a href="/">
+                  <span class="glyphicon glyphicon-arrow-left span-button main" aria-hidden="true">
+                  </span>
+                </a>
+              </div>
+          </div>
+
+        </form>
+        
+      </div>
+      <div id="successContent" ng-show="create === false">
+        {{msg}}
+        <div align="right">
+            <a href="/">
+              <span class="glyphicon glyphicon-arrow-left span-button main" aria-hidden="true">
+              </span>
+            </a>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+</div>

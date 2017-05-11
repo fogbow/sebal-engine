@@ -1,12 +1,52 @@
         <!-- HEADER AND NAVBAR OF SEBAL DASHBOARD-->
         <header>
-            <nav class="sb-nav">
+            <div class="row panel-heading">
+              
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <div align="center" style="background: rgb(237,237,237); height: 150px; width: 150px; position: relative; top: -60px; right: -160px; z-index: 9999;">
+                  <a href="#monitor">
+                    <img src="/images/SebalLogo.png" class="sb-logo-sm"/>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="sb-nav">
+                  <div class="row" align="center">
+                        <div id="homeBtn" class="col-md-2 nav-button">
+                          <img src="/images/menu/home.png"/>&nbsp;<a href="#monitor">Home</a>
+                        </div>
+                        <div id="submitBtn" class="col-md-3 nav-button">
+                          <img src="/images/menu/home.png"/>&nbsp;
+                          <a href="" data-toggle="modal" data-target="#myModal" ng-click="activateButton('submitBtn')">Submissions</a>
+                        </div>
+                        <div id="selectRegionBtn" class="col-md-2 nav-button" >
+                          <img src="/images/menu/home.png"/>&nbsp;
+                          <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
+                            Map
+                          </a>
+                        </div>
+                        <div id="helpBtn" class="col-md-2 nav-button" >
+                          <img src="/images/menu/home.png"/>&nbsp;
+                          <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
+                            Help
+                          </a>
+                        </div>
+                        <div id="contactBtn" class="col-md-3 nav-button" >
+                          <img src="/images/menu/home.png"/>&nbsp;
+                          <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
+                            Contact
+                          </a>
+                        </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2"></div>
+            </div>
+            <!-- <nav class="sb-nav">
                 <div class="row" style="height: 20%">
-                    <div class="col-md-3" style="padding-left: 10%;">
-                        <a href="#monitor">
-                            <img class="sb-logo" src="../images/sebal-logo-small.png"></img>
-                        </a>
-                    </div>
+       
                     <div class="col-md-6 sb-nav-buttons" >
                         <div id="selectRegionBtn" class="col-md-4 span-button" >
                           <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
@@ -30,7 +70,7 @@
                       </div>
                     </div>
                 </div>
-            </nav>
+            </nav> -->
         </header>
 
         <div ng-show="globalMsg.getContent() !== undefined" class="alert {{globalMsg.getLevel()}} light alert-dismissable" id="alert-demo-2">

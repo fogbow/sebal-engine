@@ -1,23 +1,32 @@
-.sebal-content, .sebal-table, .sebal-table-conteiner{
-	background-color: rgb(120, 130, 140);
+/*Colors*/
+.sb-submission-panel, .sb-nav{
+	background-color: rgb(237, 237, 237);
 }
-.sb-nav, .div-table, .div-table-row{
-	background-color:rgb(68, 66, 66);
+.sb-body-bg, .sebal-content, .div-table-row, .div-table-th{
+	background-color:rgb(211, 211, 211);
+}
+.panel-heading, .sb-steps-panel{
+	background-color:rgb(0, 125, 111);
+	color: white;
 }
 
+
 @media screen and (max-width: 480px) {
-    .sb-nav, .sb-nav-buttons, .span-button {
+    .sb-nav, .sb-nav-buttons, .nav-button {
         height: 120px;
     }
 }
 @media screen and (min-width: 720px) {
-    .sb-nav, .sb-nav-buttons, .span-button {
+    .sb-nav, .sb-nav-buttons, .nav-button {
         height: 120px;
     }
 }
 @media screen and (min-width: 1080px) {
-    .sb-nav, .sb-nav-buttons, .span-button, .sb-dropdown{
-        height: 130px;
+    .sb-nav, .sb-nav-buttons, .nav-button, .sb-dropdown{
+        height: 80px;
+    }
+    .sb-steps-panel{
+		height: 140px;
     }
     .sb-dropdown{
     	width: 300px;
@@ -29,17 +38,40 @@
     	padding-bottom: 10px;
     	height: 110px; /* sd-bropdown height - sb-dropdown padding top*/
     }
-    .sb-logo{
+    .nav-button, .sb-dropdown{
+    	padding-top: 20px;
+    }
+    .nav-button span{
+    	color: rgb(255,255,255) !important;
+    	padding: 20px 60px 20px 60px;
+    }
+    .sb-login-box{
+    	position: absolute;
+    	width: 500px;
+    	height: 800px;
+	    top:0;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    margin: auto;
+    }
+    .panel-default{
+    	width: 70%;
+    	margin-left:15%;
+    }
+    .sb-logo-sm{
     	margin-top: 10px; 
     	height: 110px;
     	width: 110px;
     }
-    .span-button, .sb-dropdown{
-    	padding-top: 20px;
+    .sb-logo-md{
+    	margin-top: 10px; 
+    	height: 570px;
+    	width: 540px;
     }
-    .span-button span{
-    	color: rgb(255,255,255) !important;
-    	padding: 20px 60px 20px 60px;
+    .sb-logo-lg{
+    	height: 399px;
+    	width: 378px;
     }
 }
 /*  DROPDOWN */
@@ -75,46 +107,99 @@
 	width: 100%;
 }
 /* BUTTONS */
+.nav-button {
+	text-align: center;
+	vertical-align: middle;
+	font-size: 2em;
+}
+.nav-button a{
+	text-decoration: none;
+	color: rgb(150,150,150);
+}
+
 .span-button{
 	text-align: center;
 	vertical-align: middle;
 	font-size: 2.5em;
 }
-.span-button-selected, .span-button:hover{
-	background-color: rgb(0,255,135) !important;
+.span-button:hover{
+	font-size: 2.7em;
+	cursor: pointer;
 }
-.span-button:hover span, .span-button-selected span{
+.span-button.main{
+	color: rgb(95,230,195);
+}
+.span-button.cancel{
+	color: rgb(255,35,100); 
+}
+.nav-button-selected, .nav-button:hover{
+	background-color: rgb(150,230,195) !important;
+}
+.nav-button:hover span, .nav-button-selected span{
 	color: rgb(70,75,78) !important;
 }
-.sebal-button{
-	line-height: 70px;
-	height:70px;
-	width: 300px;
+.sb-button{
 	text-align: center;
 	vertical-align: middle;
 	font-family: monospace;
-	font-size: 1.5em;
 	font-weight: bold;
-	color: rgb(70,75,78);
+
+	margin-top: 5px;
+	margin-bottom: 5px;
+
+	line-height: 70px;
+	font-size: 1.5em;
+	height:70px;
+	width: 300px;
+	border-radius: 15px;
+	
 }
-.sebal-button:hover{
+.sb-button:hover{
 	border: 2px solid rgb(70,80,90);
 	cursor: pointer;
 }
-.sebal-button.sb-main{
-	background-color: rgb(0,255,135);
+.sb-button.sb-main{
+	background-color: rgb(95,230,195);
 }
-.sebal-button.sb-cancel{
+.sb-button.sb-cancel{
 	background-color: rgb(255,35,100); 
+}
+
+.sb-button.btn-sm{
+	line-height: 40px;
+	font-size: 1.2em;
+	height:40px;
+	width: 250px;
+	border-radius: 10px;
+}
+
+.sb-button.btn-lg{
+	line-height: 90px;
+	font-size: 1.6em;
+	height:90px;
+	width: 450px;
+	border-radius: 15px;
 }
 /* INPUTS */
 .sebal-input{
 	background-color: rgb(255,255,255); 
 	padding-left: 10px;
-	padding-right: 40px;
+	padding-right: 10px;
 	height:70px;
 	width: 300px;
 	font-size: 1.5em;
+	font-weight: bold;
+
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.sebal-input.input-small{
+	background-color: rgb(255,255,255); 
+	padding-left: 5px;
+	padding-right: 5px;
+	height:40px;
+	width: 250px;
+	font-size: 1.2em;
 	font-weight: bold;
 }
 .sebal-input-span{
@@ -122,6 +207,11 @@
 	position: relative !important;
     display: inline !important;
     margin-left: -35px !important;
+}
+/* STEPS PANEL */
+.sb-steps-panel-ht{
+	font-size: 1.5em;
+	margin-bottom: 20px;
 }
 /* LABELS */
 .sebal-label{
@@ -146,12 +236,22 @@ div.sebal-label button{
 }
 
 /* SIZES */
-.sb-md{
-	width: 400px;
+.sb-width-sd{
+	width: 250px !important;
 }
-.sb-thin{
+.sb-width-md{
+	width: 350px !important;
+}
+.sb-width-lg{
+	width: 500px !important;
+}
+.sb-height-sm{
+	height:40px;
+}
+.sb-height-md{
 	height:50px;
 }
+
 
 /* TABLE */
 
@@ -159,11 +259,11 @@ div.sebal-label button{
 	padding: 10px 10px 10px 10px;
 }
 .sebal-table{
-	width:100%;
+	margin-left: 1%;
+	width: 98%;
 }
 .sebal-table tr{
-	font-size: 1.5em;
-	color: rgb(230,230,230);
+	font-size: 1.2em;
     /*border: 10px solid rgb(120, 130, 140);*/
     text-align: center;
 }
@@ -172,12 +272,11 @@ div.sebal-label button{
 }
 .sebal-table th{
 	padding: 5px;
-	font-size: 1.7em;
+	font-size: 1.5em;
 	text-align: center;
 	font-weight: bold;
 }
 .div-table{
-	background-color: rgb(120, 130, 140)
 	height: 50px;
 }
 div.div-table-row div{
@@ -185,21 +284,21 @@ div.div-table-row div{
 	height: 100%;
 }
 div.div-table-row:hover, div.div-table-row:hover .main-column{
-	background: white;
+	background-color:rgb(150,150,150);
 	color: rgb(30,30,30);
 	font-size: 1.2em;
 	font-weight: bold;
 }
 div.div-table-row:hover .main-column{
-	background-color:rgb(210,205,200);
+	background-color:rgb(150,150,150);
 }
 .main-column{
-	color: rgb(200,200,200);
-	background-color:rgb(10,10,10);
+	/*color: rgb(200,200,200);*/
+	background-color:rgb(237,237,237);
 }
 .sb-table-detail, .list-group-item{
 	text-align: left;
-	background-color:rgb(240,240,240);
+	background-color:rgb(255,255,255);
 	color: rgb(30,30,30);
 	padding: 5px 5px 5px 5px;
 	height: 100%;

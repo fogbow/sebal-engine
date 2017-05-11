@@ -65,7 +65,10 @@ dashboardControllers.controller('LoginController', function($scope, $rootScope, 
   
   $scope.username ;
   $scope.password ;
+  $scope.email ;
   $scope.errorMsg = undefined;
+  $scope.create = true;
+  $scope.msg = "Teste";
   
   $scope.doLogin = function(){
     $scope.errorMsg = undefined;
@@ -80,6 +83,27 @@ dashboardControllers.controller('LoginController', function($scope, $rootScope, 
       }
     );
   }
+  $scope.loadCreateNewUser = function(){
+    $location.path('/new-user');
+  }
+  $scope.createNewUser = function(){
+    
+    AuthenticationService.createNewUser($scope.username, $scope.email, $scope.password,
+      function(response){ //Success call back
+        //$rootScope.$broadcast(appConfig.CREATE_USER_SUCCEED, "Create user succeed");
+        console.log("User Created");
+        $scope.msg = "Obrigado =)\nNo prazo de até 3 dias você receberá\num email com a resolução de seu cadastro"
+        //$location.path('/monitor');
+        $scope.create = false;
+      }, 
+      function(response){ //Erro call back
+        //$rootScope.$broadcast(appConfig.CREATE_USER_FAIL, "Create user failed");
+        console.log("Create user error: "+JSON.stringify(response));
+        $scope.msg = response.msg;
+        $scope.create = false;
+      }
+    );
+  }
 
   $scope.clearLoginMsg = function(){
     $scope.errorMsg = undefined;
@@ -87,10 +111,10 @@ dashboardControllers.controller('LoginController', function($scope, $rootScope, 
  
 });
 
-dashboardControllers.controller('MonitorController', function($scope, $log, $filter, $timeout, 
+dashboardControllers.controller('MonitorController', function($scope, $log, $filter, $timeout, $filter,
    ImageService, AuthenticationService, GlobalMsgService, appConfig) {
   
-  $scope.sebalImages = [];
+  $scope.sebalSubmissions = [];
   $scope.elementShowingDetail = undefined;
 
   $scope.detail={
@@ -111,10 +135,57 @@ dashboardControllers.controller('MonitorController', function($scope, $log, $fil
     error:""
   }
 
+  function processImages(images){
+
+    submissions = []
+
+    submission = {
+      id:"sb01",
+      name:"Submission 01",
+      date:"2017-05-01",
+      totalImages:0,
+      totalDownloading:0,
+      totalDownloaded:0,
+      totalQueued:0,
+      totalFeched:0,
+      totalError:0,
+      images:[]
+    }
+    images.forEach(function(item, index){
+      
+      submission.totalImages = submission.totalImages +1
+      
+      if(item.state === 'downloading'){
+        submission.totalDownloading = submission.totalDownloading+1
+      }
+      if(item.state === 'downloaded'){
+        submission.totalDownloaded = submission.totalDownloaded +1
+      }
+      if(item.state === 'queued'){
+        submission.totalQueued = submission.totalQueued +1
+      }
+      if(item.state === 'fetched'){
+        submission.totalFeched = submission.totalFeched +1
+      }
+      if(item.state === 'error'){
+        submission.totalError = submission.totalError +1
+      }
+
+      //Converting string to date
+      item.creationTime = new Date(item.creationTime)
+      item.updateTime = new Date(item.updateTime)
+      
+      submission.images.push(item)
+    })
+
+    submissions.push(submission)
+    return submissions
+  }
+
   $scope.getSebalImages = function(){
     ImageService.getImages(
           function(data){
-              $scope.sebalImages = data;   
+              $scope.sebalSubmissions = processImages(data);   
           },
           function(error){
               var msg = "An error occurred when tried to get Images";
@@ -128,36 +199,37 @@ dashboardControllers.controller('MonitorController', function($scope, $log, $fil
     var detailContent = 
     "<div class='col-md-12'>"+
       "<dl class='dl-horizontal'>"+
-        "<dt>Download Link</dt>"+
-        "<dd>"+item.downloadLink+"</dd>"+
-        "<dt>State</dt>"+
-        "<dd>"+item.state+"</dd>"+
-        "<dt>Federation Member</dt>"+
-        "<dd>"+item.federationMember+"</dd>"+
-        "<dt>Priority</dt>"+
-        "<dd>"+item.priority+"</dd>"+
-        "<dt>Station ID</dt>"+
+        "<dt>ID:</dt>"+
         "<dd>"+item.stationId+"</dd>"+
-        "<dt>Sebal Version</dt>"+
+        "<dt>State:</dt>"+
+        "<dd>"+item.state+"</dd>"+
+        "<dt>Creation Time:</dt>"+
+        "<dd>"+$filter('date')(item.creationTime, 'yyyy-MM-dd hh:mm:ss')+"</dd>"+
+        "<dt>Update Time:</dt>"+
+        "<dd>"+$filter('date')(item.updateTime, 'yyyy-MM-dd hh:mm:ss')+"</dd>"+
+        "<dt>Version/Tag:</dt>"+
         "<dd>"+item.sebalVersion+"</dd>"+
-        "<dt>Sebal Tag</dt>"+
-        "<dd>"+item.sebalTag+"</dd>"+
-        "<dt>Crawler Version</dt>"+
-        "<dd>"+item.crawlerVersion+"</dd>"+
-        "<dt>Fetcher Version</dt>"+
-        "<dd>"+item.fetcherVersion+"</dd>"+
-        "<dt>Blowout Version</dt>"+
-        "<dd>"+item.blowoutVersion+"</dd>"+
         "<dt>Fmask Version</dt>"+
         "<dd>"+item.fmaskVersion+"</dd>"+
-        "<dt>Creation Time</dt>"+
-        "<dd>"+item.creationTime+"</dd>"+
-        "<dt>Update Time</dt>"+
-        "<dd>"+item.updateTime+"</dd>"+
-        "<dt>Status</dt>"+
-        "<dd>"+item.status+"</dd>"+
-        "<dt>Error</dt>"+
-        "<dd>"+item.error+"</dd>"+
+        "<dt>Download Link</dt>"+
+        "<dd>"+item.downloadLink+"</dd>"+
+        
+        // "<dt>Federation Member</dt>"+
+        // "<dd>"+item.federationMember+"</dd>"+
+        // "<dt>Priority</dt>"+
+        // "<dd>"+item.priority+"</dd>"+
+        // "<dt>Sebal Tag</dt>"+
+        // "<dd>"+item.sebalTag+"</dd>"+
+        // "<dt>Crawler Version</dt>"+
+        // "<dd>"+item.crawlerVersion+"</dd>"+
+        // "<dt>Fetcher Version</dt>"+
+        // "<dd>"+item.fetcherVersion+"</dd>"+
+        // "<dt>Blowout Version</dt>"+
+        // "<dd>"+item.blowoutVersion+"</dd>"+
+        // "<dt>Status</dt>"+
+        // "<dd>"+item.status+"</dd>"+
+        // "<dt>Error</dt>"+
+        // "<dd>"+item.error+"</dd>"+
       "</dl>"+
     "</div>";
 
@@ -180,6 +252,7 @@ dashboardControllers.controller('MonitorController', function($scope, $log, $fil
   $scope.getSebalImages();
  
 });
+
 
 
 dashboardControllers.controller('JobController', function($scope, $log, $filter, $timeout, 
@@ -296,17 +369,21 @@ dashboardControllers.controller("PaginationController", function($scope, $log) {
   $scope.totalPage = 0;
   $scope.prevPageDisabled = true;
   $scope.nextPageDisabled = true;
-  $scope.filterValue;
+  $scope.filterValue = {};
 
-  $scope.filterTable = function () {
-      $log.debug("Filtering table for "+$scope.filterValue);
+  $scope.filterTable = function (submissionId) {
+     
+      $log.debug("Filtering table for "+JSON.stringify($scope.filterValue)+' on .searchable-'+submissionId+' tr');
       
-      var rex = new RegExp($scope.filterValue, 'i');
+      value = $scope.filterValue[submissionId]
 
-      $('.searchable tr').hide();
-      $('.searchable tr').filter(function () {
-          $log.debug("Testing "+JSON.stringify($(this)));
-          $log.debug("Testing "+$(this).text());
+      $log.debug('Specific: '+value);
+      $log.debug('All: '+value);
+      var rex = new RegExp(value, 'i');
+
+      $('.'+submissionId+' tr').hide();
+      $('.'+submissionId+' tr').filter(function () {
+          //$log.debug("Testing "+$(this).text());
           var filterResult = rex.test($(this).text());
           return filterResult;
       }).show();
