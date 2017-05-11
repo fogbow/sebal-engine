@@ -1056,7 +1056,7 @@ public class JDBCImageDataStore implements ImageDataStore {
 					ImageState.NOT_DOWNLOADED.getValue());
 			lockAndUpdateStatement.setString(4, ImageData.AVAILABLE);
 			lockAndUpdateStatement.setInt(5, limit);
-			lockAndUpdateStatement.setQueryTimeout(300);			
+			lockAndUpdateStatement.setQueryTimeout(300);
 			lockAndUpdateStatement.execute();
 
 			selectStatement = connection

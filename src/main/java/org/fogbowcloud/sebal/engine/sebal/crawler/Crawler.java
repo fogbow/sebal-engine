@@ -21,6 +21,7 @@ import org.fogbowcloud.sebal.engine.sebal.ImageData;
 import org.fogbowcloud.sebal.engine.sebal.ImageDataStore;
 import org.fogbowcloud.sebal.engine.sebal.ImageState;
 import org.fogbowcloud.sebal.engine.sebal.JDBCImageDataStore;
+import org.fogbowcloud.sebal.engine.sebal.ProcessUtil;
 import org.fogbowcloud.sebal.engine.sebal.USGSNasaRepository;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
@@ -393,46 +394,81 @@ public class Crawler {
 	protected void downloadImage(final ImageData imageData)
 			throws SQLException, IOException {
 		try {
-			String imageDownloadLink = usgsRepository.getImageDownloadLink(imageData.getName());
-			imageData.setDownloadLink(imageDownloadLink);
+			//TODO: Uncomment later
+			//String imageDownloadLink = usgsRepository.getImageDownloadLink(imageData.getName());
+			//imageData.setDownloadLink(imageDownloadLink);
 			
 			LOGGER.debug("Image download link is " + imageData.getDownloadLink());
 			
 			updateToDownloadingState(imageData);
-			usgsRepository.downloadImage(imageData);
-
-			// running Fmask
-			LOGGER.debug("Running Fmask for image " + imageData.getName());
-			int exitValue = 0;			
-			try {
-				exitValue = fmask.runFmask(imageData,
-						properties.getProperty(SebalPropertiesConstants.FMASK_SCRIPT_PATH),
-						properties.getProperty(SebalPropertiesConstants.FMASK_TOOL_PATH),
-						properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH));
-			} catch (Exception e) {
-				LOGGER.error("Error while running Fmask", e);
+			//TODO: Uncomment later
+			//usgsRepository.downloadImage(imageData);
+			if(doDownloadImage(imageData)) {
+				// running Fmask
+				LOGGER.debug("Running Fmask for image " + imageData.getName());
+				int exitValue = 0;			
+				try {
+					exitValue = fmask.runFmask(imageData,
+							properties.getProperty(SebalPropertiesConstants.FMASK_SCRIPT_PATH),
+							properties.getProperty(SebalPropertiesConstants.FMASK_TOOL_PATH),
+							properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH));
+				} catch (Exception e) {
+					LOGGER.error("Error while running Fmask", e);
+				}
+				
+				if (exitValue != 0) {
+					LOGGER.error("It was not possible run Fmask for image "
+							+ imageData);
+					markImageWithErrorAndUpdateState(imageData, properties);
+					return;
+				}
+				
+				imageData.setCrawlerVersion(crawlerVersion);
+				imageData.setFmaskVersion(fmaskVersion);
+				
+				updateToDownloadedState(imageData);
+				
+				pendingImageDownloadMap.remove(imageData.getName());
+				pendingImageDownloadDB.commit();
+				
+				LOGGER.info("Image " + imageData + " was downloaded");
 			}
-			
-			if (exitValue != 0) {
-				LOGGER.error("It was not possible run Fmask for image "
-						+ imageData);
-				markImageWithErrorAndUpdateState(imageData, properties);
-				return;
-			}
-			
-			imageData.setCrawlerVersion(crawlerVersion);
-			imageData.setFmaskVersion(fmaskVersion);
-
-			updateToDownloadedState(imageData);
-
-			pendingImageDownloadMap.remove(imageData.getName());
-			pendingImageDownloadDB.commit();
-			
-			LOGGER.info("Image " + imageData + " was downloaded");
 		} catch (Exception e) {
 			LOGGER.error("Error when downloading image " + imageData, e);
 			removeFromPendingAndUpdateState(imageData, properties);
 		}
+	}
+	
+    protected String imageFilePath(ImageData imageData, String imageDirPath) {
+        return imageDirPath + File.separator + imageData.getName() + ".tar.gz";
+    }
+
+    protected String imageDirPath(ImageData imageData) {
+        return properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH) + File.separator + "images" + File.separator + imageData.getName();
+    }
+
+	private boolean doDownloadImage(ImageData imageData) {
+		String imageDirPath = imageDirPath(imageData);
+		String localImageFilePath = imageFilePath(imageData, imageDirPath);
+		
+		ProcessBuilder builder = new ProcessBuilder("curl", "-L", "-o",
+				localImageFilePath, "-X", "GET",
+				imageData.getDownloadLink());
+		LOGGER.debug("Executing command " + builder.command());
+        
+        try {         
+        	Process p = builder.start();
+			p.waitFor();
+			
+			File imageFile = new File(localImageFilePath);
+			if(!imageFile.exists()) {
+				return false;
+			}
+		} catch (Exception e) {
+			LOGGER.error("Error while downloading image " + imageData.getName(), e);
+		}
+        
+		return true;
 	}
 
 	private void updateToDownloadedState(final ImageData imageData)
