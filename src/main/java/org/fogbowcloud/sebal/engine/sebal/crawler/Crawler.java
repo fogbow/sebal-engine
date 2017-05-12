@@ -21,7 +21,6 @@ import org.fogbowcloud.sebal.engine.sebal.ImageData;
 import org.fogbowcloud.sebal.engine.sebal.ImageDataStore;
 import org.fogbowcloud.sebal.engine.sebal.ImageState;
 import org.fogbowcloud.sebal.engine.sebal.JDBCImageDataStore;
-import org.fogbowcloud.sebal.engine.sebal.ProcessUtil;
 import org.fogbowcloud.sebal.engine.sebal.USGSNasaRepository;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
@@ -449,27 +448,36 @@ public class Crawler {
 
 	private boolean doDownloadImage(ImageData imageData) {
 		String imageDirPath = imageDirPath(imageData);
-		String localImageFilePath = imageFilePath(imageData, imageDirPath);
 		
-		ProcessBuilder builder = new ProcessBuilder("curl", "-L", "-o",
-				localImageFilePath, "-X", "GET",
-				imageData.getDownloadLink());
-		LOGGER.debug("Executing command " + builder.command());
-        
-        try {         
-        	Process p = builder.start();
-			p.waitFor();
-			
-			File imageFile = new File(localImageFilePath);
-			if(!imageFile.exists()) {
-				return false;
-			}
-		} catch (Exception e) {
-			LOGGER.error("Error while downloading image " + imageData.getName(), e);
-		}
-        
+		boolean wasCreated = createDirectoryToImage(imageDirPath);
+        if (wasCreated) {        	
+        	String localImageFilePath = imageFilePath(imageData, imageDirPath);
+        	
+        	ProcessBuilder builder = new ProcessBuilder("curl", "-L", "-o",
+        			localImageFilePath, "-X", "GET",
+        			imageData.getDownloadLink());
+        	LOGGER.debug("Executing command " + builder.command());
+        	
+        	try {         
+        		Process p = builder.start();
+        		p.waitFor();
+        		
+        		File imageFile = new File(localImageFilePath);
+        		if(!imageFile.exists()) {
+        			return false;
+        		}
+        	} catch (Exception e) {
+        		LOGGER.error("Error while downloading image " + imageData.getName(), e);
+        	}
+        }
+                
 		return true;
 	}
+	
+    protected boolean createDirectoryToImage(String imageDirPath) {
+        File imageDir = new File(imageDirPath);
+        return imageDir.mkdirs();
+    }
 
 	private void updateToDownloadedState(final ImageData imageData)
 			throws IOException {
