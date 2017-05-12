@@ -133,7 +133,6 @@ public class USGSNasaRepository implements NASARepository {
 		ProcessBuilder builder = new ProcessBuilder("curl", "-X", "POST",
 				"--data", loginJsonRequest, usgsJsonUrl
 						+ File.separator + "login");
-		LOGGER.debug("Command=" + builder.command());
 
 		try {
 			Process p = builder.start();
