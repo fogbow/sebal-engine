@@ -653,7 +653,6 @@ public class Crawler {
 		File resultsDir = new File(resultsDirPath);
 
 		if (!resultsDir.exists() || !resultsDir.isDirectory()) {
-			LOGGER.debug("Path" + resultsDirPath + " does not exist or is not a directory");
 			return;
 		}
 
