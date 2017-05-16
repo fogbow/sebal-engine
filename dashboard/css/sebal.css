@@ -1,12 +1,14 @@
 /*Colors*/
-.sb-submission-panel, .sb-nav{
+.sb-submission-panel, .sb-nav, .modal-body{
 	background-color: rgb(237, 237, 237);
 }
 .sb-body-bg, .sebal-content, .div-table-row, .div-table-th{
 	background-color:rgb(211, 211, 211);
 }
-.panel-heading, .sb-steps-panel{
+.panel-heading, .sb-steps-panel, .sb-dropdown-sub-item{
 	background-color:rgb(0, 125, 111);
+}
+.panel-heading, .sb-steps-panel{
 	color: white;
 }
 
@@ -22,7 +24,7 @@
     }
 }
 @media screen and (min-width: 1080px) {
-    .sb-nav, .sb-nav-buttons, .nav-button, .sb-dropdown{
+    .sb-nav, .sb-nav-buttons, .nav-button{
         height: 80px;
     }
     .sb-steps-panel{
@@ -31,16 +33,14 @@
     .sb-dropdown{
     	width: 300px;
     }
-    .sb-dropdown-item{
-    	padding-top: 20px;
-    	padding-left: 5px;
-    	padding-right: 5px;
-    	padding-bottom: 10px;
-    	height: 110px; /* sd-bropdown height - sb-dropdown padding top*/
-    }
-    .nav-button, .sb-dropdown{
+    .sb-dropdown-item, .sb-dropdown-sub-item{
+    	height: 60px;
     	padding-top: 20px;
     }
+    .nav-button{
+    	padding-top: 20px;
+    }
+
     .nav-button span{
     	color: rgb(255,255,255) !important;
     	padding: 20px 60px 20px 60px;
@@ -84,22 +84,18 @@
 	padding-left: 10px;
 	color: rgb(255,255,255) !important;
 }
-.sb-dropdown:hover{
-	background-color: rgb(0,255,135) !important;
-}
+
 .sb-dropdown:hover .sb-dropdown-sub-item{
   	display: block;
 }
 .sb-dropdown-sub-item{
 	display: none;
 	cursor: pointer;
-	padding-top: 15px;
 	position: relative;
 	z-index: 9999;
 	text-align: center;
 	height: 80px;
 	color: rgb(255,255,255);
-	background-color: rgb(230,220,50);
 }
 .sebal-content{
 	overflow-y: auto !important;
@@ -132,7 +128,7 @@
 .span-button.cancel{
 	color: rgb(255,35,100); 
 }
-.nav-button-selected, .nav-button:hover{
+.nav-button-selected, .nav-button:hover, .sb-dropdown:hover{
 	background-color: rgb(150,230,195) !important;
 }
 .nav-button:hover span, .nav-button-selected span{
@@ -306,6 +302,14 @@ div.div-table-row:hover .main-column{
 }
 
 /* MISC */
+.sb-required{
+	font-weight: bold; 
+	font-size: 1.2em; 
+	color: red;
+}
+.sb-hide{
+	display: none;
+}
 .btn-refresh{
 	margin: 15px 15px 15px 15px;
 	font-size: 15px;

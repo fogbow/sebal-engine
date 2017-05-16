@@ -11,7 +11,11 @@ app.constant("appConfig", {
 	"regionResourcePath":"regions/",
 	"LOGIN_SUCCEED":"login.succeed",
 	"LOGIN_FAILED":"login.faild",
-	"LOGOUT_SUCCEED":"logout.succed"
+	"LOGOUT_SUCCEED":"logout.succed",
+	"DEFAULT_SB_VERSION":"version-001",
+	"DEFAULT_SB_TAG":"tag-001",
+	"MODAL_OPENED":"modalOpened",
+	"MODAL_CLOSED":"modalClosed"
 });
 app.config(function($logProvider){
   $logProvider.debugEnabled(true);

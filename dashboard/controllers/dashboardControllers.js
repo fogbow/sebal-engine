@@ -1,6 +1,6 @@
 var dashboardControllers = angular.module('dashboardControllers', []);
 
-dashboardControllers.controller('MainController', function($scope, $log, $filter, $timeout, 
+dashboardControllers.controller('MainController', function($scope, $rootScope, $log, $filter, $timeout, 
    $location, AuthenticationService, GlobalMsgService, appConfig) {
   
   $scope.user = {name:"", token: ""};
@@ -34,6 +34,19 @@ dashboardControllers.controller('MainController', function($scope, $log, $filter
     if($scope.actual !== undefined){
       $("#"+$scope.actual).removeClass('span-button-selected');
     }
+  }
+
+  $scope.openCloseModal = function(modalId, show){
+    if(show){
+      $rootScope.$broadcast(appConfig.MODAL_OPENED);
+      $('#'+modalId).modal('show')
+    }else{
+      $('#'+modalId).modal('hide')
+      // $('#'modalId).on('hidden.bs.modal', function (e) {
+      //     $rootScope.$broadcast(appConfig.MODAL_CLOSED);
+      // })
+    }
+    
   }
 
   $scope.doLogout = function(){
@@ -258,6 +271,17 @@ dashboardControllers.controller('MonitorController', function($scope, $log, $fil
 dashboardControllers.controller('JobController', function($scope, $log, $filter, $timeout, 
   AuthenticationService, JobService, GlobalMsgService, appConfig) {
   
+  $scope.DEFAULT_VALUE = 'd';
+  $scope.OTHER_VALUE = 'o';
+
+
+  $scope.$on(appConfig.MODAL_OPENED, function (event, value) {
+    $scope.cleanForm();
+  });
+  $scope.$on(appConfig.MODAL_CLOSED, function (event, value) {
+    $scope.cleanForm();
+  });
+
   function validateDate(date){
 
     re = /^[0-3]?[0-9]\/[01]?[0-9]\/[12][90][0-9][0-9]$/
@@ -278,6 +302,21 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
     return new Date(y, m - 1, d);
   }
 
+  function msgRequiredShowHide(fieldId, show){
+
+    requiredMsg = $('#'+fieldId).find('.sb-required')
+
+    if (requiredMsg) {
+
+      if(show){
+        requiredMsg.removeClass('sb-hide');
+      }else{
+        requiredMsg.addClass('sb-hide');
+      }
+    }        
+    
+  }
+
   //Managing datepickers
   $(function () {
       $('.sebal-datapicker').datetimepicker({
@@ -286,34 +325,65 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
   });
 
   $scope.cleanForm = function(){
-      $scope.firstYear = undefined;
-      $scope.lastYear = undefined;
+      
+      $scope.submissionName = undefined;
+      $('#firstYear').val('')
       $scope.region = undefined;
       $scope.sebalVersion = undefined;
       $scope.sebalTag = undefined;
+
+      $('#radio-defaul-version').prop( "checked", 'checked' );
+      $('#radio-other-version').prop( "checked", null );
+      $('#radio-defaul-tag').prop( "checked", 'checked' );
+      $('#radio-other-tag').prop( "checked", null );
+      $('#radioSatellite1').prop( "checked", null );
+      $('#radioSatellite2').prop( "checked", null );
+      $('#radioSatellite3').prop( "checked", null );
+                 
   }
 
+  
   $scope.submitJob = function(){
-    
-    if(!validateDate($('#firstYearField').val())){
-      GlobalMsgService.pushMessageFail('First Year date invalid.');
-      return;
+
+    hasError = false;
+
+    if(!validateDate($('#firstYear').val())){
+      hasError = true
+      msgRequiredShowHide('firstYearField',hasError);
     }else{
       $scope.firstYear = parseDate($('#firstYearField').val())
     }
-    if(!validateDate($('#secondYearField').val())){
-      GlobalMsgService.pushMessageFail('Last Year date invalid');
-      return;
-    }else{
-      $scope.firstYear = parseDate($('#secondYearField').val())
+
+    if (!$scope.region || $scope.region.length == 0){
+      hasError = true
+      msgRequiredShowHide('regionField',hasError);
     }
-    
-    $scope.firstYear = $('#firstYearField').val();
-    $scope.firstYear = $('#secondYearField').val();
+
+    if($scope.sebalVersionOpt === $scope.DEFAULT_VALUE){
+      $scope.sebalVersion = appConfig.DEFAULT_SB_VERSION;
+    }else if (!$scope.sebalVersion || $scope.sebalVersion.length == 0){
+      hasError = true
+      msgRequiredShowHide('versionField',hasError);
+    }
+
+    if($scope.sebalTagOpt === $scope.DEFAULT_VALUE){
+      $scope.sebalTag = appConfig.DEFAULT_SB_TAG;
+    }else if (!$scope.sebalTag || $scope.sebalTag.length == 0){
+      hasError = true
+      msgRequiredShowHide('tagField',hasError);
+    }
+
+    if(!$scope.satellite){
+      hasError = true
+      msgRequiredShowHide('satelliteField',hasError);
+    }
+
+    if(hasError){
+      return
+    }
 
     var data = {
       'firstYear': $scope.firstYear, 
-      'lastYear': $scope.lastYear, 
       'region': $scope.region, 
       'sebalVersion': $scope.sebalVersion, 
       'sebalTag': $scope.sebalTag
@@ -325,7 +395,8 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
       function(response){
         GlobalMsgService.pushMessageSuccess('Your job was submitted. Wait for the processing be completed. ' 
               + 'If you activated the notifications you will get an email when finished.');
-        $scope.cleanForm();
+        
+        $scope.openCloseModal('submissionsModal', false);
       }, 
       function(error){
         $log.error(JSON.stringify(error));

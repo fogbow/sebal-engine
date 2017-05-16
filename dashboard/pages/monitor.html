@@ -35,7 +35,7 @@
 <div ng-controller="MonitorController" >
   <div class="row panel-default" >
     <div class="col-md-3">
-      <div data-toggle="modal" data-target="#myModal" style="cursor: pointer; font-size: 1.5em; width: 70%;">
+      <div ng-click="openCloseModal('submissionsModal', true)" style="cursor: pointer; font-size: 1.5em; width: 70%;">
         <img src="/images/create-subm.png" height="42" width="42"/>&nbsp;New submission
       </div>
     </div>
