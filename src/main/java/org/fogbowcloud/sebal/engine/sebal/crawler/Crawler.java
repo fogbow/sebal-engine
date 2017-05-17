@@ -158,7 +158,7 @@ public class Crawler {
 				purgeImagesFromVolume(properties);
 				deleteFetchedResultsFromVolume(properties);
 
-				long numToDownload = numberOfImagesToDownload();
+				double numToDownload = numberOfImagesToDownload();
 				if (numToDownload > 0) {
 					download(numToDownload);
 				} else {
@@ -323,7 +323,7 @@ public class Crawler {
 				imageData.getState(), imageData.getUpdateTime());
 	}
 
-	protected void download(long maxImagesToDownload) throws SQLException,
+	protected void download(double maxImagesToDownload) throws SQLException,
 			IOException {
 		List<ImageData> imageDataList = new ArrayList<ImageData>();
 
@@ -369,14 +369,14 @@ public class Crawler {
 		}
 	}
 
-	protected long numberOfImagesToDownload() throws NumberFormatException,
+	protected double numberOfImagesToDownload() throws NumberFormatException,
 			InterruptedException, IOException, SQLException {
 		String volumeDirPath = properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH);
-		File volumePath = getExportDirPath(volumeDirPath);
-		if (volumePath.exists() && volumePath.isDirectory()) {
-			long freeVolumeSpaceOutputDedicated = (volumePath.getTotalSpace() * 20)/100;
-			long availableVolumeSpace = volumePath.getFreeSpace() - freeVolumeSpaceOutputDedicated;
-			long numberOfImagesToDownload = availableVolumeSpace
+		File volumePath = new File(volumeDirPath);
+		if (volumePath.exists() && volumePath.isDirectory()) {			
+			double freeVolumeSpaceOutputDedicated = Double.valueOf(volumePath.getTotalSpace()) * 0.2;			
+			double availableVolumeSpace = volumePath.getFreeSpace() - freeVolumeSpaceOutputDedicated;						
+			double numberOfImagesToDownload = availableVolumeSpace
 					/ DEFAULT_IMAGE_DIR_SIZE;
 			
 			return numberOfImagesToDownload;
