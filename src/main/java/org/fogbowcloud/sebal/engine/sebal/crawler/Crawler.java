@@ -374,11 +374,16 @@ public class Crawler {
 			InterruptedException, IOException, SQLException {
 		String volumeDirPath = properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH);
 		File volumePath = new File(volumeDirPath);
-		if (volumePath.exists() && volumePath.isDirectory()) {			
-			double freeVolumeSpaceOutputDedicated = Double.valueOf(volumePath.getTotalSpace()) * 0.2;			
-			double availableVolumeSpace = volumePath.getFreeSpace() - freeVolumeSpaceOutputDedicated;						
+		if (volumePath.exists() && volumePath.isDirectory()) {
+			LOGGER.debug("totalDisk=" + Double.valueOf(volumePath.getTotalSpace()));
+			double freeVolumeSpaceOutputDedicated = Double.valueOf(volumePath.getTotalSpace()) * 0.2;
+			LOGGER.debug("freeVolumeSpaceOutputDedicated=" + freeVolumeSpaceOutputDedicated);
+			LOGGER.debug("freeDisk=" + Double.valueOf(volumePath.getFreeSpace()));
+			double availableVolumeSpace = Double.valueOf(volumePath.getFreeSpace()) - freeVolumeSpaceOutputDedicated;
+			LOGGER.debug("availableVolumeSpace=" + availableVolumeSpace);
 			double numberOfImagesToDownload = availableVolumeSpace
 					/ DEFAULT_IMAGE_DIR_SIZE;
+			LOGGER.debug("numberOfImagesToDownload=" + numberOfImagesToDownload);
 			
 			return numberOfImagesToDownload;
 		} else {
