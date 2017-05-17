@@ -264,13 +264,15 @@ public class Fetcher {
 		ftpServerIP = imageStore.getNFSServerIP(imageData.getFederationMember());
 
 		LOGGER.debug("Federation member is " + imageData.getFederationMember());
-		if(imageData.getFederationMember().equals(SebalPropertiesConstants.AZURE_FEDERATION_MEMBER)) {			
+		if(imageData.getFederationMember().equals(SebalPropertiesConstants.AZURE_FEDERATION_MEMBER)) {
 			ftpServerPort = properties.getProperty(SebalPropertiesConstants.AZURE_FTP_SERVER_PORT);
+		} else if(imageData.getFederationMember().equals(SebalPropertiesConstants.UFSCAR_FEDERATION_MEMBER)) {
+			ftpServerPort = properties.getProperty(SebalPropertiesConstants.UFSCAR_FTP_SERVER_PORT);
 		} else {
 			ftpServerPort = properties.getProperty(SebalPropertiesConstants.DEFAULT_FTP_SERVER_PORT);
 		}
 		
-		LOGGER.debug("Using FTP Server IP " + ftpServerIP + " and port " + ftpServerPort);		
+		LOGGER.debug("Using FTP Server IP " + ftpServerIP + " and port " + ftpServerPort);
 		if (fetchInputs(imageData) == 0) {
 			fetchOutputs(imageData);
 		}

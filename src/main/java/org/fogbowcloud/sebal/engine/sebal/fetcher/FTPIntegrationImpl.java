@@ -31,6 +31,12 @@ public class FTPIntegrationImpl implements FTPIntegration{
 					properties.getProperty(SebalPropertiesConstants.AZURE_FTP_SERVER_USER), ftpServerIP,
 					ftpServerPort, remoteImageResultsPath,
 					localImageResultsPath, imageData.getName());
+		} else if(imageData.getFederationMember().equals(SebalPropertiesConstants.UFSCAR_FEDERATION_MEMBER)) {
+			builder = new ProcessBuilder("/bin/bash",
+					properties.getProperty(SebalPropertiesConstants.SEBAL_SFTP_SCRIPT_PATH),
+					properties.getProperty(SebalPropertiesConstants.UFSCAR_FTP_SERVER_USER), ftpServerIP,
+					ftpServerPort, remoteImageResultsPath,
+					localImageResultsPath, imageData.getName());
 		} else {
 			builder = new ProcessBuilder("/bin/bash",
 					properties.getProperty(SebalPropertiesConstants.SEBAL_SFTP_SCRIPT_PATH),
