@@ -325,6 +325,7 @@ public class Crawler {
 
 	protected void download(double maxImagesToDownload) throws SQLException,
 			IOException {
+		LOGGER.debug("maxImagesToDownload=" + (int)maxImagesToDownload);
 		List<ImageData> imageDataList = new ArrayList<ImageData>();
 
 		try {
@@ -339,7 +340,7 @@ public class Crawler {
 		}
 
 		for (ImageData imageData : imageDataList) {
-			if(imageData.getFederationMember().equals(federationMember)) {				
+			if(imageData.getFederationMember().equals(federationMember)) {
 				imageData.setUpdateTime(imageStore.getImage(imageData.getName()).getUpdateTime());
 				
 				if (imageData != null) {
