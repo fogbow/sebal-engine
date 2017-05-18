@@ -50,7 +50,7 @@ public class Crawler {
 	private int numberOfDownloadLinkRequests = 0;
 
 	// Image dir size in bytes
-	private static final long DEFAULT_IMAGE_DIR_SIZE = 356 * FileUtils.ONE_MB;
+	private static final long DEFAULT_IMAGE_DIR_SIZE = 180 * FileUtils.ONE_MB;
 
 	public static final Logger LOGGER = Logger.getLogger(Crawler.class);
 
@@ -375,12 +375,13 @@ public class Crawler {
 		String volumeDirPath = properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH);
 		File volumePath = new File(volumeDirPath);
 		if (volumePath.exists() && volumePath.isDirectory()) {
-			LOGGER.debug("totalDisk=" + Double.valueOf(volumePath.getTotalSpace()));
 			double freeVolumeSpaceOutputDedicated = Double.valueOf(volumePath.getTotalSpace()) * 0.2;
+			double availableVolumeSpace = Double.valueOf(volumePath.getUsableSpace()) - freeVolumeSpaceOutputDedicated;
+			LOGGER.debug("totalDisk=" + Double.valueOf(volumePath.getTotalSpace()));
 			LOGGER.debug("freeVolumeSpaceOutputDedicated=" + freeVolumeSpaceOutputDedicated);
-			LOGGER.debug("freeDisk=" + Double.valueOf(volumePath.getFreeSpace()));
-			double availableVolumeSpace = Double.valueOf(volumePath.getFreeSpace()) - freeVolumeSpaceOutputDedicated;
+			LOGGER.debug("freeDisk=" + Double.valueOf(volumePath.getUsableSpace()));
 			LOGGER.debug("availableVolumeSpace=" + availableVolumeSpace);
+
 			double numberOfImagesToDownload = availableVolumeSpace
 					/ DEFAULT_IMAGE_DIR_SIZE;
 			LOGGER.debug("numberOfImagesToDownload=" + numberOfImagesToDownload);
