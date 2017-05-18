@@ -639,6 +639,7 @@ public class Crawler {
 					LOGGER.info("Removing" + imageData);
 
 					try {
+						deleteInputsFromDisk(imageData, exportPath);
 						deleteResultsFromDisk(imageData, exportPath);
 					} catch (IOException e) {
 						LOGGER.error("Error while deleting " + imageData, e);
@@ -652,6 +653,19 @@ public class Crawler {
 		} else {
 			LOGGER.error("Export path is null or empty");
 		}
+	}
+	
+	private void deleteInputsFromDisk(ImageData imageData, String exportPath)
+			throws IOException {
+		String inputsDirPath = exportPath + "/images/" + imageData.getName();
+		File inputsDir = new File(inputsDirPath);
+
+		if (!inputsDir.exists() || !inputsDir.isDirectory()) {
+			return;
+		}
+
+		LOGGER.debug("Deleting inputs for " + imageData + " from " + inputsDirPath);
+		FileUtils.deleteDirectory(inputsDir);
 	}
 
 	private void deleteResultsFromDisk(ImageData imageData, String exportPath)
