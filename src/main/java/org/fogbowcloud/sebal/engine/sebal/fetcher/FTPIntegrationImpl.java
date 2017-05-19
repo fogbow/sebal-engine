@@ -34,7 +34,8 @@ public class FTPIntegrationImpl implements FTPIntegration{
 		} else if(imageData.getFederationMember().equals(SebalPropertiesConstants.UFSCAR_FEDERATION_MEMBER)) {
 			builder = new ProcessBuilder("/bin/bash",
 					properties.getProperty(SebalPropertiesConstants.SEBAL_SFTP_SCRIPT_PATH),
-					properties.getProperty(SebalPropertiesConstants.UFSCAR_FTP_SERVER_USER), ftpServerIP,
+//					properties.getProperty(SebalPropertiesConstants.UFSCAR_FTP_SERVER_USER), ftpServerIP, // FIXME
+					properties.getProperty(SebalPropertiesConstants.UFSCAR_FTP_SERVER_USER), "150.165.85.18",
 					ftpServerPort, remoteImageResultsPath,
 					localImageResultsPath, imageData.getName());
 		} else {
