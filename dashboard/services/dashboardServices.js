@@ -123,29 +123,42 @@ dashboardServices.service('AuthenticationService', function($log, $http,
   	 Session.destroy();
   };
 
-  authService.createNewUser = function (userName, email, password, callbackSuccess, callbackError) {
+  authService.createNewUser = function (name, email, password, passwordConfirm, callbackSuccess, callbackError) {
     
-    Session.createBasicSession(userName, email, password);
-    var headerCredentials = getCredentials();
+    //Session.createBasicSession(userName, email, password);
+    dataForm = {
+      'userEmail' : email,
+      'userName' : name,
+      'userPass' : password,
+      'userPassConfirm' : passwordConfirm
+    }
+    console.log('Service will send '+JSON.stringify(dataForm));
+    var req = {
+      method: 'POST',
+      url: resourceUrl,
+      data: dataForm
+    };
+    console.log("Creating new user: "+name+" - "+email)
+    $http(req).success(callbackSuccess).error(callbackError);
 
-    var createUserSuccessHandler = function(response){
-      //console.log("Return: "+JSON.stringify(response));
-      if(callbackSuccess){
-        callbackSuccess(response)  
-      }
+    // var createUserSuccessHandler = function(response){
+    //   //console.log("Return: "+JSON.stringify(response));
+    //   if(callbackSuccess){
+    //     callbackSuccess(response)  
+    //   }
       
-    }
+    // }
   
-    var createUserErrorHandler = function(error, status){
-      if(callbackError){
-        callbackError(error);
-      }
+    // var createUserErrorHandler = function(error, status){
+    //   if(callbackError){
+    //     callbackError(error);
+    //   }
       
-    }
-    console.log("Creating new user: "+userName+" - "+email)
-    // $http.get(resourceUrl, {headers: {'userName' : userName, 'userEmail': email, 'userPass': password}})
-    //   .success(createUserSuccessHandler).error(createUserErrorHandler);
-    createUserSuccessHandler("Success")
+    // }
+    // 
+    // // $http.get(resourceUrl, {headers: {'userName' : userName, 'userEmail': email, 'userPass': password}})
+    // //   .success(createUserSuccessHandler).error(createUserErrorHandler);
+    // createUserSuccessHandler("Success")
     
   }
 

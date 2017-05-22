@@ -101,7 +101,12 @@ dashboardControllers.controller('LoginController', function($scope, $rootScope, 
   }
   $scope.createNewUser = function(){
     
-    AuthenticationService.createNewUser($scope.username, $scope.email, $scope.password,
+    if($scope.password != $scope.passwordConfirm){
+      $scope.errorMsg = "Senhas não conferem."
+      return
+    }
+
+    AuthenticationService.createNewUser($scope.username, $scope.email, $scope.password, $scope.passwordConfirm,
       function(response){ //Success call back
         //$rootScope.$broadcast(appConfig.CREATE_USER_SUCCEED, "Create user succeed");
         console.log("User Created");
@@ -148,6 +153,19 @@ dashboardControllers.controller('MonitorController', function($scope, $log, $fil
     error:""
   }
 
+  $scope.switchSubmitionDetail = function(submissionId){
+
+    console.log("Switching "+submissionId);
+
+    $scope.sebalSubmissions.forEach(function(item, index){
+
+      if(item.id == submissionId){
+        console.log("Found "+submissionId);
+        item.showDetail = !item.showDetail;
+      }
+    })
+  }
+
   function processImages(images){
 
     submissions = []
@@ -155,6 +173,7 @@ dashboardControllers.controller('MonitorController', function($scope, $log, $fil
     submission = {
       id:"sb01",
       name:"Submission 01",
+      showDetail: false,
       date:"2017-05-01",
       totalImages:0,
       totalDownloading:0,

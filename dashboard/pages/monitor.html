@@ -55,7 +55,14 @@
         <div ng-repeat="ss in sebalSubmissions" class="panel panel-default sb-submission-panel" ng-controller="PaginationController">
           <div class="panel-heading">
             <div class="row">
-              <div align="left" class="col-md-6"><h3>{{ss.name}} - {{ss.date}}</h3></div>
+              
+              <div align="left" class="col-md-6" style="cursor: pointer;">
+                <h3 ng-click="switchSubmitionDetail(ss.id)">
+                  <img ng-hide="ss.showDetail" src="/images/b-left.png"/>
+                  <img ng-show="ss.showDetail" src="/images/b-down.png"/>
+                  &nbsp;{{ss.name}} - {{ss.date}}
+                </h3>
+              </div>
               <div align="right" class="col-md-6">
                 {{ss.totalImages}} <img src="/images/steps/pics.png"/>&nbsp;|&nbsp;
                 {{ss.totalDownloading}}&nbsp;<img src="/images/steps/downloading.png"/>&nbsp;&nbsp;
@@ -67,7 +74,7 @@
             </div>
           </div>
         <div class="panel-body">
-        <div id="table-div">
+        <div id="table-div-{{ss.name}}" ng-show="ss.showDetail">
           <!-- message listings table -->
           <div class="text-right">
               <input type="text" class="sebal-input sb-md sb-height-sm" id="filter-{{ss.id}}" ng-model="filterValue[ss.id]" placeholder="Search in {{ss.name}}" ng-change="filterTable(ss.id)">
