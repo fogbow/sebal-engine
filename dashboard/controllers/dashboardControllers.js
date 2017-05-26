@@ -240,11 +240,11 @@ dashboardControllers.controller('MonitorController', function($scope, $log, $fil
         "<dt>Update Time:</dt>"+
         "<dd>"+$filter('date')(item.updateTime, 'yyyy-MM-dd hh:mm:ss')+"</dd>"+
         "<dt>Version/Tag:</dt>"+
-        "<dd>"+item.sebalVersion+"</dd>"+
+        "<dd><input type='text' readonly class='sb-width-lg' value='"+item.sebalVersion+"'/></dd>"+
         "<dt>Fmask Version</dt>"+
-        "<dd>"+item.fmaskVersion+"</dd>"+
+        "<dd><input type='text' readonly class='sb-width-lg' value='"+item.fmaskVersion+"'/></dd>"+
         "<dt>Download Link</dt>"+
-        "<dd>"+item.downloadLink+"</dd>"+
+        "<dd><input type='text' readonly class='sb-width-lg' value='"+item.downloadLink+"'/></dd>"+
         
         // "<dt>Federation Member</dt>"+
         // "<dd>"+item.federationMember+"</dd>"+

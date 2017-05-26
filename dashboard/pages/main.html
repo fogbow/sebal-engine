@@ -1,55 +1,53 @@
         <!-- HEADER AND NAVBAR OF SEBAL DASHBOARD-->
         <header>
             <div class="row panel-heading">
-              
-            </div>
-            <div class="row">
-              <div class="col-md-2">
-                <div align="center" style="background: rgb(237,237,237); height: 150px; width: 150px; position: relative; top: -60px; right: -160px; z-index: 9999;">
-                  <a href="#monitor">
-                    <img src="/images/SebalLogo.png" class="sb-logo-sm"/>
-                  </a>
-                </div>
-              </div>
-              <div class="col-md-8">
-                <div class="sb-nav">
-                  <div class="row" align="center">
-                        <div id="homeBtn" class="col-md-2 nav-button">
-                          <img src="/images/menu/home.png"/>&nbsp;<a href="#monitor">Home</a>
-                        </div>
-                        <div id="submitBtn" class="col-md-3 nav-button">
-                          <img src="/images/menu/submissions.png"/>&nbsp;
-                          <a href="" ng-click="openCloseModal('submissionsModal', true)">Submissions</a>
-                        </div>
-                        <div id="selectRegionBtn" class="col-md-2 nav-button" >
-                          <img src="/images/menu/map.png"/>&nbsp;
-                          <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
-                            Map
-                          </a>
-                        </div>
-                        <div id="helpBtn" class="col-md-2 nav-button" >
-                          <img src="/images/menu/help.png"/>&nbsp;
-                          <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
-                            Help
-                          </a>
-                        </div>
-                        <div id="contactBtn" class="col-md-3 nav-button" >
-                          <img src="/images/menu/contact.png"/>&nbsp;
-                          <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
-                            Contact
-                          </a>
-                        </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="sb-dropdown" style="color: rgb(255,255,255); position: relative; top: -60px; right: 10px;">
+              <div class="col-md-12" align="right">
+                <div class="sb-dropdown" style="color: rgb(255,255,255);">
                   <div class="sb-dropdown-item">
                     {{user.name}}&nbsp;&nbsp;<a href=""><img src="/images/avatar.png"/></a>
                   </div>
                   <div class="sb-dropdown-sub-item" ng-click="doLogout()">Logout</div>
                 </div>
               </div>
+            </div>
+            <div class="row">
+              <div class="panel panel-default">
+                <div align="center" class="logo-nav-bar">
+                  <a href="#monitor">
+                    <img src="/images/SebalLogo.png" class="sb-logo-sm"/>
+                  </a>
+                </div>
+                <div class="sb-nav">
+                  <div class="row" align="center">
+                        <a href="#monitor">
+                          <div id="homeBtn" class="col-md-2 nav-button">
+                             <img src="/images/menu/home.png"/>&nbsp;Home
+                          </div>
+                        </a>
+                        <a href="" ng-click="openCloseModal('submissionsModal', true)">
+                          <div id="submitBtn" class="col-md-3 nav-button">
+                            <img src="/images/menu/submissions.png"/>&nbsp;Submissions
+                          </div>
+                        </a>
+                        <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
+                          <div id="selectRegionBtn" class="col-md-2 nav-button" >
+                            <img src="/images/menu/map.png"/>&nbsp;Map
+                          </div>
+                        </a>
+                        <a href="#help" ng-click="activateButton('selectRegionBtn')">
+                          <div id="helpBtn" class="col-md-2 nav-button" >
+                            <img src="/images/menu/help.png"/>&nbsp;Help
+                          </div>
+                        </a>
+                        <a href="#contact" ng-click="activateButton('selectRegionBtn')">
+                          <div id="contactBtn" class="col-md-3 nav-button" >
+                            <img src="/images/menu/contact.png"/>&nbsp;Contact
+                          </div>
+                        </a>
+                  </div>
+                </div>
+              </div>
+              
             </div>
             <!-- <nav class="sb-nav">
                 <div class="row" style="height: 20%">

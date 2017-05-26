@@ -13,17 +13,7 @@
 }
 
 
-@media screen and (max-width: 480px) {
-    .sb-nav, .sb-nav-buttons, .nav-button {
-        height: 120px;
-    }
-}
-@media screen and (min-width: 720px) {
-    .sb-nav, .sb-nav-buttons, .nav-button {
-        height: 120px;
-    }
-}
-@media screen and (min-width: 1080px) {
+@media screen and (max-width: 767px) {
     .sb-nav, .sb-nav-buttons, .nav-button{
         height: 80px;
     }
@@ -46,13 +36,9 @@
     	padding: 20px 60px 20px 60px;
     }
     .sb-login-box{
-    	position: absolute;
     	width: 500px;
     	height: 800px;
-	    top:0;
-	    bottom: 0;
-	    left: 0;
-	    right: 0;
+	    padding-top:100px;
 	    margin: auto;
     }
     .panel-default{
@@ -60,25 +46,254 @@
     	margin-left:15%;
     }
     .sb-logo-sm{
-    	margin-top: 10px; 
-    	height: 110px;
-    	width: 110px;
+    	height: 50px;
+    	width: 49px;
     }
     .sb-logo-md{
-    	margin-top: 10px; 
-    	height: 570px;
-    	width: 540px;
+    	height: 110px;
+    	width: 108px;
     }
     .sb-logo-lg{
-    	height: 399px;
-    	width: 378px;
+    	height: 230px;
+    	width: 222px;
     }
+
+    /*BUTTON*/
+    .sb-button{
+		padding-top: 15px;
+		border-radius: 10px;
+	}
+
+	/* INPUTS */
+	.sebal-input{
+		padding-left: 10px;
+		padding-right: 10px;
+		
+	}
+
+	/* FORM ITENS */
+	.sb-button, .sebal-input{
+		margin-top: 10px;
+		margin-bottom: 10px;
+
+		font-size: 1.5em;
+		height: 60px;
+		width: 300px;
+	}
+
+	/* SIZES */
+	.sb-width-sm{
+		width: 300px !important;
+	}
+	.sb-width-md{
+		width: 400px !important;
+	}
+	.sb-width-lg{
+		width: 500px !important;
+	}
+	.sb-height-sm{
+		height:40px;
+	}
+	.sb-height-md{
+		height:50px;
+	}
+    
 }
+@media screen and (min-width: 768px) and ( max-width: 1199px) {
+    .sb-nav, .sb-nav-buttons, .nav-button{
+        height: 80px;
+    }
+    .sb-steps-panel{
+		height: 140px;
+    }
+    .sb-dropdown{
+    	width: 300px;
+    }
+    .sb-dropdown-item, .sb-dropdown-sub-item{
+    	height: 60px;
+    	padding-top: 20px;
+    }
+    .nav-button{
+    	font-size: 1.2em;
+    	padding-top: 20px;
+    }
+
+    .nav-button span{
+    	color: rgb(255,255,255) !important;
+    	padding: 20px 60px 20px 60px;
+    }
+    .sb-login-box{
+    	width: 500px;
+    	height: 800px;
+	    padding-top:100px;
+	    margin: auto;
+    }
+    .panel-default{
+    	width: 70%;
+    	margin-left:15%;
+    }
+    .sb-logo-sm{
+    	height: 80px;
+    	width: 78px;
+    }
+    .sb-logo-md{
+    	height: 110px;
+    	width: 108px;
+    }
+    .sb-logo-lg{
+    	height: 230px;
+    	width: 222px;
+    }
+
+    /*BUTTON*/
+    .sb-button{
+		padding-top: 10px;
+		border-radius: 10px;
+	}
+
+	/* INPUTS */
+	.sebal-input{
+		padding-left: 10px;
+		padding-right: 10px;
+		
+	}
+
+	/* FORM ITENS */
+	.sb-button, .sebal-input{
+		margin-top: 5px;
+		margin-bottom: 5px;
+
+		font-size: 1em;
+		height:40px;
+		width: 250px;
+	}
+
+	/* SIZES */
+	.sb-width-sm{
+		width: 250px !important;
+	}
+	.sb-width-md{
+		width: 350px !important;
+	}
+	.sb-width-lg{
+		width: 500px !important;
+	}
+	.sb-height-sm{
+		height:40px;
+	}
+	.sb-height-md{
+		height:50px;
+	}
+
+}
+@media screen and (min-width: 1200px) {
+
+	.logo-nav-bar{
+		background: rgb(237,237,237);
+		height: 140px;
+		width: 150px;
+	    position: absolute;
+	    z-index: 9999;
+	    left: -140px;
+	    top: -51px;
+	}
+
+    .sb-nav, .sb-nav-buttons, .nav-button{
+        height: 80px;
+    }
+    .sb-steps-panel{
+		height: 140px;
+    }
+
+    .sb-dropdown, .sb-dropdown-item, .sb-dropdown-sub-item{
+    	height: 50px;
+    	width: 300px;
+    }
+    .nav-button{
+    	font-size: 1.3em;
+    	padding-top: 20px;
+    }
+
+    .nav-button span{
+    	color: rgb(255,255,255) !important;
+    	padding: 20px 60px 20px 60px;
+    }
+    .sb-login-box{
+    	width: 500px;
+    	height: 800px;
+	    padding-top:100px;
+	    margin: auto;
+    }
+    .panel-default{
+    	width: 70%;
+    	margin-left:15%;
+    }
+    .sb-logo-sm{
+    	height: 110px;
+    	width: 108px;
+    }
+    .sb-logo-md{
+    	height: 230px;
+    	width: 222px;
+    }
+    .sb-logo-lg{
+    	height: 350px;
+    	width: 340px;
+    }
+
+	/*BUTTON*/
+    .sb-button{
+		padding-top: 10px;
+		border-radius: 10px;
+	}
+
+	/* INPUTS */
+	.sebal-input{
+		padding-left: 10px;
+		padding-right: 10px;
+		
+	}
+
+	/* FORM ITENS */
+	.sb-button, .sebal-input{
+		margin-top: 5px;
+		margin-bottom: 5px;
+
+		font-size: 1em;
+		height:40px;
+		width: 250px;
+	}
+
+	/* SIZES */
+	.sb-width-sm{
+		width: 250px !important;
+	}
+	.sb-width-md{
+		width: 350px !important;
+	}
+	.sb-width-lg{
+		width: 500px !important;
+	}
+	.sb-height-sm{
+		height:40px;
+	}
+	.sb-height-md{
+		height:50px;
+	}
+
+
+}
+
+.sb-button{
+	font-family: monospace;
+	font-weight: bold;	
+}
+
 /*  DROPDOWN */
 .sb-dropdown{
 	text-align: center;
 	vertical-align: middle;
-	font-size: 1.5em !important;
+	font-size: 1.2em !important;
 }
 .sb-dropdown span{
 	padding-left: 10px;
@@ -91,10 +306,9 @@
 .sb-dropdown-sub-item{
 	display: none;
 	cursor: pointer;
-	position: relative;
+	position: absolute;
 	z-index: 9999;
 	text-align: center;
-	height: 80px;
 	color: rgb(255,255,255);
 }
 .sebal-content{
@@ -106,9 +320,8 @@
 .nav-button {
 	text-align: center;
 	vertical-align: middle;
-	font-size: 2em;
 }
-.nav-button a{
+.sb-nav a{
 	text-decoration: none;
 	color: rgb(150,150,150);
 }
@@ -134,22 +347,7 @@
 .nav-button:hover span, .nav-button-selected span{
 	color: rgb(70,75,78) !important;
 }
-.sb-button{
-	text-align: center;
-	vertical-align: middle;
-	font-family: monospace;
-	font-weight: bold;
 
-	margin-top: 5px;
-	margin-bottom: 5px;
-
-	line-height: 70px;
-	font-size: 1.5em;
-	height:70px;
-	width: 300px;
-	border-radius: 15px;
-	
-}
 .sb-button:hover{
 	border: 2px solid rgb(70,80,90);
 	cursor: pointer;
@@ -161,42 +359,13 @@
 	background-color: rgb(255,35,100); 
 }
 
-.sb-button.btn-sm{
-	line-height: 40px;
-	font-size: 1.2em;
-	height:40px;
-	width: 250px;
-	border-radius: 10px;
-}
-
-.sb-button.btn-lg{
-	line-height: 90px;
-	font-size: 1.6em;
-	height:90px;
-	width: 450px;
-	border-radius: 15px;
-}
 /* INPUTS */
 .sebal-input{
 	background-color: rgb(255,255,255); 
-	padding-left: 10px;
-	padding-right: 10px;
-	height:70px;
-	width: 300px;
-	font-size: 1.5em;
 	font-weight: bold;
-
-	margin-top: 5px;
-	margin-bottom: 5px;
 }
 .sebal-input.input-small{
 	background-color: rgb(255,255,255); 
-	padding-left: 5px;
-	padding-right: 5px;
-	height:40px;
-	width: 250px;
-	font-size: 1.2em;
-	font-weight: bold;
 }
 .sebal-input-span{
 	font-size: 2em;
@@ -229,23 +398,6 @@ div.sebal-label button{
 .sebal-label.sb-error{
 	font-weight: bold;
 	background-color: rgb(255,150,120);
-}
-
-/* SIZES */
-.sb-width-sd{
-	width: 250px !important;
-}
-.sb-width-md{
-	width: 350px !important;
-}
-.sb-width-lg{
-	width: 500px !important;
-}
-.sb-height-sm{
-	height:40px;
-}
-.sb-height-md{
-	height:50px;
 }
 
 

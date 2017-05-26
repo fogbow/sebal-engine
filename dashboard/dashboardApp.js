@@ -48,6 +48,18 @@ app.config(function($routeProvider){
 		},
 	    templateUrl : '/pages/select_region.html',
 	})
+	.when('/help', {
+		resolve: {
+			"check": checkUser
+		},
+	    templateUrl : '/pages/help.html',
+	})
+	.when('/contact', {
+		resolve: {
+			"check": checkUser
+		},
+	    templateUrl : '/pages/contact.html',
+	})
 	.otherwise({
         redirectTo: '/'
      });
