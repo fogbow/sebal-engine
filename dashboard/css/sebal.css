@@ -132,6 +132,10 @@
     	width: 70%;
     	margin-left:15%;
     }
+    .creat-user-form{
+    	width: 70%;
+    	margin-left:15%;
+    }
     .sb-logo-sm{
     	height: 80px;
     	width: 78px;
@@ -228,6 +232,10 @@
     	width: 70%;
     	margin-left:15%;
     }
+    .creat-user-form{
+    	width: 60%;
+    	margin-left:20%;
+    }
     .sb-logo-sm{
     	height: 110px;
     	width: 108px;
@@ -237,13 +245,13 @@
     	width: 222px;
     }
     .sb-logo-lg{
-    	height: 350px;
-    	width: 340px;
+    	height: 320px;
+    	width: 310px;
     }
 
 	/*BUTTON*/
     .sb-button{
-		padding-top: 10px;
+		padding-top: 6px;
 		border-radius: 10px;
 	}
 
@@ -259,7 +267,7 @@
 		margin-top: 5px;
 		margin-bottom: 5px;
 
-		font-size: 1em;
+		font-size: 1.3em;
 		height:40px;
 		width: 250px;
 	}
@@ -273,6 +281,15 @@
 	}
 	.sb-width-lg{
 		width: 500px !important;
+	}
+	.sb-wpercent-sm{
+		width: 30% !important;
+	}
+	.sb-wpercent-md{
+		width: 55% !important;
+	}
+	.sb-wpercent-lg{
+		width: 95% !important;
 	}
 	.sb-height-sm{
 		height:40px;

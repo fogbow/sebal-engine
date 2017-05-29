@@ -15,16 +15,16 @@ dashboardControllers.controller('MainController', function($scope, $rootScope, $
     $scope.actual = idButton;
 
     if($scope.actual !== undefined){
-      console.log("Activating "+$scope.actual);
+      //console.log("Activating "+$scope.actual);
       $("#"+idButton).addClass('span-button-selected');  
     }
     if($scope.previousButton !== undefined){
-      console.log("Deactivating "+$scope.previousButton);
+      //console.log("Deactivating "+$scope.previousButton);
       $("#"+$scope.previousButton).removeClass('span-button-selected');  
     }
   }
   $scope.reverseActivateButton = function(idButton){
-    console.log("Reversing "+idButton);
+    //console.log("Reversing "+idButton);
     $scope.actual = $scope.previousButton;
     $scope.previousButton = idButton;
     
@@ -64,7 +64,7 @@ dashboardControllers.controller('MainController', function($scope, $rootScope, $
   }
 
   $scope.$on(appConfig.LOGIN_SUCCEED, function (event, value) {
-    console.log(value);
+    //console.log(value);
     //GlobalMsgService.pushMessageSuccess(value);
     getUserName();
   });
@@ -155,12 +155,12 @@ dashboardControllers.controller('MonitorController', function($scope, $log, $fil
 
   $scope.switchSubmitionDetail = function(submissionId){
 
-    console.log("Switching "+submissionId);
+    //console.log("Switching "+submissionId);
 
     $scope.sebalSubmissions.forEach(function(item, index){
 
       if(item.id == submissionId){
-        console.log("Found "+submissionId);
+        //console.log("Found "+submissionId);
         item.showDetail = !item.showDetail;
       }
     })
@@ -265,7 +265,7 @@ dashboardControllers.controller('MonitorController', function($scope, $log, $fil
       "</dl>"+
     "</div>";
 
-    console.log(elementId+" -- "+JSON.stringify(item));
+    //console.log(elementId+" -- "+JSON.stringify(item));
     if($scope.elementShowingDetail !== undefined ||
         $scope.elementShowingDetail === elementId){
       $("#"+elementId).empty();
@@ -292,7 +292,8 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
   
   $scope.DEFAULT_VALUE = 'd';
   $scope.OTHER_VALUE = 'o';
-
+  $scope.modalMsgError = undefined;
+  $scope.satelliteOpts = appConfig.SATELLITE_OPTS;
 
   $scope.$on(appConfig.MODAL_OPENED, function (event, value) {
     $scope.cleanForm();
@@ -315,9 +316,13 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
   
   function parseDate(date) {
     var arrDate = date.split("/");
+
+    // console.log("arrDate: "+JSON.stringify(arrDate))
+
     var d = parseInt(arrDate[0], 10),
         m = parseInt(arrDate[1], 10),
         y = parseInt(arrDate[2], 10);
+    // console.log("Creating date: d"+d+" - m"+m+" - y"+y)
     return new Date(y, m - 1, d);
   }
 
@@ -347,54 +352,106 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
       
       $scope.submissionName = undefined;
       $('#firstYear').val('')
+      $('#lastYear').val('')
       $scope.region = undefined;
       $scope.sebalVersion = undefined;
       $scope.sebalTag = undefined;
+      
 
       $('#radio-defaul-version').prop( "checked", 'checked' );
       $('#radio-other-version').prop( "checked", null );
       $('#radio-defaul-tag').prop( "checked", 'checked' );
       $('#radio-other-tag').prop( "checked", null );
-      $('#radioSatellite1').prop( "checked", null );
-      $('#radioSatellite2').prop( "checked", null );
-      $('#radioSatellite3').prop( "checked", null );
-                 
+
+      $scope.sebalVersionOpt = $scope.DEFAULT_VALUE
+      $scope.sebalTagOpt = $scope.DEFAULT_VALUE
+
+      $scope.satelliteOpts.forEach(function(item, index){
+        $('#radioSatellite'+(index+1)).prop( "checked", null );
+      });
+
+      //Clean error msgs
+      $scope.modalMsgError = undefined;
+      msgRequiredShowHide('firstYearField', false);
+      msgRequiredShowHide('lastYearField', false);
+      msgRequiredShowHide('regionField',false);
+      msgRequiredShowHide('versionField',false);
+      msgRequiredShowHide('tagField',false);
+      msgRequiredShowHide('satelliteField',false);
+      // $('#radioSatellite1').prop( "checked", null );
+      // $('#radioSatellite2').prop( "checked", null );
+      // $('#radioSatellite3').prop( "checked", null );
+
   }
 
   
   $scope.submitJob = function(){
 
     hasError = false;
+    $scope.modalMsgError = undefined;
 
     if(!validateDate($('#firstYear').val())){
       hasError = true
-      msgRequiredShowHide('firstYearField',hasError);
+      msgRequiredShowHide('firstYearField',true);
     }else{
-      $scope.firstYear = parseDate($('#firstYearField').val())
+      $scope.firstYear = parseDate($('#firstYear').val())
+      msgRequiredShowHide('firstYearField', false);
+    }
+
+    if(!validateDate($('#lastYear').val())){
+      hasError = true
+      msgRequiredShowHide('lastYearField',true);
+    }else{
+      $scope.lastYear = parseDate($('#lastYear').val())
+      msgRequiredShowHide('lastYearField', false);
+    }
+
+    if($scope.firstYear > $scope.lastYear){
+      console.log("Last year date must be greater than first year date")
+      $scope.modalMsgError = "Last year date must be greater than first year date";
+      hasError = true
     }
 
     if (!$scope.region || $scope.region.length == 0){
       hasError = true
-      msgRequiredShowHide('regionField',hasError);
+      msgRequiredShowHide('regionField',true);
+    }else{
+      msgRequiredShowHide('regionField',false);
     }
 
     if($scope.sebalVersionOpt === $scope.DEFAULT_VALUE){
       $scope.sebalVersion = appConfig.DEFAULT_SB_VERSION;
+      msgRequiredShowHide('versionField',false);
     }else if (!$scope.sebalVersion || $scope.sebalVersion.length == 0){
       hasError = true
-      msgRequiredShowHide('versionField',hasError);
+      msgRequiredShowHide('versionField',true);
     }
 
     if($scope.sebalTagOpt === $scope.DEFAULT_VALUE){
       $scope.sebalTag = appConfig.DEFAULT_SB_TAG;
+      msgRequiredShowHide('tagField',false);
     }else if (!$scope.sebalTag || $scope.sebalTag.length == 0){
       hasError = true
-      msgRequiredShowHide('tagField',hasError);
+      msgRequiredShowHide('tagField',true);
     }
 
+    $scope.satelliteOpts.forEach(function(item, index){
+
+      var radioId = '#radioSatellite'+(index+1)
+          
+      if($(radioId).prop('checked')){
+        $scope.satellite = $(radioId).prop('value');
+      }
+        // console.log(radioId+' Value: '+$(radioId).prop('value'))
+        // console.log(radioId+' Checked: '+$(radioId).prop('checked'))
+    });
+
+    console.log('$scope.satellite: '+$scope.satellite)
     if(!$scope.satellite){
       hasError = true
-      msgRequiredShowHide('satelliteField',hasError);
+      msgRequiredShowHide('satelliteField',true);
+    }else{
+      msgRequiredShowHide('satelliteField',false);
     }
 
     if(hasError){
@@ -402,10 +459,13 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
     }
 
     var data = {
-      'firstYear': $scope.firstYear, 
+      'name': $scope.submissionName,
+      'firstYear': $scope.firstYear,
+      'lastYear': $scope.lastYear,
       'region': $scope.region, 
       'sebalVersion': $scope.sebalVersion, 
-      'sebalTag': $scope.sebalTag
+      'sebalTag': $scope.sebalTag,
+      'satellite' : $scope.satellite
     }
 
     console.log("Sending "+JSON.stringify(data));

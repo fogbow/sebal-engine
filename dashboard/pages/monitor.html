@@ -7,28 +7,28 @@
     Steps until download completion
   </div>
   <div class="row" align="center">
-    <div class="col-md-4"></div>
-    <div class="col-md-1">
+    <div class="col-md-2"></div>
+    <div class="col-md-2">
       <img src="/images/steps/downloading.png"/>
       <p>Downloading</p>
       <img src="/images/steps/01.png"/>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-2">
       <img src="/images/steps/downloaded.png"/>
       <p>Downloaded</p>
       <img src="/images/steps/02.png"/>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-2">
       <img src="/images/steps/queued.png"/>
       <p>Queued</p>
       <img src="/images/steps/03.png"/>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-2">
       <img src="/images/steps/fetched.png"/>
       <p>Fetched</p>
       <img src="/images/steps/04.png"/>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-2"></div>
   </div>
 </div>
 
@@ -56,14 +56,14 @@
           <div class="panel-heading">
             <div class="row">
               
-              <div align="left" class="col-md-6" style="cursor: pointer;">
+              <div align="left" class="col-md-5" style="cursor: pointer;">
                 <h3 ng-click="switchSubmitionDetail(ss.id)">
                   <img ng-hide="ss.showDetail" src="/images/b-left.png"/>
                   <img ng-show="ss.showDetail" src="/images/b-down.png"/>
                   &nbsp;{{ss.name}} - {{ss.date}}
                 </h3>
               </div>
-              <div align="right" class="col-md-6">
+              <div align="right" class="col-md-7">
                 {{ss.totalImages}} <img src="/images/steps/pics.png"/>&nbsp;|&nbsp;
                 {{ss.totalDownloading}}&nbsp;<img src="/images/steps/downloading.png"/>&nbsp;&nbsp;
                 {{ss.totalDownloaded}}&nbsp;<img src="/images/steps/downloaded.png"/>&nbsp;&nbsp;

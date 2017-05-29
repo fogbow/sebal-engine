@@ -89,6 +89,11 @@
                   
               </div>
               <div class="modal-body">
+                <div ng-show="modalMsgError !== undefined" class="alert alert-danger light alert-dismissable" id="alert-demo-2">
+                    <button type="button" class="close" ng-click="modalMsgError = undefined" aria-hidden="true">×</button>
+                    <i class="fa fa-info pr10"></i>
+                    {{modalMsgError}}
+                </div>
                 <form>
                   <div style="font-weight: bold; font-size: 1.2em; margin-left: 10%; margin-right: 20%;">Submission Name</div>
                   <div style="margin-left: 10%; margin-right: 20%;">
@@ -98,7 +103,13 @@
 
                   <div style="font-weight: bold; font-size: 1.2em; margin-left: 10%; margin-right: 20%;">First Year *</div>
                   <div id="firstYearField" style="margin-left: 10%; margin-right: 20%;">
-                      <input type="text" class="sebal-input input-small sb-width-md sebal-datapicker" id="firstYear" ng-model="firstYear" required>
+                      <input type="text" class="sebal-input input-small sb-width-md sebal-datapicker" id="firstYear" required>
+                      <div class="sb-required sb-hide">Required field</div>
+                  </div>
+
+                  <div style="font-weight: bold; font-size: 1.2em; margin-left: 10%; margin-right: 20%;">Last Year *</div>
+                  <div id="lastYearField" style="margin-left: 10%; margin-right: 20%;">
+                      <input type="text" class="sebal-input input-small sb-width-md sebal-datapicker" id="lastYear" required>
                       <div class="sb-required sb-hide">Required field</div>
                   </div>
 
@@ -133,7 +144,7 @@
                       </label>
                   </div>
                   <div id="tagField" style="margin-left: 10%; margin-right: 20%; margin-bottom: 20px;">
-                      <input id='tagFieldInput' disabled type="text" class="sebal-input sebal-input input-small sb-width-md"ng-model="sebalTag" required>
+                      <input id='tagFieldInput' disabled type="text" class="sebal-input sebal-input input-small sb-width-md" ng-model="sebalTag" required>
                        <div class="sb-required sb-hide">Required field</div>
                   </div>
 
@@ -141,6 +152,11 @@
                   
                   <div id="satelliteField" style="margin-left: 10%; margin-right: 20%; margin-bottom: 20px;">
                       <div style="font-size: 1.2em;">
+
+                        <label class="radio-inline" ng-repeat="sat in satelliteOpts">
+                          <input type="radio" name="inlineRadioOptions" id="radioSatellite{{$index + 1}}" value="{{sat.value}}" ng-model="satellite">{{sat.label}}
+                        </label>
+<!-- 
                         <label class="radio-inline">
                           <input type="radio" name="inlineRadioOptions" id="radioSatellite1" value="landsat5" ng-model="satellite"> Landsat 5
                         </label>
@@ -149,7 +165,7 @@
                         </label>
                         <label class="radio-inline">
                           <input type="radio" name="inlineRadioOptions" id="radioSatellite3" value="landsat8" ng-model="satellite"> Landsat 8
-                        </label>
+                        </label> -->
                       </div>
                       <div class="sb-required sb-hide">Required field</div>
                   </div>

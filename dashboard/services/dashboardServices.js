@@ -48,7 +48,7 @@ dashboardServices.service('AuthenticationService', function($log, $http,
     if(Session.getUser().token !== undefined){
       return {'auth-token': Session.getUser().token}
     }else{
-      console.log("Returning: "+JSON.stringify({'userEmail': Session.getUser().login, 'userPass': Session.getUser().pass}));
+      //console.log("Returning: "+JSON.stringify({'userEmail': Session.getUser().login, 'userPass': Session.getUser().pass}));
       return {'Access-Control-Allow-Origin' :'*','userEmail': Session.getUser().login, 'userPass': Session.getUser().pass}
     }
   };
@@ -60,12 +60,12 @@ dashboardServices.service('AuthenticationService', function($log, $http,
     var headerCredentials = getCredentials();
 
     var loginSuccessHandler = function(response){
-      console.log("Return: "+JSON.stringify(response));
+      //console.log("Return: "+JSON.stringify(response));
       callbackSuccess(response)
     }
   
     var loginErrorHandler = function(error, status){
-      console.log("Error no login: "+JSON.stringify(error))
+      //console.log("Error no login: "+JSON.stringify(error))
       Session.destroy();
       var loginError = {msg:'', status:status}
       if(loginError.status == 401){
@@ -75,7 +75,7 @@ dashboardServices.service('AuthenticationService', function($log, $http,
       }
       callbackError(loginError);
     }
-    console.log("Getting images with headers: "+JSON.stringify(headerCredentials))
+    //console.log("Getting images with headers: "+JSON.stringify(headerCredentials))
     $http.get(resourceUrl, {headers: {'userEmail': userLogin, 'userPass': password}})
       .success(loginSuccessHandler).error(loginErrorHandler);
 
@@ -97,7 +97,7 @@ dashboardServices.service('AuthenticationService', function($log, $http,
       
   		$http.get(resourceUrl, {headers: { 'x-auth-token': sessionToken} })
              .success(function (response) {
-                console.log("Return: "+JSON.stringify(response));
+                //console.log("Return: "+JSON.stringify(response));
                 var authToken = "TOKEN-SEBAL" // fix this hardcode to get token from HEADERS
                 callbackSuccess(response)
              }).
@@ -132,7 +132,7 @@ dashboardServices.service('AuthenticationService', function($log, $http,
       'userPass' : password,
       'userPassConfirm' : passwordConfirm
     }
-    console.log('Service will send '+JSON.stringify(dataForm));
+    //console.log('Service will send '+JSON.stringify(dataForm));
     var req = {
       method: 'POST',
       url: resourceUrl,
@@ -268,7 +268,7 @@ dashboardServices.service('JobService', function($log, $http, AuthenticationServ
 
 
   jobService.postJob = function(dataForm, successCallback, errorCalback){
-    console.log('Service will send '+JSON.stringify(dataForm));
+    //console.log('Service will send '+JSON.stringify(dataForm));
     var req = {
       method: 'POST',
       url: resourceUrl,
