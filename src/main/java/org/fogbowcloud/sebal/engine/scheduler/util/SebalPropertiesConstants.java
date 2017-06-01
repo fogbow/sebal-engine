@@ -10,6 +10,7 @@ public class SebalPropertiesConstants {
 	public static final String LSD_FEDERATION_MEMBER = "lsd.manager.naf.lsd.ufcg.edu.br";
 	public static final String AZURE_FEDERATION_MEMBER = "azure.lsd.ufcg.edu.br";
 	public static final String UFSCAR_FEDERATION_MEMBER = "manager.naf.ufscar.br";
+	public static final Object UFSCAR_FEDERATION_MEMBER_TWO = "experimento.manager.naf.lsd.ufcg.edu.br";
 	
 	// USGS constants
 	public static final String MAX_USGS_DOWNLOAD_LINK_REQUESTS = "max_usgs_download_link_requests";
@@ -62,6 +63,8 @@ public class SebalPropertiesConstants {
 	public static final String AZURE_FTP_SERVER_PORT = "azure_ftp_server_port";
 	public static final String UFSCAR_FTP_SERVER_USER = "ufscar_ftp_server_user";
 	public static final String UFSCAR_FTP_SERVER_PORT = "ufscar_ftp_server_port";
+	public static final String UFSCAR_FTP_SERVER_USER_TWO = "ufscar_ftp_server_user_two";
+	public static final String UFSCAR_FTP_SERVER_PORT_TWO = "ufscar_ftp_server_port_two";
 
 	// NOAA constants
 	public static final String NOAA_FTP_URL = "noaa_ftp_url";
