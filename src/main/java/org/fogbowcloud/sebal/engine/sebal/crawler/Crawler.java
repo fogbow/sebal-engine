@@ -375,7 +375,7 @@ public class Crawler {
 		String volumeDirPath = properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH);
 		File volumePath = new File(volumeDirPath);
 		if (volumePath.exists() && volumePath.isDirectory()) {
-			double freeVolumeSpaceOutputDedicated = Double.valueOf(volumePath.getTotalSpace()) * 0.8;
+			double freeVolumeSpaceOutputDedicated = Double.valueOf(volumePath.getTotalSpace()) * 0.6;
 			double availableVolumeSpace = Double.valueOf(volumePath.getUsableSpace()) - freeVolumeSpaceOutputDedicated;
 			LOGGER.debug("totalDisk=" + Double.valueOf(volumePath.getTotalSpace()));
 			LOGGER.debug("freeVolumeSpaceOutputDedicated=" + freeVolumeSpaceOutputDedicated);
