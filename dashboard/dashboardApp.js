@@ -15,9 +15,9 @@ app.constant("appConfig", {
 	"DEFAULT_SB_VERSION":"version-001",
 	"DEFAULT_SB_TAG":"tag-001",
 	"SATELLITE_OPTS":[
-		{"label":"Landsat 4", "value":"landsat4"},
-		{"label":"Landsat 7", "value":"landsat7"},
-		{"label":"Landsat 8", "value":"landsat8"}
+		{"label":"Landsat 5", "value":"landsat_5"},
+		{"label":"Landsat 7", "value":"landsat_7"},
+		{"label":"Landsat 8", "value":"landsat_8"}
 	],
 	"MODAL_OPENED":"modalOpened",
 	"MODAL_CLOSED":"modalClosed"

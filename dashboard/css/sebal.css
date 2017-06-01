@@ -14,7 +14,42 @@
 
 
 @media screen and (max-width: 767px) {
-    .sb-nav, .sb-nav-buttons, .nav-button{
+
+	.mobile-hide{
+		display: none
+	}
+	.mobile-show{
+		display: inline;
+	}
+	.logo-nav-bar{
+		background: rgb(237,237,237);
+		position: fixed;
+	    height: 100px;
+	    width: 115px;
+	    z-index: 9999;
+	    left: 0px;
+	    padding-top: 25px;
+	    top: 0px;
+	}
+	.sb-nav{
+		position: fixed;
+	    height: 500px !important;
+	    width: 115px;
+	    z-index: 9998;
+	    left: 0px;
+	    top: 100px;
+	    padding: 5px 15px 5px 15px;
+	}
+	.sb-nav img{
+		display: block !important
+	}
+	.sb-content{
+    	margin-left: 50px;
+	}
+	.panel-default {
+    	width: 80% !important;
+	}
+    .sb-nav-buttons, .nav-button{
         height: 80px;
     }
     .sb-steps-panel{
@@ -82,14 +117,20 @@
 	}
 
 	/* SIZES */
+	.sb-width-xs{
+		width: 50px !important;
+	}
 	.sb-width-sm{
-		width: 300px !important;
+		width: 60px !important;
 	}
 	.sb-width-md{
-		width: 400px !important;
+		width: 100px !important;
 	}
 	.sb-width-lg{
-		width: 500px !important;
+		width: 230px !important;
+	}
+	.sb-width-xl{
+		width: 300px !important;
 	}
 	.sb-height-sm{
 		height:40px;
@@ -100,21 +141,31 @@
     
 }
 @media screen and (min-width: 768px) and ( max-width: 1199px) {
+    
+    .logo-nav-bar{
+	    background: rgb(237,237,237);
+	    height: 140px;
+	    width: 110px;
+	    position: absolute;
+	    z-index: 9999;
+	    left: -110px;
+	    padding-top: 25px;
+	    top: -51px;
+	}
+
     .sb-nav, .sb-nav-buttons, .nav-button{
         height: 80px;
     }
     .sb-steps-panel{
 		height: 140px;
     }
-    .sb-dropdown{
+
+    .sb-dropdown, .sb-dropdown-item, .sb-dropdown-sub-item{
+    	height: 50px;
     	width: 300px;
     }
-    .sb-dropdown-item, .sb-dropdown-sub-item{
-    	height: 60px;
-    	padding-top: 20px;
-    }
     .nav-button{
-    	font-size: 1.2em;
+    	font-size: 1.3em;
     	padding-top: 20px;
     }
 
@@ -133,12 +184,12 @@
     	margin-left:15%;
     }
     .creat-user-form{
-    	width: 70%;
-    	margin-left:15%;
+    	width: 60%;
+    	margin-left:20%;
     }
     .sb-logo-sm{
-    	height: 80px;
-    	width: 78px;
+    	height: 70px;
+    	width: 68px;
     }
     .sb-logo-md{
     	height: 110px;
@@ -149,9 +200,9 @@
     	width: 222px;
     }
 
-    /*BUTTON*/
+	/*BUTTON*/
     .sb-button{
-		padding-top: 10px;
+		padding-top: 6px;
 		border-radius: 10px;
 	}
 
@@ -167,20 +218,35 @@
 		margin-top: 5px;
 		margin-bottom: 5px;
 
-		font-size: 1em;
+		font-size: 1.3em;
 		height:40px;
 		width: 250px;
 	}
 
 	/* SIZES */
+	.sb-width-xs{
+		width: 100px !important;
+	}
 	.sb-width-sm{
-		width: 250px !important;
+		width: 150px !important;
 	}
 	.sb-width-md{
-		width: 350px !important;
+		width: 250px !important;
 	}
 	.sb-width-lg{
-		width: 500px !important;
+		width: 350px !important;
+	}
+	.sb-width-xl{
+		width: 550px !important;
+	}
+	.sb-wpercent-sm{
+		width: 25% !important;
+	}
+	.sb-wpercent-md{
+		width: 55% !important;
+	}
+	.sb-wpercent-lg{
+		width: 95% !important;
 	}
 	.sb-height-sm{
 		height:40px;
@@ -273,17 +339,23 @@
 	}
 
 	/* SIZES */
+	.sb-width-xs{
+		width: 100px !important;
+	}
 	.sb-width-sm{
-		width: 250px !important;
+		width: 150px !important;
 	}
 	.sb-width-md{
-		width: 350px !important;
+		width: 250px !important;
 	}
 	.sb-width-lg{
-		width: 500px !important;
+		width: 350px !important;
+	}
+	.sb-width-xl{
+		width: 550px !important;
 	}
 	.sb-wpercent-sm{
-		width: 30% !important;
+		width: 25% !important;
 	}
 	.sb-wpercent-md{
 		width: 55% !important;
@@ -297,7 +369,6 @@
 	.sb-height-md{
 		height:50px;
 	}
-
 
 }
 
@@ -334,10 +405,6 @@
 	width: 100%;
 }
 /* BUTTONS */
-.nav-button {
-	text-align: center;
-	vertical-align: middle;
-}
 .sb-nav a{
 	text-decoration: none;
 	color: rgb(150,150,150);
@@ -428,7 +495,7 @@ div.sebal-label button{
 	width: 98%;
 }
 .sebal-table tr{
-	font-size: 1.2em;
+	font-size: 1em;
     /*border: 10px solid rgb(120, 130, 140);*/
     text-align: center;
 }
@@ -437,7 +504,7 @@ div.sebal-label button{
 }
 .sebal-table th{
 	padding: 5px;
-	font-size: 1.5em;
+	font-size: 1.2em;
 	text-align: center;
 	font-weight: bold;
 }

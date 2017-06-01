@@ -459,13 +459,13 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
     }
 
     var data = {
-      'name': $scope.submissionName,
+      'imageName': $scope.submissionName,
       'firstYear': $scope.firstYear,
       'lastYear': $scope.lastYear,
       'region': $scope.region, 
       'sebalVersion': $scope.sebalVersion, 
       'sebalTag': $scope.sebalTag,
-      'satellite' : $scope.satellite
+      'dataSet' : $scope.satellite
     }
 
     console.log("Sending "+JSON.stringify(data));
@@ -479,7 +479,7 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
       }, 
       function(error){
         $log.error(JSON.stringify(error));
-        GlobalMsgService.pushMessageFail('Error while trying to submit a job.');
+        $scope.modalMsgError = 'Error while trying to submit a job.';
         //$scope.cleanForm();
       });
   };
