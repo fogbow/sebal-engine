@@ -438,6 +438,10 @@ public class Crawler {
 				pendingImageDownloadDB.commit();
 				
 				LOGGER.info("Image " + imageData + " was downloaded");
+			} else {
+				LOGGER.debug("Image " + imageData.getName()
+						+ " was not downloaded. Rolling it back");
+				removeFromPendingAndUpdateState(imageData, properties);
 			}
 		} catch (Exception e) {
 			LOGGER.error("Error when downloading image " + imageData, e);
@@ -562,7 +566,7 @@ public class Crawler {
 		if (imageData.getFederationMember().equals(federationMember)) {
 
 			LOGGER.debug("Rolling back " + imageData + " to "
-					+ ImageState.NOT_DOWNLOADED + " state");
+					+ ImageState.SELECTED + " state");
 
 			try {
 				imageStore.removeStateStamp(imageData.getName(),
@@ -574,7 +578,7 @@ public class Crawler {
 			}
 
 			imageData.setFederationMember(ImageDataStore.NONE);
-			imageData.setState(ImageState.NOT_DOWNLOADED);
+			imageData.setState(ImageState.SELECTED);
 
 			try {
 				imageStore.updateImage(imageData);
