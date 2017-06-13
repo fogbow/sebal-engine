@@ -153,7 +153,7 @@ public class Crawler {
 
 		try {			
 			while (true) {
-				cleanUnfinishedQueuedOutput(properties);
+				cleanUnfinishedQueuedOutput();
 				reSubmitErrorImages(properties);
 				purgeImagesFromVolume(properties);
 				deleteFetchedResultsFromVolume(properties);
@@ -162,8 +162,7 @@ public class Crawler {
 				if (numToDownload > 0) {
 					download(numToDownload);
 				} else {
-					Thread.sleep(Long.valueOf(properties
-							.getProperty(SebalPropertiesConstants.DEFAULT_CRAWLER_PERIOD)));
+					Thread.sleep(Long.valueOf(properties.getProperty(SebalPropertiesConstants.DEFAULT_CRAWLER_PERIOD)));
 				}
 				
 				numberOfDownloadLinkRequests = 0;
@@ -237,8 +236,9 @@ public class Crawler {
 		}
 	}
 
-	private void cleanUnfinishedQueuedOutput(Properties properties2)
+	private void cleanUnfinishedQueuedOutput()
 			throws SQLException, IOException {
+		LOGGER.info("Deleting queued images results from disk");
 		List<ImageData> data = imageStore.getIn(ImageState.QUEUED);
 		for (ImageData imageData : data) {
 			deleteResultsFromDisk(imageData, properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH));
@@ -625,6 +625,8 @@ public class Crawler {
 	protected void deleteFetchedResultsFromVolume(Properties properties)
 			throws IOException, InterruptedException, SQLException {
 		List<ImageData> setOfImageData = imageStore.getAllImages();
+		
+		LOGGER.debug("setOfImageData=" + setOfImageData.size());
 
 		String exportPath = properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH);
 
@@ -640,7 +642,7 @@ public class Crawler {
 						&& imageData.getFederationMember().equals(
 								federationMember) && imageResultsDir.exists()) {
 					LOGGER.debug("Image " + imageData.getName() + " fetched");
-					LOGGER.info("Removing" + imageData);
+					LOGGER.info("Removing" + imageResultsPath);
 
 					try {
 						deleteInputsFromDisk(imageData, exportPath);
