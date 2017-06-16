@@ -8,33 +8,9 @@ temp_url_expiration_time=$4
 SWIFT_URL=
 SWIFT_DESIRED_PSEUDO_PATH=
 
-# Scheduler constants
-SCHEDULER_IP=
-SCHEDULER_DB_PORT=
-SEBAL_DB_NAME=
-SEBAL_DB_USER=
-SEBAL_DB_PASSWORD=
-IMAGES_TABLE_NAME=
-
 # Application constants
-SEBAL_TAG=e078b8e6f46e6810bc3f41a3e64334073b6ccfd9
-LOCAL_FILES_DIR=/local/arnett
-
-function setPasswordAccessDB {
-  # Setting password to access db
-  file="$HOME/.pgpass"
-  if [ -f "$file" ]
-  then
-    echo "Replacing $file now."
-    rm -f $file
-  else
-    echo "$file not found. Creating one now"
-  fi
-
-  # Writing password in .pgpass and changing permissions
-  echo "$SCHEDULER_IP:$SCHEDULER_DB_PORT:$SEBAL_DB_NAME:$SEBAL_DB_USER:$SEBAL_DB_PASSWORD" >> $file
-  chmod 0600 "$file"
-}
+SEBAL_TAG=
+LOCAL_FILES_DIR=
 
 function init {
   while read line; do
@@ -46,5 +22,4 @@ function init {
   done <$image_list_file_path
 }
 
-setPasswordAccessDB
 init
