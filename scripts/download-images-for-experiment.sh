@@ -1,8 +1,7 @@
 #!/bin/bash
 image_list_file_path=$1
-federation_member=$2
-swift_temp_url_key=$3
-temp_url_expiration_time=$4
+swift_temp_url_key=$2
+temp_url_expiration_time=$3
 
 # Swift constants
 SWIFT_URL=
