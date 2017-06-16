@@ -38,11 +38,10 @@ public class FTPIntegrationImpl implements FTPIntegration{
 					properties.getProperty(SebalPropertiesConstants.UFSCAR_FTP_SERVER_USER), "150.165.85.18",
 					ftpServerPort, remoteImageResultsPath,
 					localImageResultsPath, imageData.getName());
-		} else if(imageData.getFederationMember().equals(SebalPropertiesConstants.UFSCAR_FEDERATION_MEMBER_TWO)) {
+		} else if(imageData.getFederationMember().equals(SebalPropertiesConstants.EXPERIMENTO_FEDERATION_MEMBER)) {
 			builder = new ProcessBuilder("/bin/bash",
 					properties.getProperty(SebalPropertiesConstants.SEBAL_SFTP_SCRIPT_PATH),
-//					properties.getProperty(SebalPropertiesConstants.UFSCAR_FTP_SERVER_USER), ftpServerIP, // FIXME
-					properties.getProperty(SebalPropertiesConstants.UFSCAR_FTP_SERVER_USER_TWO), "150.165.85.18",
+					properties.getProperty(SebalPropertiesConstants.EXPERIMENTO_FTP_SERVER_USER), ftpServerIP,
 					ftpServerPort, remoteImageResultsPath,
 					localImageResultsPath, imageData.getName());
 		} else {

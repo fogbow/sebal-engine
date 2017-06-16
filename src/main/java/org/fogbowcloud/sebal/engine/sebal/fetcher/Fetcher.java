@@ -268,8 +268,8 @@ public class Fetcher {
 			ftpServerPort = properties.getProperty(SebalPropertiesConstants.AZURE_FTP_SERVER_PORT);
 		} else if(imageData.getFederationMember().equals(SebalPropertiesConstants.UFSCAR_FEDERATION_MEMBER)) {
 			ftpServerPort = properties.getProperty(SebalPropertiesConstants.UFSCAR_FTP_SERVER_PORT);
-		} else if(imageData.getFederationMember().equals(SebalPropertiesConstants.UFSCAR_FEDERATION_MEMBER_TWO)) {
-			ftpServerPort = properties.getProperty(SebalPropertiesConstants.UFSCAR_FTP_SERVER_PORT_TWO);
+		} else if(imageData.getFederationMember().equals(SebalPropertiesConstants.EXPERIMENTO_FEDERATION_MEMBER)) {
+			ftpServerPort = properties.getProperty(SebalPropertiesConstants.EXPERIMENTO_FTP_SERVER_PORT);
 		} else {
 			ftpServerPort = properties.getProperty(SebalPropertiesConstants.DEFAULT_FTP_SERVER_PORT);
 		}
