@@ -1,7 +1,7 @@
         <!-- HEADER AND NAVBAR OF SEBAL DASHBOARD-->
         <header>
             <div class="row panel-heading">
-              <div class="col-md-12" align="right">
+              <div class="col-lg-12" align="right">
                 <div class="sb-dropdown" style="color: rgb(255,255,255);">
                   <div class="sb-dropdown-item">
                     {{user.name}}&nbsp;&nbsp;<a href=""><img src="/images/avatar.png"/></a>
@@ -10,63 +10,62 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="panel panel-default">
-                <div align="center" class="logo-nav-bar">
+            <div class="row sb-nav">
+                <div align="center" class="col-lg-2">
                   <a href="#monitor">
-                    <img src="/images/SebalLogo.png" class="sb-logo-sm"/>
+                    <img src="/images/logo-topo.png" class="sb-logo-sm"/>
                   </a>
                 </div>
-                <div class="sb-nav">
+                <div class="col-lg-9">
                   <div class="row" align="center">
                         <a href="#monitor">
-                          <div id="homeBtn" class="col-md-2 nav-button">
+                          <div id="homeBtn" class="col-lg-2 nav-button">
                              <img src="/images/menu/home.png"/>&nbsp;Home
                           </div>
                         </a>
                         <a href="" ng-click="openCloseModal('submissionsModal', true)">
-                          <div id="submitBtn" class="col-md-3 nav-button">
+                          <div id="submitBtn" class="col-lg-3 nav-button">
                             <img src="/images/menu/submissions.png"/>&nbsp;Submissions
                           </div>
                         </a>
                         <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
-                          <div id="selectRegionBtn" class="col-md-2 nav-button" >
+                          <div id="selectRegionBtn" class="col-lg-2 nav-button" >
                             <img src="/images/menu/map.png"/>&nbsp;Map
                           </div>
                         </a>
                         <a href="#help" ng-click="activateButton('selectRegionBtn')">
-                          <div id="helpBtn" class="col-md-2 nav-button" >
+                          <div id="helpBtn" class="col-lg-2 nav-button" >
                             <img src="/images/menu/help.png"/>&nbsp;Help
                           </div>
                         </a>
                         <a href="#contact" ng-click="activateButton('selectRegionBtn')">
-                          <div id="contactBtn" class="col-md-3 nav-button" >
+                          <div id="contactBtn" class="col-lg-3 nav-button" >
                             <img src="/images/menu/contact.png"/>&nbsp;Contact
                           </div>
                         </a>
                   </div>
-                </div>
+                  <div class="col-lg-1"></div>
               </div>
               
             </div>
             <!-- <nav class="sb-nav">
                 <div class="row" style="height: 20%">
        
-                    <div class="col-md-6 sb-nav-buttons" >
-                        <div id="selectRegionBtn" class="col-md-4 span-button" >
+                    <div class="col-lg-6 sb-nav-buttons" >
+                        <div id="selectRegionBtn" class="col-lg-4 span-button" >
                           <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
                               <span class="glyphicon glyphicon-th" aria-hidden="true"></span></a>
                         </div>
-                        <div id="monitorBtn" class="col-md-4 span-button">
+                        <div id="monitorBtn" class="col-lg-4 span-button">
                           <a href="#monitor" ng-click="activateButton('monitorBtn')">
                               <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
                         </div>
-                        <div id="submitBtn" class="col-md-4 span-button">
+                        <div id="submitBtn" class="col-lg-4 span-button">
                           <a href="" data-toggle="modal" data-target="#myModal" ng-click="activateButton('submitBtn')">
                               <span class="glyphicon glyphicon-plus " aria-hidden="true"></span></a>
                         </div>
                     </div>
-                    <div class="col-md-3 sb-nav-buttons">
+                    <div class="col-lg-3 sb-nav-buttons">
                       
                     </div>
                 </div>

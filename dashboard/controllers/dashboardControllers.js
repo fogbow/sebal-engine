@@ -487,10 +487,14 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
  
 });
 
-dashboardControllers.controller('MapController', function($scope, $log, $filter, $timeout, 
+dashboardControllers.controller('MapController', function($scope, $log, $filter, $http, $timeout, 
   AuthenticationService, RegionService, GlobalMsgService, appConfig) {
 
   //$scope.user = AuthenticationService.getUser();
+  var sapsMap = initiateMap("map", callbackSelectionInfo, updateVisibleRegions);
+  var labels = [
+    {"label":"0","color":"rgb(255,255,255)"}
+  ]
 
   function callbackSelectionInfo(selectionInfo){
     $scope.message = 'Selection: '+JSON.stringify(selectionInfo);
@@ -500,13 +504,59 @@ dashboardControllers.controller('MapController', function($scope, $log, $filter,
     }else{
       alert('Selection at :'+JSON.stringify(selectionInfo));
     }
-    
 
   };
 
-  initiateMap("map", callbackSelectionInfo);
+  var regions;
 
- 
+  function updateVisibleRegions(){
+    var visibleReqions = sapsMap.getVisibleRegions();
+    visibleReqions.forEach(function(visibleRegion, vindex){
+      
+      for(count = 0; count < regions.length; count++){
+
+        if(visibleRegion == regions[count].regionName){
+            sapsMap.updateRegionProcImg(visibleRegion, regions[count].imgsProcessed)
+            break;
+        }
+      
+      } 
+    })
+  }
+
+  function loadRegions(){
+        $http.get('../saps_files/regions.json')
+        .success(function(response){
+            //console.log('Regions loaded from map: '+JSON.stringify(response));
+            sapsMap.generateGrid(response);
+            regions = response;
+            updateVisibleRegions();
+
+        })
+        .error(function(error){
+            console.log('Error while trying to ge regions: '+error)
+        })
+  }
+
+
+  loadRegions();
+  // RegionService.getRegions(
+  //         function(data){ 
+  //             initiateMap("map", data, callbackSelectionInfo);
+  //         },
+  //         function(error){
+  //             var msg = "An error occurred when tried to get Regions";
+  //             $log.error(msg+" : "+error);
+  //             GlobalMsgService.pushMessageFail(msg)
+  //         }
+  // ); 
+  
+  $scope.zoomIn = function(){
+    sapsMap.zoomIn()
+  }
+  $scope.zoomOut = function(){
+    sapsMap.zoomOut()
+  }
 });
 
 

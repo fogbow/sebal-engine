@@ -7,8 +7,8 @@ var app = angular.module('schedulerDashboard', [
 app.constant("appConfig", {
 	"urlSebalSchedulerService":"http://localhost:9192/",
 	"imagePath":"images",
+	"regionPath":"regions",
 	"getImageByIdPath":"images/:imageId",
-	"regionResourcePath":"regions/",
 	"LOGIN_SUCCEED":"login.succeed",
 	"LOGIN_FAILED":"login.faild",
 	"LOGOUT_SUCCEED":"logout.succed",

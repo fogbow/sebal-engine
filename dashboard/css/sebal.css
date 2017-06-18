@@ -267,7 +267,9 @@
 	    left: -140px;
 	    top: -51px;
 	}
-
+	.sb-nav{
+		margin-bottom: 50px;
+	}
     .sb-nav, .sb-nav-buttons, .nav-button{
         height: 80px;
     }
@@ -303,8 +305,8 @@
     	margin-left:20%;
     }
     .sb-logo-sm{
-    	height: 110px;
-    	width: 108px;
+	   	height: 70px;
+	    width: 67px;
     }
     .sb-logo-md{
     	height: 230px;
@@ -313,6 +315,22 @@
     .sb-logo-lg{
     	height: 320px;
     	width: 310px;
+    }
+    .sb-map-controls{
+    	z-index: 9999;
+    	position: fixed;
+    	right: 35px;
+    	top: 220px;
+    	cursor: pointer;
+    }
+    .sb-heat-map-legends{
+    	background: rgb(221,221,219);
+    	z-index: 9999;
+    	position: fixed;
+    	right: 15px;
+    	bottom: 15px;
+	    height: 220px;
+	    width: 370px;
     }
 
 	/*BUTTON*/

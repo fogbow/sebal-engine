@@ -287,15 +287,18 @@ dashboardServices.service('JobService', function($log, $http, AuthenticationServ
 });
 
 
-dashboardServices.service('RegionService', function($log, $resource, AuthenticationService, appConfig) {
+dashboardServices.service('RegionService', function($log, $http, AuthenticationService, appConfig) {
 
-	// var resourceUrl = appConfig.urlSebalSchedulerService+appConfig.regionPath;
- //  var sessionToken = AuthenticationService.getToken();
-	// return $resource(resourceUrl, null,{
- //            get: {
- //              method: 'GET',
- //              headers: {'auth-token': sessionToken}
- //            }
- //          }
- //  );
+	var resourceUrl = appConfig.urlSebalSchedulerService+appConfig.regionPath;
+  var headerCredentials = AuthenticationService.getHeaderCredentials();
+  
+  var imageService = {};
+
+  imageService.getRegions = function(successCallback, errorCalback){
+    $http.get(resourceUrl, {headers: headerCredentials})
+      .success(successCallback).error(errorCalback);
+      
+  };
+
+  return imageService;
 });
