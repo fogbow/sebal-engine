@@ -1,7 +1,7 @@
 <div id="header">
 	<div ng-include="'pages/main.html'"></div>
 </div>
-<div id="content" ng-controller="MapController"	class="sebal-content">
+<div id="content" ng-controller="MapController"	class="sb-content">
 	<div class="sb-heat-map-legends">
 		<div class="row" style="font-size: 1em; padding-left: 10px; margin-top: 10px; margin-bottom: 10px">
 			<div class="col-md-1">
@@ -55,13 +55,11 @@
 		</div>
 	</div>
 	<div id="map-controls" class="sb-map-controls">
-		<span class="glyphicon glyphicon-plus-sign" ng-click="zoomIn()"
-				style="font-size: 2.5em; color: rgb(0,161,93)" 
+		<span class="glyphicon glyphicon-plus-sign zoom-control" ng-click="zoomIn()"
 				aria-hidden="true"></span>
 		<br>
-		<span class="glyphicon glyphicon-minus-sign" ng-click="zoomOut()"
-				style="font-size: 2.5em; color: rgb(0,161,93)" 
+		<span class="glyphicon glyphicon-minus-sign zoom-control" ng-click="zoomOut()"
 				aria-hidden="true"></span>
 	</div>
-	<div id="map" class="map text-center" style="height: 90%; width: 100%;"></div>
+	<div id="map" class="map regions-map text-center"></div>
 </div>

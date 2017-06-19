@@ -47,139 +47,117 @@
                   <div class="col-lg-1"></div>
               </div>
               
-            </div>
-            <!-- <nav class="sb-nav">
-                <div class="row" style="height: 20%">
-       
-                    <div class="col-lg-6 sb-nav-buttons" >
-                        <div id="selectRegionBtn" class="col-lg-4 span-button" >
-                          <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
-                              <span class="glyphicon glyphicon-th" aria-hidden="true"></span></a>
-                        </div>
-                        <div id="monitorBtn" class="col-lg-4 span-button">
-                          <a href="#monitor" ng-click="activateButton('monitorBtn')">
-                              <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
-                        </div>
-                        <div id="submitBtn" class="col-lg-4 span-button">
-                          <a href="" data-toggle="modal" data-target="#myModal" ng-click="activateButton('submitBtn')">
-                              <span class="glyphicon glyphicon-plus " aria-hidden="true"></span></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 sb-nav-buttons">
-                      
-                    </div>
-                </div>
-            </nav> -->
-        </header>
+    </div>
+</header>
 
-        <div ng-show="globalMsg.getContent() !== undefined" class="alert {{globalMsg.getLevel()}} light alert-dismissable" id="alert-demo-2">
-            <button type="button" class="close" ng-click="clearGlobalMsg()" aria-hidden="true">×</button>
+<div ng-show="globalMsg.getContent() !== undefined" class="alert {{globalMsg.getLevel()}} light alert-dismissable" id="alert-demo-2">
+    <button type="button" class="close" ng-click="clearGlobalMsg()" aria-hidden="true">×</button>
+    <i class="fa fa-info pr10"></i>
+    {{globalMsg.getContent()}}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="submissionsModal" tabindex="-1" ng-controller="JobController"
+  role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="panel-heading" style="border:none;" align="right">
+          <img src="/images/close.png" ng-click="openCloseModal('submissionsModal', false)" style="cursor: pointer;"/>
+          
+      </div>
+      <div class="modal-body">
+        <div ng-show="modalMsgError !== undefined" class="alert alert-danger light alert-dismissable" id="alert-demo-2">
+            <button type="button" class="close" ng-click="modalMsgError = undefined" aria-hidden="true">×</button>
             <i class="fa fa-info pr10"></i>
-            {{globalMsg.getContent()}}
+            {{modalMsgError}}
         </div>
-       
-        <!-- Modal -->
-        <div class="modal fade" id="submissionsModal" tabindex="-1" ng-controller="JobController"
-          role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="panel-heading" style="border:none;" align="right">
-                  <img src="/images/close.png" ng-click="openCloseModal('submissionsModal', false)" style="cursor: pointer;"/>
-                  
-              </div>
-              <div class="modal-body">
-                <div ng-show="modalMsgError !== undefined" class="alert alert-danger light alert-dismissable" id="alert-demo-2">
-                    <button type="button" class="close" ng-click="modalMsgError = undefined" aria-hidden="true">×</button>
-                    <i class="fa fa-info pr10"></i>
-                    {{modalMsgError}}
-                </div>
-                <form>
-                  <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">Submission Name</div>
-                  <div style="margin-left: 15%; margin-right: 20%;">
-                      <input type="text" class="sebal-input sebal-input input-small sb-width-lg"  id="submissionName" 
-                        ng-model="submissionName" required>
-                  </div>
+        <form>
+          <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">Submission Name</div>
+          <div style="margin-left: 15%; margin-right: 20%;">
+              <input type="text" class="sebal-input sebal-input input-small sb-width-lg"  id="submissionName" 
+                ng-model="submissionName" required>
+          </div>
 
-                  <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">First Year *</div>
-                  <div id="firstYearField" style="margin-left: 15%; margin-right: 20%;">
-                      <input type="text" class="sebal-input input-small sb-width-lg sebal-datapicker" id="firstYear" required>
-                      <div class="sb-required sb-hide">Required field</div>
-                  </div>
+          <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">First Year *</div>
+          <div id="firstYearField" style="margin-left: 15%; margin-right: 20%;">
+              <input type="text" class="sebal-input input-small sb-width-lg sebal-datapicker" id="firstYear" required>
+              <div class="sb-required sb-hide">Required field</div>
+          </div>
 
-                  <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">Last Year *</div>
-                  <div id="lastYearField" style="margin-left: 15%; margin-right: 20%;">
-                      <input type="text" class="sebal-input input-small sb-width-lg sebal-datapicker" id="lastYear" required>
-                      <div class="sb-required sb-hide">Required field</div>
-                  </div>
+          <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">Last Year *</div>
+          <div id="lastYearField" style="margin-left: 15%; margin-right: 20%;">
+              <input type="text" class="sebal-input input-small sb-width-lg sebal-datapicker" id="lastYear" required>
+              <div class="sb-required sb-hide">Required field</div>
+          </div>
 
-                  <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">Region *</div>
-                  <div id="regionField" style="margin-left: 15%; margin-right: 20%;">
-                      <input type="text" class="sebal-input sebal-input input-small sb-width-lg"   ng-model="region" required >
-                      <div class="sb-required sb-hide">Required field</div>
-                  </div>
+          <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">Region *</div>
+          <div id="regionField" style="margin-left: 15%; margin-right: 20%;">
+              <input type="text" class="sebal-input sebal-input input-small sb-width-lg"   ng-model="region" required >
+              <div class="sb-required sb-hide">Required field</div>
+          </div>
 
-                  <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">Sebal Version *</div>
-                  <div style="font-size: 1.2em; margin-left: 15%; margin-right: 20%;">
-                      <label class="radio-inline">
-                        <input onclick="document.getElementById('versionFieldInput').setAttribute('disabled','disabled')" type="radio" name="sbVersionRadio" id="radio-defaul-version" value="{{DEFAULT_VALUE}}" ng-model="sebalVersionOpt" checked > Default
-                      </label>
-                      <label class="radio-inline">
-                        <input onclick="document.getElementById('versionFieldInput').removeAttribute('disabled')" type="radio" name="sbVersionRadio" id="radio-other-version" value="{{OTHER_VALUE}}" ng-model="sebalVersionOpt">Other
-                      </label>
-                  </div>
-                  <div  id="versionField" style="margin-left: 15%; margin-right: 20%;">
-                      <input id='versionFieldInput' disabled type="text" class="sebal-input sebal-input input-small sb-width-lg" ng-model="sebalVersion" required>
-                       <div class="sb-required sb-hide">Required field</div>
-                  </div>
-                  
+          <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">Sebal Version *</div>
+          <div style="font-size: 1.2em; margin-left: 15%; margin-right: 20%;">
+              <label class="radio-inline">
+                <input onclick="document.getElementById('versionFieldInput').setAttribute('disabled','disabled')" type="radio" name="sbVersionRadio" id="radio-defaul-version" value="{{DEFAULT_VALUE}}" ng-model="sebalVersionOpt" checked > Default
+              </label>
+              <label class="radio-inline">
+                <input onclick="document.getElementById('versionFieldInput').removeAttribute('disabled')" type="radio" name="sbVersionRadio" id="radio-other-version" value="{{OTHER_VALUE}}" ng-model="sebalVersionOpt">Other
+              </label>
+          </div>
+          <div  id="versionField" style="margin-left: 15%; margin-right: 20%;">
+              <input id='versionFieldInput' disabled type="text" class="sebal-input sebal-input input-small sb-width-lg" ng-model="sebalVersion" required>
+               <div class="sb-required sb-hide">Required field</div>
+          </div>
+          
 
-                  <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">Sebal Tag</div>
-                  <div style="font-size: 1.2em; margin-left: 15%; margin-right: 20%;">
-                      <label class="radio-inline">
-                        <input onclick="document.getElementById('tagFieldInput').setAttribute('disabled','disabled')" type="radio" name="sbTagRadio" id="radio-defaul-tag" value="{{DEFAULT_VALUE}}" ng-model="sebalTagOpt" checked > Default
-                      </label>
-                      <label class="radio-inline">
-                        <input onclick="document.getElementById('tagFieldInput').removeAttribute('disabled')" type="radio" name="sbTagRadio" id="radio-other-tag" value="{{OTHER_VALUE}}" ng-model="sebalTagOpt">Other
-                      </label>
-                  </div>
-                  <div id="tagField" style="margin-left: 15%; margin-right: 20%; margin-bottom: 20px;">
-                      <input id='tagFieldInput' disabled type="text" class="sebal-input sebal-input input-small sb-width-lg" ng-model="sebalTag" required>
-                       <div class="sb-required sb-hide">Required field</div>
-                  </div>
+          <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">Sebal Tag</div>
+          <div style="font-size: 1.2em; margin-left: 15%; margin-right: 20%;">
+              <label class="radio-inline">
+                <input onclick="document.getElementById('tagFieldInput').setAttribute('disabled','disabled')" type="radio" name="sbTagRadio" id="radio-defaul-tag" value="{{DEFAULT_VALUE}}" ng-model="sebalTagOpt" checked > Default
+              </label>
+              <label class="radio-inline">
+                <input onclick="document.getElementById('tagFieldInput').removeAttribute('disabled')" type="radio" name="sbTagRadio" id="radio-other-tag" value="{{OTHER_VALUE}}" ng-model="sebalTagOpt">Other
+              </label>
+          </div>
+          <div id="tagField" style="margin-left: 15%; margin-right: 20%; margin-bottom: 20px;">
+              <input id='tagFieldInput' disabled type="text" class="sebal-input sebal-input input-small sb-width-lg" ng-model="sebalTag" required>
+               <div class="sb-required sb-hide">Required field</div>
+          </div>
 
-                  <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">Satellite *</div>
-                  
-                  <div id="satelliteField" style="margin-left: 15%; margin-right: 20%; margin-bottom: 20px;">
-                      <div style="font-size: 1.2em;">
+          <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">Satellite *</div>
+          
+          <div id="satelliteField" style="margin-left: 15%; margin-right: 20%; margin-bottom: 20px;">
+              <div style="font-size: 1.2em;">
 
-                        <label class="radio-inline" ng-repeat="sat in satelliteOpts">
-                          <input type="radio" name="inlineRadioOptions" id="radioSatellite{{$index + 1}}" value="{{sat.value}}" ng-model="satellite">{{sat.label}}
-                        </label>
+                <label class="radio-inline" ng-repeat="sat in satelliteOpts">
+                  <input type="radio" name="inlineRadioOptions" id="radioSatellite{{$index + 1}}" value="{{sat.value}}" ng-model="satellite">{{sat.label}}
+                </label>
 <!-- 
-                        <label class="radio-inline">
-                          <input type="radio" name="inlineRadioOptions" id="radioSatellite1" value="landsat5" ng-model="satellite"> Landsat 5
-                        </label>
-                        <label class="radio-inline">
-                          <input type="radio" name="inlineRadioOptions" id="radioSatellite2" value="landsat7" ng-model="satellite"> Landsat 7
-                        </label>
-                        <label class="radio-inline">
-                          <input type="radio" name="inlineRadioOptions" id="radioSatellite3" value="landsat8" ng-model="satellite"> Landsat 8
-                        </label> -->
-                      </div>
-                      <div class="sb-required sb-hide">Required field</div>
-                  </div>
+                <label class="radio-inline">
+                  <input type="radio" name="inlineRadioOptions" id="radioSatellite1" value="landsat5" ng-model="satellite"> Landsat 5
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="inlineRadioOptions" id="radioSatellite2" value="landsat7" ng-model="satellite"> Landsat 7
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="inlineRadioOptions" id="radioSatellite3" value="landsat8" ng-model="satellite"> Landsat 8
+                </label> -->
+              </div>
+              <div class="sb-required sb-hide">Required field</div>
+          </div>
 
-                  <div style="margin-left: 15%; margin-right: 160px;" align="right">
-                    <div ng-click="submitJob()" class="sb-button sb-main sb-width-sm" align="center">
-                      SUBMIT
-                    </div>
-                  </div>
-                  
-                </form>
-              </div>
-              <div class="modal-footer">
-                
-              </div>
+          <div style="margin-left: 15%; margin-right: 160px;" align="right">
+            <div ng-click="submitJob()" class="sb-button sb-main sb-width-sm" align="center">
+              SUBMIT
             </div>
           </div>
-        </div>
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+  </div>
+</div>

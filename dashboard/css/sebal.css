@@ -2,7 +2,7 @@
 .sb-submission-panel, .sb-nav, .modal-body{
 	background-color: rgb(237, 237, 237);
 }
-.sb-body-bg, .sebal-content, .div-table-row, .div-table-th{
+.sb-body, .sb-content, .div-table-row, .div-table-th{
 	background-color:rgb(211, 211, 211);
 }
 .panel-heading, .sb-steps-panel, .sb-dropdown-sub-item{
@@ -142,6 +142,21 @@
 }
 @media screen and (min-width: 768px) and ( max-width: 1199px) {
     
+    .sb-body{
+		min-height: 600px !important;
+	}
+
+	.sb-header{
+		height: 200px;
+		width: 100%;
+		z-index: 9999;
+		position: fixed;
+	}
+
+	.sb-content{
+		width: 100%;
+		padding-top: 200px;
+	}
     .logo-nav-bar{
 	    background: rgb(237,237,237);
 	    height: 140px;
@@ -258,6 +273,22 @@
 }
 @media screen and (min-width: 1200px) {
 
+	.sb-body{
+		min-height: 750px !important;
+	}
+
+	.sb-header{
+		height: 200px;
+		width: 100%;
+		z-index: 9999;
+		position: fixed;
+	}
+
+	.sb-content{
+		width: 100%;
+		padding-top: 200px;
+	}
+
 	.logo-nav-bar{
 		background: rgb(237,237,237);
 		height: 140px;
@@ -268,7 +299,7 @@
 	    top: -51px;
 	}
 	.sb-nav{
-		margin-bottom: 50px;
+		margin-bottom: 5px;
 	}
     .sb-nav, .sb-nav-buttons, .nav-button{
         height: 80px;
@@ -390,6 +421,13 @@
 
 }
 
+.regions-map{
+	height: 80% !important;
+	width: 100%;
+	position: fixed;
+	margin-left: -20px;
+}
+
 .sb-button{
 	font-family: monospace;
 	font-weight: bold;	
@@ -416,11 +454,6 @@
 	z-index: 9999;
 	text-align: center;
 	color: rgb(255,255,255);
-}
-.sebal-content{
-	overflow-y: auto !important;
-	height: 90%; 
-	width: 100%;
 }
 /* BUTTONS */
 .sb-nav a{
@@ -556,6 +589,12 @@ div.div-table-row:hover .main-column{
 }
 
 /* MISC */
+.zoom-control{
+	font-size: 2.5em;
+	color: rgb(0,161,93);
+	background-color: rgb(255,255,255);
+	border-radius: 20px;
+}
 .sb-required{
 	font-weight: bold; 
 	font-size: 1.2em; 
