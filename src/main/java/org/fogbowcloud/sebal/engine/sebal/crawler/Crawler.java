@@ -577,9 +577,7 @@ public class Crawler {
 						+ imageData.getUpdateTime() + " from DB");
 			}
 
-			imageData.setFederationMember(ImageDataStore.NONE);
 			imageData.setState(ImageState.SELECTED);
-
 			try {
 				imageStore.updateImage(imageData);
 				imageData.setUpdateTime(imageStore.getImage(imageData.getName()).getUpdateTime());
@@ -642,7 +640,7 @@ public class Crawler {
 						&& imageData.getFederationMember().equals(
 								federationMember) && imageResultsDir.exists()) {
 					LOGGER.debug("Image " + imageData.getName() + " fetched");
-					LOGGER.info("Removing" + imageResultsPath);
+					LOGGER.info("Removing " + imageResultsPath);
 
 					try {
 						deleteInputsFromDisk(imageData, exportPath);
