@@ -130,8 +130,10 @@ function SquareSelection(coordinates){
   return squareSelectionApi;
 }
 
-function initiateMap(elementId, callbackFuncForSelection, callbackFuncForMapUpdate){
+function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFuncForMapUpdate){
   
+  var heatMapREF = heatMapRef;
+
   /** MAP INITIALIZATION **/
   var vectorSource = new ol.source.Vector({
     url: 'https://openlayers.org/en/v3.20.1/examples/data/geojson/countries.geojson',
@@ -240,6 +242,17 @@ function initiateMap(elementId, callbackFuncForSelection, callbackFuncForMapUpda
     var polygonFeature = new ol.Feature(
     new ol.geom.Polygon([polygonCoords]));
 
+    var style = new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          width: 1,
+          color: [0, 0, 0, 1]
+        }),
+        fill: heatMap
+    });
+
+    polygonFeature.setStyle(style);
+    polygonFeature.set("regionName",regionName);
+
     var heatMap = new ol.style.Fill({
           color: [0, 0, 0, 0]
     })
@@ -251,13 +264,7 @@ function initiateMap(elementId, callbackFuncForSelection, callbackFuncForMapUpda
       source: new ol.source.Vector({
         features: [polygonFeature]
       }),
-      style: new ol.style.Style({
-        stroke: new ol.style.Stroke({
-          width: 1,
-          color: [0, 0, 0, 1]
-        }),
-        fill: heatMap
-      })
+      
     })
     // console.log("Adding new region to grid: "+newLayerVector.get("regionName"));
     return newLayerVector;
@@ -292,37 +299,24 @@ function initiateMap(elementId, callbackFuncForSelection, callbackFuncForMapUpda
 
   var updateRegionProccessedImagesFunc = function (regionName, numberOfImages){
 
-    var transparency = 0.4
-
     var heatMap = new ol.style.Fill({
           color: [0, 0, 0, 0]
     })
+    var transparency = heatMapREF.transparency;
 
-    if(numberOfImages > 0 && numberOfImages <= 300){
-      heatMap = new ol.style.Fill({
-          color: [241, 159, 56, transparency]
-      })
-    }
-    else if(numberOfImages > 300 && numberOfImages <= 500){
-      heatMap = new ol.style.Fill({
-          color: [241, 226, 114, transparency]
-      })
-    }
-    else if(numberOfImages > 500 && numberOfImages <= 700){
-      heatMap = new ol.style.Fill({
-          color: [0, 206, 230, transparency]
-      })
-    }
-    else if(numberOfImages > 700 && numberOfImages <= 900){
-      heatMap = new ol.style.Fill({
-          color: [81, 224, 207, transparency]
-      })
-    }
-    else if(numberOfImages > 900){
-      heatMap = new ol.style.Fill({
-          color: [0, 161, 93, transparency]
-      })
-    }
+    for(var index = 0; index < heatMapREF.colours.length; index++){
+
+      var item = heatMapREF.colours[index];
+
+      if( (item.maxValue == undefined && numberOfImages >= item.minValue) ||
+          (numberOfImages >= item.minValue && numberOfImages <= item.maxValue) ){
+        heatMap = new ol.style.Fill({
+          color: [item.r, item.g, item.b, transparency]
+        })
+        break;
+      }
+
+    };
 
     var gridLayerGroup;
 
@@ -336,7 +330,12 @@ function initiateMap(elementId, callbackFuncForSelection, callbackFuncForMapUpda
     gridLayerGroup.getLayers().forEach(function(item, index){
 
       if(item.get("regionName") == regionName){
-        item.setStyle(new ol.style.Style({
+        var source = item.getSource();
+        var features = source.getFeatures();
+        // console.log(JSON.stringify(features))
+        var polygon = features[0];
+
+        polygon.setStyle(new ol.style.Style({
           stroke: new ol.style.Stroke({
             width: 1,
             color: [0, 0, 0, 1]
@@ -345,15 +344,31 @@ function initiateMap(elementId, callbackFuncForSelection, callbackFuncForMapUpda
         }));
       }
     })
+
   }
 
   /// ********* INTERACTIONS **********************
 
   // a normal select interaction to handle click
   var select = new ol.interaction.Select();
+
+  select.on('select', function(event){
+
+    var polygon = event.selected[0];
+    var style = polygon.getStyle();
+    style.setStroke(new ol.style.Stroke({
+            width: 4,
+            color: [0, 125, 111, 1]
+    }));
+    var fill = style.getFill();
+    var color = fill.getColor();
+    color[3] = 1;
+    fill.setColor(color);
+    
+  });
+  
   map.addInteraction(select);
 
-  var selectedFeatures = select.getFeatures();
 
   // a DragBox interaction used to select features by drawing boxes
   var dragBox = new ol.interaction.DragBox({
@@ -391,8 +406,12 @@ function initiateMap(elementId, callbackFuncForSelection, callbackFuncForMapUpda
     selectedFeatures.clear();
     //Do anything else after this?
   });
-  map.on('click', function() {
-    selectedFeatures.clear();
+  map.on('click', function(event) {
+    // var feature = map.forEachFeatureAtPixel(evt.pixel,
+    //   function(feature) {
+    //   return feature;
+    // });
+    
     //Do anything else after this?
   });
   map.on('moveend', function() {
@@ -412,13 +431,13 @@ function initiateMap(elementId, callbackFuncForSelection, callbackFuncForMapUpda
       console.log("Applying zoom in");
       var view = map.getView();
       var zoom = view.getZoom();
-      view.setZoom(zoom - 1);
+      view.setZoom(zoom + 1);
     },
     zoomOut: function() {
       console.log("Applying zoom out");
       var view = map.getView();
       var zoom = view.getZoom();
-      view.setZoom(zoom + 1);
+      view.setZoom(zoom - 1);
     },
   }
 

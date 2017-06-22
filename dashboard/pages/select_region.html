@@ -2,57 +2,27 @@
 	<div ng-include="'pages/main.html'"></div>
 </div>
 <div id="content" ng-controller="MapController"	class="sb-content">
+	<div class="sb-map-fatures">
+		<div id="sb-map-search">
+			<div ng-include="'pages/map-search-box.html'"></div>
+		</div>
+		<div id="sb-map-submission">
+			<div ng-include="'pages/map-subm-box.html'"></div>
+		</div>
+	</div>
 	<div class="sb-heat-map-legends">
-		<div class="row" style="font-size: 1em; padding-left: 10px; margin-top: 10px; margin-bottom: 10px">
-			<div class="col-md-1">
-				<span class="glyphicon glyphicon-th-large" 
-				style="font-size: 1.5em;" 
-				aria-hidden="true"></span>
-			</div>
-			<div class="col-md-11" style="left: -10px;">Quantidade de imagens renderizadas por área</div>
+		<div style="font-size: 1em; padding-left: 10px; margin-top: 10px; margin-bottom: 10px">
+			N&uacute;mero de imagens processadas
 		</div>
-		<div class="row" align="left" style="font-size: 1.2em; padding-left: 10px;">
-			<div class="col-md-2">
+		<div ng-repeat="heatLabel in heatLabels" class="row">
+			<div class="col-md-10" align="right">{{heatLabel.label}}</div>
+			<div class="col-md-1" align="left">
 				<span class="glyphicon glyphicon-stop" 
-				style="font-size: 2.5em; color: rgb(255,255,255)" 
+				style="font-size: 1.5em; color: rgb({{heatLabel.r}},{{heatLabel.g}},{{heatLabel.b}})" 
 				aria-hidden="true"></span>
 			</div>
-			<div class="col-md-4" style="padding-top: 10px; left: -15px;">00</div>
-			<div class="col-md-2">
-				<span class="glyphicon glyphicon-stop" 
-				style="font-size: 2.5em; color: rgb(241,159,56)" 
-				aria-hidden="true"></span>
-			</div>
-			<div class="col-md-4" style="padding-top: 10px; left: -15px;">01 a 300</div>
 		</div>
-		<div class="row" align="left" style="font-size: 1.2em; padding-left: 10px;">
-			<div class="col-md-2">
-				<span class="glyphicon glyphicon-stop" 
-				style="font-size: 2.5em; color: rgb(241,226,114)" 
-				aria-hidden="true"></span>
-			</div>
-			<div class="col-md-4" style="padding-top: 10px; left: -15px;">300 a 500</div>
-			<div class="col-md-2">
-				<span class="glyphicon glyphicon-stop" 
-				style="font-size: 2.5em; color: rgb(0,206,230)" 
-				aria-hidden="true"></span>
-			</div>
-			<div class="col-md-4" style="padding-top: 10px; left: -15px;">500 a 700</div>
-		</div>
-		<div class="row" align="left" style="font-size: 1.2em; padding-left: 10px;">
-			<div class="col-md-2">
-				<span class="glyphicon glyphicon-stop" 
-				style="font-size: 2.5em; color: rgb(81,224,207)" 
-				aria-hidden="true"></span>
-			</div>
-			<div class="col-md-4" style="padding-top: 10px; left: -15px;">700 a 900</div>
-			<div class="col-md-2">
-				<span class="glyphicon glyphicon-stop" 
-				style="font-size: 2.5em; color: rgb(0,161,93)" 
-				aria-hidden="true"></span>
-			</div>
-			<div class="col-md-4" style="padding-top: 10px; left: -15px;">900+</div>
-		</div>
+		
 	</div>
 	<div id="map-controls" class="sb-map-controls">
 		<span class="glyphicon glyphicon-plus-sign zoom-control" ng-click="zoomIn()"

@@ -1,435 +1,106 @@
-/*Colors*/
+@import url("sebal-large.css");
+@import url("sebal-medium.css");
+@import url("sebal-small.css");
+
+/*BG Colors*/
 .sb-submission-panel, .sb-nav, .modal-body{
 	background-color: rgb(237, 237, 237);
 }
 .sb-body, .sb-content, .div-table-row, .div-table-th{
-	background-color:rgb(211, 211, 211);
+	background-color: rgb(211, 211, 211);
 }
-.panel-heading, .sb-steps-panel, .sb-dropdown-sub-item{
-	background-color:rgb(0, 125, 111);
+.panel-heading, .sb-steps-panel, .sb-dropdown-sub-item, .sb-map-feature-label{
+	background-color: rgb(0, 125, 111);
 }
-.panel-heading, .sb-steps-panel{
-	color: white;
+.sb-map-feature-options, .sb-heat-map-legends{
+	background-color: rgb(221,221,219);
 }
-
-
-@media screen and (max-width: 767px) {
-
-	.mobile-hide{
-		display: none
-	}
-	.mobile-show{
-		display: inline;
-	}
-	.logo-nav-bar{
-		background: rgb(237,237,237);
-		position: fixed;
-	    height: 100px;
-	    width: 115px;
-	    z-index: 9999;
-	    left: 0px;
-	    padding-top: 25px;
-	    top: 0px;
-	}
-	.sb-nav{
-		position: fixed;
-	    height: 500px !important;
-	    width: 115px;
-	    z-index: 9998;
-	    left: 0px;
-	    top: 100px;
-	    padding: 5px 15px 5px 15px;
-	}
-	.sb-nav img{
-		display: block !important
-	}
-	.sb-content{
-    	margin-left: 50px;
-	}
-	.panel-default {
-    	width: 80% !important;
-	}
-    .sb-nav-buttons, .nav-button{
-        height: 80px;
-    }
-    .sb-steps-panel{
-		height: 140px;
-    }
-    .sb-dropdown{
-    	width: 300px;
-    }
-    .sb-dropdown-item, .sb-dropdown-sub-item{
-    	height: 60px;
-    	padding-top: 20px;
-    }
-    .nav-button{
-    	padding-top: 20px;
-    }
-
-    .nav-button span{
-    	color: rgb(255,255,255) !important;
-    	padding: 20px 60px 20px 60px;
-    }
-    .sb-login-box{
-    	width: 500px;
-    	height: 800px;
-	    padding-top:100px;
-	    margin: auto;
-    }
-    .panel-default{
-    	width: 70%;
-    	margin-left:15%;
-    }
-    .sb-logo-sm{
-    	height: 50px;
-    	width: 49px;
-    }
-    .sb-logo-md{
-    	height: 110px;
-    	width: 108px;
-    }
-    .sb-logo-lg{
-    	height: 230px;
-    	width: 222px;
-    }
-
-    /*BUTTON*/
-    .sb-button{
-		padding-top: 15px;
-		border-radius: 10px;
-	}
-
-	/* INPUTS */
-	.sebal-input{
-		padding-left: 10px;
-		padding-right: 10px;
-		
-	}
-
-	/* FORM ITENS */
-	.sb-button, .sebal-input{
-		margin-top: 10px;
-		margin-bottom: 10px;
-
-		font-size: 1.5em;
-		height: 60px;
-		width: 300px;
-	}
-
-	/* SIZES */
-	.sb-width-xs{
-		width: 50px !important;
-	}
-	.sb-width-sm{
-		width: 60px !important;
-	}
-	.sb-width-md{
-		width: 100px !important;
-	}
-	.sb-width-lg{
-		width: 230px !important;
-	}
-	.sb-width-xl{
-		width: 300px !important;
-	}
-	.sb-height-sm{
-		height:40px;
-	}
-	.sb-height-md{
-		height:50px;
-	}
-    
+.sb-button.sb-main{
+	background-color: rgb(95,230,195);
 }
-@media screen and (min-width: 768px) and ( max-width: 1199px) {
-    
-    .sb-body{
-		min-height: 600px !important;
-	}
-
-	.sb-header{
-		height: 200px;
-		width: 100%;
-		z-index: 9999;
-		position: fixed;
-	}
-
-	.sb-content{
-		width: 100%;
-		padding-top: 200px;
-	}
-    .logo-nav-bar{
-	    background: rgb(237,237,237);
-	    height: 140px;
-	    width: 110px;
-	    position: absolute;
-	    z-index: 9999;
-	    left: -110px;
-	    padding-top: 25px;
-	    top: -51px;
-	}
-
-    .sb-nav, .sb-nav-buttons, .nav-button{
-        height: 80px;
-    }
-    .sb-steps-panel{
-		height: 140px;
-    }
-
-    .sb-dropdown, .sb-dropdown-item, .sb-dropdown-sub-item{
-    	height: 50px;
-    	width: 300px;
-    }
-    .nav-button{
-    	font-size: 1.3em;
-    	padding-top: 20px;
-    }
-
-    .nav-button span{
-    	color: rgb(255,255,255) !important;
-    	padding: 20px 60px 20px 60px;
-    }
-    .sb-login-box{
-    	width: 500px;
-    	height: 800px;
-	    padding-top:100px;
-	    margin: auto;
-    }
-    .panel-default{
-    	width: 70%;
-    	margin-left:15%;
-    }
-    .creat-user-form{
-    	width: 60%;
-    	margin-left:20%;
-    }
-    .sb-logo-sm{
-    	height: 70px;
-    	width: 68px;
-    }
-    .sb-logo-md{
-    	height: 110px;
-    	width: 108px;
-    }
-    .sb-logo-lg{
-    	height: 230px;
-    	width: 222px;
-    }
-
-	/*BUTTON*/
-    .sb-button{
-		padding-top: 6px;
-		border-radius: 10px;
-	}
-
-	/* INPUTS */
-	.sebal-input{
-		padding-left: 10px;
-		padding-right: 10px;
-		
-	}
-
-	/* FORM ITENS */
-	.sb-button, .sebal-input{
-		margin-top: 5px;
-		margin-bottom: 5px;
-
-		font-size: 1.3em;
-		height:40px;
-		width: 250px;
-	}
-
-	/* SIZES */
-	.sb-width-xs{
-		width: 100px !important;
-	}
-	.sb-width-sm{
-		width: 150px !important;
-	}
-	.sb-width-md{
-		width: 250px !important;
-	}
-	.sb-width-lg{
-		width: 350px !important;
-	}
-	.sb-width-xl{
-		width: 550px !important;
-	}
-	.sb-wpercent-sm{
-		width: 25% !important;
-	}
-	.sb-wpercent-md{
-		width: 55% !important;
-	}
-	.sb-wpercent-lg{
-		width: 95% !important;
-	}
-	.sb-height-sm{
-		height:40px;
-	}
-	.sb-height-md{
-		height:50px;
-	}
-
+.sb-button.sb-second{
+	background-color: rgb(180,180,190);
 }
-@media screen and (min-width: 1200px) {
-
-	.sb-body{
-		min-height: 750px !important;
-	}
-
-	.sb-header{
-		height: 200px;
-		width: 100%;
-		z-index: 9999;
-		position: fixed;
-	}
-
-	.sb-content{
-		width: 100%;
-		padding-top: 200px;
-	}
-
-	.logo-nav-bar{
-		background: rgb(237,237,237);
-		height: 140px;
-		width: 150px;
-	    position: absolute;
-	    z-index: 9999;
-	    left: -140px;
-	    top: -51px;
-	}
-	.sb-nav{
-		margin-bottom: 5px;
-	}
-    .sb-nav, .sb-nav-buttons, .nav-button{
-        height: 80px;
-    }
-    .sb-steps-panel{
-		height: 140px;
-    }
-
-    .sb-dropdown, .sb-dropdown-item, .sb-dropdown-sub-item{
-    	height: 50px;
-    	width: 300px;
-    }
-    .nav-button{
-    	font-size: 1.3em;
-    	padding-top: 20px;
-    }
-
-    .nav-button span{
-    	color: rgb(255,255,255) !important;
-    	padding: 20px 60px 20px 60px;
-    }
-    .sb-login-box{
-    	width: 500px;
-    	height: 800px;
-	    padding-top:100px;
-	    margin: auto;
-    }
-    .panel-default{
-    	width: 70%;
-    	margin-left:15%;
-    }
-    .creat-user-form{
-    	width: 60%;
-    	margin-left:20%;
-    }
-    .sb-logo-sm{
-	   	height: 70px;
-	    width: 67px;
-    }
-    .sb-logo-md{
-    	height: 230px;
-    	width: 222px;
-    }
-    .sb-logo-lg{
-    	height: 320px;
-    	width: 310px;
-    }
-    .sb-map-controls{
-    	z-index: 9999;
-    	position: fixed;
-    	right: 35px;
-    	top: 220px;
-    	cursor: pointer;
-    }
-    .sb-heat-map-legends{
-    	background: rgb(221,221,219);
-    	z-index: 9999;
-    	position: fixed;
-    	right: 15px;
-    	bottom: 15px;
-	    height: 220px;
-	    width: 370px;
-    }
-
-	/*BUTTON*/
-    .sb-button{
-		padding-top: 6px;
-		border-radius: 10px;
-	}
-
-	/* INPUTS */
-	.sebal-input{
-		padding-left: 10px;
-		padding-right: 10px;
-		
-	}
-
-	/* FORM ITENS */
-	.sb-button, .sebal-input{
-		margin-top: 5px;
-		margin-bottom: 5px;
-
-		font-size: 1.3em;
-		height:40px;
-		width: 250px;
-	}
-
-	/* SIZES */
-	.sb-width-xs{
-		width: 100px !important;
-	}
-	.sb-width-sm{
-		width: 150px !important;
-	}
-	.sb-width-md{
-		width: 250px !important;
-	}
-	.sb-width-lg{
-		width: 350px !important;
-	}
-	.sb-width-xl{
-		width: 550px !important;
-	}
-	.sb-wpercent-sm{
-		width: 25% !important;
-	}
-	.sb-wpercent-md{
-		width: 55% !important;
-	}
-	.sb-wpercent-lg{
-		width: 95% !important;
-	}
-	.sb-height-sm{
-		height:40px;
-	}
-	.sb-height-md{
-		height:50px;
-	}
-
+.sb-button.sb-cancel{
+	background-color: rgb(255,35,100); 
+}
+.sebal-input, .sebal-input.input-small, .sebal-label, .sb-map-fatures, 
+.zoom-control, .sb-table-detail, .list-group-item{
+	background-color: rgb(255,255,255); 
+}
+.nav-button-selected, .nav-button:hover, .sb-dropdown:hover{
+	background-color: rgb(150,230,195) !important;
+}
+.sebal-label.sb-error{
+	background-color: rgb(255,150,120);
+}
+div.div-table-row:hover, div.div-table-row:hover .main-column{
+	background-color:rgb(150,150,150);
 }
 
+.main-column{
+	background-color:rgb(237,237,237);
+}
+
+/*Font Colors*/
+.sb-button.sb-second, .panel-heading, .sb-steps-panel, .sb-map-feature-label,
+.sb-dropdown, .sb-dropdown-sub-item{
+	color:rgb(255,255,255); /*White*/
+}
+.sb-nav a{
+	color: rgb(150,150,150);
+}
+.span-button.main{
+	color: rgb(95,230,195);
+}
+.span-button.cancel{
+	color: rgb(255,35,100); 
+}
+.nav-button:hover span, .nav-button-selected span{
+	color: rgb(70,75,78) !important;
+}
+div.sebal-label button{
+	color: rgb(150, 80, 80);
+}
+.zoom-control{
+	color: rgb(0,161,93);
+}
+.btn-refresh:hover{
+	color: rgb(30,120,30);
+}
+.sb-close-md-btn{
+	color: rgb(200,130,100);
+}
+.sb-close-md-btn:hover{;
+	color: rgb(250,130,100);
+}
+.sb-table-detail, .list-group-item, 
+div.div-table-row:hover, div.div-table-row:hover .main-column{
+	color: rgb(30,30,30);
+}
+/*REGION FATURES*/
+.sb-map-fatures{
+	z-index: 1000;
+	position: fixed;
+	cursor: pointer;
+}
+.sb-map-feature-label{
+    font-size: 1.1em;
+    padding-left: 12px;
+    padding-top: 6px;
+    cursor: pointer;
+}
+.sb-map-feature-options{
+	
+}
 .regions-map{
 	height: 80% !important;
 	width: 100%;
 	position: fixed;
 	margin-left: -20px;
 }
-
+/*BUTTONS*/
 .sb-button{
-	font-family: monospace;
 	font-weight: bold;	
 }
 
@@ -441,7 +112,6 @@
 }
 .sb-dropdown span{
 	padding-left: 10px;
-	color: rgb(255,255,255) !important;
 }
 
 .sb-dropdown:hover .sb-dropdown-sub-item{
@@ -453,14 +123,11 @@
 	position: absolute;
 	z-index: 9999;
 	text-align: center;
-	color: rgb(255,255,255);
 }
 /* BUTTONS */
 .sb-nav a{
 	text-decoration: none;
-	color: rgb(150,150,150);
 }
-
 .span-button{
 	text-align: center;
 	vertical-align: middle;
@@ -470,37 +137,15 @@
 	font-size: 2.7em;
 	cursor: pointer;
 }
-.span-button.main{
-	color: rgb(95,230,195);
-}
-.span-button.cancel{
-	color: rgb(255,35,100); 
-}
-.nav-button-selected, .nav-button:hover, .sb-dropdown:hover{
-	background-color: rgb(150,230,195) !important;
-}
-.nav-button:hover span, .nav-button-selected span{
-	color: rgb(70,75,78) !important;
-}
 
 .sb-button:hover{
 	border: 2px solid rgb(70,80,90);
 	cursor: pointer;
 }
-.sb-button.sb-main{
-	background-color: rgb(95,230,195);
-}
-.sb-button.sb-cancel{
-	background-color: rgb(255,35,100); 
-}
 
 /* INPUTS */
-.sebal-input{
-	background-color: rgb(255,255,255); 
+.sebal-input{ 
 	font-weight: bold;
-}
-.sebal-input.input-small{
-	background-color: rgb(255,255,255); 
 }
 .sebal-input-span{
 	font-size: 2em;
@@ -522,17 +167,14 @@
 	font-size: 1.2em;
 	width: 300px;
 	font-weight: bold;
-	background-color: rgb(255,255,255);
 }
 div.sebal-label button{
 	text-align: center;
 	font-size: 2em;
-	color: rgb(150, 80, 80);
 }
 
 .sebal-label.sb-error{
 	font-weight: bold;
-	background-color: rgb(255,150,120);
 }
 
 
@@ -567,32 +209,19 @@ div.div-table-row div{
 	height: 100%;
 }
 div.div-table-row:hover, div.div-table-row:hover .main-column{
-	background-color:rgb(150,150,150);
 	color: rgb(30,30,30);
 	font-size: 1.2em;
 	font-weight: bold;
 }
-div.div-table-row:hover .main-column{
-	background-color:rgb(150,150,150);
-}
-.main-column{
-	/*color: rgb(200,200,200);*/
-	background-color:rgb(237,237,237);
-}
 .sb-table-detail, .list-group-item{
 	text-align: left;
-	background-color:rgb(255,255,255);
-	color: rgb(30,30,30);
 	padding: 5px 5px 5px 5px;
 	height: 100%;
 	font-size: 0.9em;
 }
-
 /* MISC */
 .zoom-control{
 	font-size: 2.5em;
-	color: rgb(0,161,93);
-	background-color: rgb(255,255,255);
 	border-radius: 20px;
 }
 .sb-required{
@@ -600,7 +229,7 @@ div.div-table-row:hover .main-column{
 	font-size: 1.2em; 
 	color: red;
 }
-.sb-hide{
+.sb-hidden{
 	display: none;
 }
 .btn-refresh{
@@ -609,19 +238,16 @@ div.div-table-row:hover .main-column{
 }
 
 .btn-refresh:hover{
-	border: 4px solid rgb(70,80,90);
 	margin: 12px 12px 12px 12px;
-	color: rgb(30,120,30);
+	border: 4px solid rgb(70,80,90);
 }
 
 .sb-close-md-btn{
 	margin: 10px 10px 10px 10px;
 	font-size: 30px;
-	color: rgb(200,130,100);
 }
 .sb-close-md-btn:hover{
 	margin: 5px 5px 5px 5px;
 	font-size: 40px;
-	color: rgb(250,130,100);
 	cursor: pointer;
 }

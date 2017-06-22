@@ -490,11 +490,12 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
 dashboardControllers.controller('MapController', function($scope, $log, $filter, $http, $timeout, 
   AuthenticationService, RegionService, GlobalMsgService, appConfig) {
 
-  //$scope.user = AuthenticationService.getUser();
-  var sapsMap = initiateMap("map", callbackSelectionInfo, updateVisibleRegions);
-  var labels = [
-    {"label":"0","color":"rgb(255,255,255)"}
-  ]
+
+
+  $scope.heatLabels = appConfig.heatMap.colours;
+
+  var sapsMap = initiateMap("map", appConfig.heatMap, callbackSelectionInfo, updateVisibleRegions);
+  
 
   function callbackSelectionInfo(selectionInfo){
     $scope.message = 'Selection: '+JSON.stringify(selectionInfo);
