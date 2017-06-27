@@ -194,7 +194,8 @@ public class Fetcher {
 				fetch(imageData);
 				if (!fetcherHelper.isFileCorrupted(imageData, pendingImageFetchMap,
 						imageStore) && !fetcherHelper.isImageRolledBack(imageData)) {
-					finishFetch(imageData);
+					//finishFetch(imageData);
+					experimentFinishFetch(imageData);
 				} else {
 					deleteInputsFromDisk(imageData, properties);
 					deleteResultsFromDisk(imageData, properties);
@@ -335,6 +336,33 @@ public class Fetcher {
 			rollBackFetch(imageData);
 		}
 	}
+	
+	private void experimentFinishFetch(ImageData imageData) throws IOException {
+		LOGGER.debug("Finishing fetch for image " + imageData);
+		imageData.setState(ImageState.FETCHED);
+		imageData.setFetcherVersion(fetcherVersion);
+
+		try {
+			LOGGER.info("Updating image data in DB");
+			imageStore.updateImage(imageData);
+			imageData.setUpdateTime(imageStore.getImage(imageData.getName()).getUpdateTime());
+		} catch (SQLException e) {
+			LOGGER.error("Error while updating image " + imageData
+					+ " in DB", e);
+			rollBackFetch(imageData);
+		}
+
+		try {
+			imageStore.addStateStamp(imageData.getName(),
+					imageData.getState(), imageData.getUpdateTime());
+		} catch (SQLException e) {
+			LOGGER.error("Error while adding state " + imageData.getState()
+					+ " timestamp " + imageData.getUpdateTime() + " in DB", e);
+		}
+		
+		fetcherHelper.removeImageFromPendingMap(imageData, pendingImageFetchDB, pendingImageFetchMap);
+		LOGGER.debug("Image " + imageData.getName() + " fetched");
+	}
 
 	protected void rollBackFetch(ImageData imageData) {
 		LOGGER.debug("Rolling back Fetcher for image " + imageData);
@@ -392,7 +420,7 @@ public class Fetcher {
 
 			if (exitValue == 0) {
 				LOGGER.debug(imageData.getName() + " inputs downloaded successfully from FTP server " + ftpServerIP + ":" + ftpServerPort);
-				deleteInputsFromDisk(imageData, properties);
+				return 0;
 			} else {
 				rollBackFetch(imageData);
 				if (fetcherHelper.isThereFetchedResultFiles(localImageInputsPath)) {
@@ -448,14 +476,8 @@ public class Fetcher {
 					localImageResultsPath, imageData);
 
 			if (exitValue == 0) {
-				if (fetcherHelper.resultsChecksumOK(imageData, localImageResultsDir)) {
-					LOGGER.debug(imageData.getName() + " outputs downloaded successfully from FTP server " + ftpServerIP + ":" + ftpServerPort);
-					deleteResultsFromDisk(imageData, properties);
-				} else {
-					if(fetcherHelper.isThereFetchedResultFiles(localImageResultsPath)) {
-						deleteResultsFromDisk(imageData, properties);
-					}
-				}
+				LOGGER.debug(imageData.getName() + " outputs downloaded successfully from FTP server " + ftpServerIP + ":" + ftpServerPort);
+				break;
 			} else {
 				rollBackFetch(imageData);
 				if (fetcherHelper.isThereFetchedResultFiles(localImageResultsPath)) {
