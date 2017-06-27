@@ -391,11 +391,8 @@ public class Fetcher {
 					imageData);
 
 			if (exitValue == 0) {
-				if (uploadInputFilesToSwift(imageData, localImageInputsDir)) {
-					LOGGER.debug("Inputs from " + localImageInputsPath
-							+ " uploaded successfully");
-					return 0;
-				}
+				LOGGER.debug(imageData.getName() + " inputs downloaded successfully from FTP server " + ftpServerIP + ":" + ftpServerPort);
+				deleteInputsFromDisk(imageData, properties);
 			} else {
 				rollBackFetch(imageData);
 				if (fetcherHelper.isThereFetchedResultFiles(localImageInputsPath)) {
@@ -452,13 +449,8 @@ public class Fetcher {
 
 			if (exitValue == 0) {
 				if (fetcherHelper.resultsChecksumOK(imageData, localImageResultsDir)) {
-					fetcherHelper.createTimeoutAndMaxTriesFiles(localImageResultsDir);
-					
-					if(uploadOutputFilesToSwift(imageData, localImageResultsDir)) {						
-						break;
-					} else {
-						return;
-					}
+					LOGGER.debug(imageData.getName() + " outputs downloaded successfully from FTP server " + ftpServerIP + ":" + ftpServerPort);
+					deleteResultsFromDisk(imageData, properties);
 				} else {
 					if(fetcherHelper.isThereFetchedResultFiles(localImageResultsPath)) {
 						deleteResultsFromDisk(imageData, properties);
