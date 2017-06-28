@@ -1,0 +1,74 @@
+<!-- Begin: Content -->
+<div ng-controller="LoginController">
+
+  <div align="right" class="row panel-heading" style="height:110px">
+    <div class="col-lg-3">
+      <img src="/images/logo-topo.png" class="sb-logo-sm" style="border: 10px solid rgb(237,237,237);background: rgb(237,237,237)"/>
+    </div>
+    <div class="col-lg-9"></div>
+  </div>
+  <div class="row" style="margin-top: 5%;">
+    <div class="panel panel-default">
+    <div class="panel-heading" style="padding: 15px 15px 15px 15px;">
+      <div class="row">
+        <h3 class="panel-title">Criar Conta</h3>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div id="formContent" ng-show="create === true">
+        <form action="/" id="createUserFormId">
+ 
+          <div ng-show="errorMsg !== undefined" class="sebal-label sb-error sb-md" id="alert-login">
+                <button type="button" class="close" ng-click="clearLoginMsg()" aria-hidden="true">×</button>
+                <i class="fa fa-info"></i>
+                {{errorMsg}}
+          </div>
+     
+          <div class="row creat-user-form">
+     
+              <div>Nome</div>
+              <input type="text" class="sebal-input input-small sb-wpercent-lg"  id="createNameInput" ng-model="username" required placeholder="">
+              </input>
+
+              <div>Email</div>
+              <input type="text" class="sebal-input input-small sb-wpercent-lg" id="createEmailInput" ng-model="email" required placeholder="">
+              </input>
+
+              <div>Senha</div>
+              <input type="password" class="sebal-input input-small sb-wpercent-lg" id="createPasswordInput" ng-model="password" required placeholder="">
+
+              <div>Confirmar Senha</div>
+              <input type="password" class="sebal-input input-small sb-wpercent-lg" id="createPasswordConfirmInput" ng-model="passwordConfirm" required placeholder="">
+              </input>
+
+          </div>
+
+          <div class="row creat-user-form">
+            <div class="col-lg-8">
+              <div align="center" ng-click="createNewUser()" class="sb-button btn-sm sb-main">Criar Conta</div>
+            </div>
+            <div align="right" class="col-lg-3">
+              <a href="/">
+                <span class="glyphicon glyphicon-arrow-left span-button main" aria-hidden="true">
+                </span>
+              </a>
+            </div>
+          </div>
+
+        </form>
+        
+      </div>
+      <div id="successContent" ng-show="create === false">
+        {{msg}}
+        <div align="right">
+            <a href="/">
+              <span class="glyphicon glyphicon-arrow-left span-button main" aria-hidden="true">
+              </span>
+            </a>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="sb-map-feature-label" 
+	ng-click="switchVisibility('sb-map-feature-options')">
+	<!-- <img src="/images/menu/contact.png"/> -->
+	<span class="glyphicon glyphicon-play" aria-hidden="true"></span> Detalhes da &aacute;rea
+</div>
+<div id="sb-map-feature-options" class="sb-map-feature-options">
+	<div class="row">
+		<div class="col-lg-8">
+			<div class="checkbox">
+			  <input class="sb-checkbox-map" type="checkbox" value="">
+			</div>
+		</div>
+		<div align="center" class="col-lg-1">
+			<div class="sb-span-round-button">
+				<span class="glyphicon glyphicon-trash" aria-hidden="true">
+			</div>
+		</div>
+		<div align="center" class="col-lg-1">
+			<div class="sb-span-round-button">
+				<span class="glyphicon glyphicon-download-alt" aria-hidden="true">
+			</div>
+		</div>
+		<div align="center" class="col-lg-1">
+			<div class="sb-span-round-button">
+				<span class="glyphicon glyphicon-filter" aria-hidden="true">
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-repeat="regionDetail in searchedRegions">
+		<div class="col-lg-8">
+			<div class="checkbox">
+			  <input class="sb-checkbox-map" type="checkbox" value="">
+			</div>
+		</div>
+		<div align="center" class="col-lg-1">
+			<div class="sb-span-round-button">
+				<span class="glyphicon glyphicon-trash" aria-hidden="true">
+			</div>
+		</div>
+		<div align="center" class="col-lg-1">
+			<div class="sb-span-round-button">
+				<span class="glyphicon glyphicon-download-alt" aria-hidden="true">
+			</div>
+		</div>
+		<div align="center" class="col-lg-1">
+			<div class="sb-span-round-button">
+				<span class="glyphicon glyphicon-filter" aria-hidden="true">
+			</div>
+		</div>
+	</div>
+</div>

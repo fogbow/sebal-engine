@@ -1,0 +1,73 @@
+<!-- HEADER AND NAVBAR OF SEBAL DASHBOARD-->
+<header>
+  <div class="row panel-heading">
+    <div class="col-lg-12" align="right">
+      <div class="sb-dropdown" style="color: rgb(255,255,255);">
+        <div class="sb-dropdown-item">
+          {{user.name}}&nbsp;&nbsp;<a href=""><img src="/images/avatar.png"/></a>
+        </div>
+        <div class="sb-dropdown-sub-item" ng-click="doLogout()">Logout</div>
+      </div>
+    </div>
+  </div>
+  <div class="row sb-nav">
+    <div align="center" class="col-lg-2">
+      <a href="#monitor">
+        <img src="/images/logo-topo.png" class="sb-logo-sm"/>
+      </a>
+    </div>
+    <div class="col-lg-9">
+      <div class="row" align="center">
+            <a href="#monitor">
+              <div id="homeBtn" class="col-lg-2 nav-button">
+                 <img src="/images/menu/home.png"/>&nbsp;Home
+              </div>
+            </a>
+            <a href="" ng-click="openCloseModal('submissionsModal', true)">
+              <div id="submitBtn" class="col-lg-3 nav-button">
+                <img src="/images/menu/submissions.png"/>&nbsp;Submissions
+              </div>
+            </a>
+            <a href="#selectRegion" ng-click="activateButton('selectRegionBtn')">
+              <div id="selectRegionBtn" class="col-lg-2 nav-button" >
+                <img src="/images/menu/map.png"/>&nbsp;Map
+              </div>
+            </a>
+            <a href="#help" ng-click="activateButton('selectRegionBtn')">
+              <div id="helpBtn" class="col-lg-2 nav-button" >
+                <img src="/images/menu/help.png"/>&nbsp;Help
+              </div>
+            </a>
+            <a href="#contact" ng-click="activateButton('selectRegionBtn')">
+              <div id="contactBtn" class="col-lg-3 nav-button" >
+                <img src="/images/menu/contact.png"/>&nbsp;Contact
+              </div>
+            </a>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>              
+  </div>
+</header>
+<div id="global-error-msg" style="position: fixed;width: 98%;z-index: 9999;">
+  <div ng-show="globalMsg.getContent() !== undefined" style="margin-left:2%" class="alert {{globalMsg.getLevel()}} light alert-dismissable" id="alert-demo-2">
+      <button type="button" class="close" ng-click="clearGlobalMsg()" aria-hidden="true">×</button>
+      <i class="fa fa-info pr10"></i>
+      {{globalMsg.getContent()}}
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="submissionsModal" tabindex="-1" ng-controller="JobController"
+  role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="panel-heading" style="border:none;" align="right">
+          <img src="/images/close.png" ng-click="openCloseModal('submissionsModal', false)" style="cursor: pointer;"/>
+      </div>
+      <div class="modal-body">
+          <div ng-include="'pages/submission-form.html'"></div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

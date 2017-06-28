@@ -1,0 +1,169 @@
+@media screen and (min-width: 1200px) {
+
+	.sb-body{
+		min-height: 750px !important;
+	}
+
+	.sb-header{
+		height: 200px;
+		width: 100%;
+		z-index: 9999;
+		position: fixed;
+	}
+
+	.sb-content{
+		width: 100%;
+		padding-top: 200px;
+	}
+
+	.logo-nav-bar{
+		background: rgb(237,237,237);
+		height: 140px;
+		width: 150px;
+	    position: absolute;
+	    z-index: 9999;
+	    left: -140px;
+	    top: -51px;
+	}
+	.sb-nav{
+		margin-bottom: 5px;
+	}
+    .sb-nav, .sb-nav-buttons, .nav-button{
+        height: 80px;
+    }
+    .sb-steps-panel{
+		height: 140px;
+    }
+
+    .sb-dropdown, .sb-dropdown-item, .sb-dropdown-sub-item{
+    	height: 50px;
+    	width: 300px;
+    }
+    .nav-button{
+    	font-size: 1.3em;
+    	padding-top: 20px;
+    }
+
+    .nav-button span{
+    	color: rgb(255,255,255) !important;
+    	padding: 20px 60px 20px 60px;
+    }
+    .sb-login-box{
+    	width: 500px;
+    	height: 800px;
+	    padding-top:100px;
+	    margin: auto;
+    }
+    .panel-default{
+    	width: 70%;
+    	margin-left:15%;
+    }
+    .creat-user-form{
+    	width: 60%;
+    	margin-left:20%;
+    }
+    .sb-logo-sm{
+	   	height: 70px;
+	    width: 67px;
+    }
+    .sb-logo-md{
+    	height: 230px;
+    	width: 222px;
+    }
+    .sb-logo-lg{
+    	height: 320px;
+    	width: 310px;
+    }
+
+    /*MAP*/
+    .sb-map-fatures{
+    	left: 35px;
+    	top: 200px;
+    	width: 400px;
+    	padding-bottom: 3px;
+    	border-style: solid;
+    	border-width: 1px;
+    }
+    .sb-map-feature-label{
+    	height: 37px;
+    	margin-top: 3px;
+    }
+	.sb-map-feature-options{
+		padding-left: 30px;
+		padding-top: 15px;
+		font-size: 1em;
+	}
+    .sb-map-controls{
+    	z-index: 1000;
+    	position: fixed;
+    	right: 35px;
+    	top: 200px;
+    	cursor: pointer;
+    }
+    .sb-heat-map-legends{
+    	z-index: 1000;
+    	position: fixed;
+    	padding-right: 15px;
+    	padding-bottom: 15px;
+    	right: 15px;
+    	bottom: 15px;
+    	border-style: solid;
+    	border-width: 1px;
+    }
+
+	/*BUTTON*/
+    .sb-button{
+		padding-top: 6px;
+		border-radius: 10px;
+	}
+
+	/* INPUTS */
+	.sebal-input{
+		padding-left: 10px;
+		padding-right: 10px;
+		
+	}
+
+	/* FORM ITENS */
+	.sb-button, .sebal-input{
+		margin-top: 5px;
+		margin-bottom: 5px;
+
+		font-size: 1.3em;
+		height:40px;
+		width: 250px;
+	}
+
+	/* SIZES */
+	.sb-width-xs{
+		width: 100px !important;
+	}
+	.sb-width-sm{
+		width: 150px !important;
+	}
+	.sb-width-md{
+		width: 250px !important;
+	}
+	.sb-width-lg{
+		width: 350px !important;
+	}
+	.sb-width-xl{
+		width: 550px !important;
+	}
+	.sb-wpercent-sm{
+		width: 25% !important;
+	}
+	.sb-wpercent-md{
+		width: 55% !important;
+	}
+	.sb-wpercent-lg{
+		width: 95% !important;
+	}
+	.sb-height-sm{
+		height:35px;
+	}
+	.sb-height-md{
+		height:50px;
+	}
+
+}

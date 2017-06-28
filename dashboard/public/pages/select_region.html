@@ -1,0 +1,38 @@
+<div id="header">
+	<div ng-include="'pages/main.html'"></div>
+</div>
+<div id="content" ng-controller="MapController"	class="sb-content">
+	<div class="sb-map-fatures">
+		<div id="sb-map-search">
+			<div ng-include="'pages/map-search-box.html'"></div>
+		</div>
+		<div id="sb-map-submission">
+			<div ng-include="'pages/map-subm-box.html'"></div>
+		</div>
+		<div id="sb-map-submission">
+			<div ng-include="'pages/map-detail-box.html'"></div>
+		</div>
+	</div>
+	<div class="sb-heat-map-legends">
+		<div style="font-size: 1em; padding-left: 10px; margin-top: 10px; margin-bottom: 10px">
+			N&uacute;mero de imagens processadas
+		</div>
+		<div ng-repeat="heatLabel in heatLabels" class="row">
+			<div class="col-md-10" align="right">{{heatLabel.label}}</div>
+			<div class="col-md-1" align="left">
+				<span class="glyphicon glyphicon-stop" 
+				style="font-size: 1.5em; color: rgb({{heatLabel.r}},{{heatLabel.g}},{{heatLabel.b}})" 
+				aria-hidden="true"></span>
+			</div>
+		</div>
+		
+	</div>
+	<div id="map-controls" class="sb-map-controls">
+		<span class="glyphicon glyphicon-plus-sign zoom-control" ng-click="zoomIn()"
+				aria-hidden="true"></span>
+		<br>
+		<span class="glyphicon glyphicon-minus-sign zoom-control" ng-click="zoomOut()"
+				aria-hidden="true"></span>
+	</div>
+	<div id="map" class="map regions-map text-center"></div>
+</div>
