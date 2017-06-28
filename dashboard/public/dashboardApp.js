@@ -15,11 +15,35 @@ app.run(function($rootScope) {
 	    	element.addClass("sb-hidden");
 	    }
 	};
+	$rootScope.validateDate = function (date){
+
+	    re = /^[0-3]?[0-9]\/[01]?[0-9]\/[12][90][0-9][0-9]$/
+
+	    if(date == '' || !date.match(re)) {
+	      console.log('Invalid date');
+	      return false;
+	    }
+	    console.log('Valid date');
+	    return true;
+	};
+	$rootScope.parseDate = function (date) {
+		
+		var arrDate = date.split("/");
+
+		// console.log("arrDate: "+JSON.stringify(arrDate))
+
+		var d = parseInt(arrDate[0], 10),
+		    m = parseInt(arrDate[1], 10),
+		    y = parseInt(arrDate[2], 10);
+		// console.log("Creating date: d"+d+" - m"+m+" - y"+y)
+		return new Date(y, m - 1, d);
+	};
 });
 app.constant("appConfig", {
 	"urlSebalSchedulerService":"http://localhost:8080/",
 	"imagePath":"images",
 	"regionPath":"regions",
+	"regionDetailsPath":"regions/details",
 	"LOGIN_SUCCEED":"login.succeed",
 	"LOGIN_FAILED":"login.faild",
 	"LOGOUT_SUCCEED":"logout.succed",

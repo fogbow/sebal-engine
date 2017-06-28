@@ -290,6 +290,7 @@ dashboardServices.service('JobService', function($log, $http, AuthenticationServ
 dashboardServices.service('RegionService', function($log, $http, AuthenticationService, appConfig) {
 
 	var resourceUrl = appConfig.urlSebalSchedulerService+appConfig.regionPath;
+  var resourceDetailsUrl = appConfig.urlSebalSchedulerService+appConfig.regionDetailsPath
   var headerCredentials = AuthenticationService.getHeaderCredentials();
   
   var regionService = {};
@@ -302,14 +303,14 @@ dashboardServices.service('RegionService', function($log, $http, AuthenticationS
 
   regionService.getRegionsDetails = function(regionsToLoad, successCallback, errorCalback){
     
-    console.log(JSON.stringify(regionsToLoad))
+    //console.log(JSON.stringify(regionsToLoad))
 
-    var visibleIds = regionsToLoad.join(",");
+    var visibleRegionsNames = regionsToLoad.join(",");
     var config = {
-      url:resourceUrl,
+      url:resourceDetailsUrl,
       method: "GET",
       headers: headerCredentials,
-      params: {ids:visibleIds}
+      params: {regionsNames:visibleRegionsNames}
     }
     
     $http(config)

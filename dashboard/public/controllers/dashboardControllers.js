@@ -289,8 +289,8 @@ dashboardControllers.controller('LoginController', function($scope, $rootScope, 
 
 
 
-dashboardControllers.controller('JobController', function($scope, $log, $filter, $timeout, 
-  AuthenticationService, JobService, GlobalMsgService, appConfig) {
+dashboardControllers.controller('JobController', function($scope, $rootScope, $log, $filter, 
+  $timeout, AuthenticationService, JobService, GlobalMsgService, appConfig) {
   
   $scope.DEFAULT_VALUE = 'd';
   $scope.OTHER_VALUE = 'o';
@@ -303,30 +303,6 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
   $scope.$on(appConfig.MODAL_CLOSED, function (event, value) {
     $scope.cleanForm();
   });
-
-  function validateDate(date){
-
-    re = /^[0-3]?[0-9]\/[01]?[0-9]\/[12][90][0-9][0-9]$/
-
-    if(date == '' || !date.match(re)) {
-      console.log('Invalid date');
-      return false;
-    }
-    console.log('Valid date');
-    return true;
-  }
-  
-  function parseDate(date) {
-    var arrDate = date.split("/");
-
-    // console.log("arrDate: "+JSON.stringify(arrDate))
-
-    var d = parseInt(arrDate[0], 10),
-        m = parseInt(arrDate[1], 10),
-        y = parseInt(arrDate[2], 10);
-    // console.log("Creating date: d"+d+" - m"+m+" - y"+y)
-    return new Date(y, m - 1, d);
-  }
 
   function msgRequiredShowHide(fieldId, show){
 
@@ -392,19 +368,19 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
     hasError = false;
     $scope.modalMsgError = undefined;
 
-    if(!validateDate($('#firstYear').val())){
+    if(!$rootScope.validateDate($('#firstYear').val())){
       hasError = true
       msgRequiredShowHide('firstYearField',true);
     }else{
-      $scope.firstYear = parseDate($('#firstYear').val())
+      $scope.firstYear = $rootScope.parseDate($('#firstYear').val())
       msgRequiredShowHide('firstYearField', false);
     }
 
-    if(!validateDate($('#lastYear').val())){
+    if(!$rootScope.validateDate($('#lastYear').val())){
       hasError = true
       msgRequiredShowHide('lastYearField',true);
     }else{
-      $scope.lastYear = parseDate($('#lastYear').val())
+      $scope.lastYear = $rootScope.parseDate($('#lastYear').val())
       msgRequiredShowHide('lastYearField', false);
     }
 
@@ -448,7 +424,7 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
         // console.log(radioId+' Checked: '+$(radioId).prop('checked'))
     });
 
-    console.log('$scope.satellite: '+$scope.satellite)
+    //console.log('$scope.satellite: '+$scope.satellite)
     if(!$scope.satellite){
       hasError = true
       msgRequiredShowHide('satelliteField',true);
@@ -470,7 +446,7 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
       'dataSet' : $scope.satellite
     }
 
-    console.log("Sending "+JSON.stringify(data));
+    //console.log("Sending "+JSON.stringify(data));
     
     JobService.postJob(data,
       function(response){
@@ -489,16 +465,25 @@ dashboardControllers.controller('JobController', function($scope, $log, $filter,
  
 });
 
-dashboardControllers.controller('MapController', function($scope, $log, $filter, $http, $timeout, 
-  AuthenticationService, RegionService, GlobalMsgService, appConfig) {
+dashboardControllers.controller('MapController', function($scope, $rootScope,
+  $log, $filter, $http, $timeout, AuthenticationService, RegionService, 
+  GlobalMsgService, appConfig) {
+
+  var selectedRegion;
+  var searchedRegions = [];
 
   $scope.heatLabels = appConfig.heatMap.colours;
-  $scope.loadedRegionsDetails = [];
+  $scope.regionFilter = "";
+  $scope.firstYearFilter = "";
+  $scope.lastYearFilter = "";
+  // $scope.
+  // $scope.
+  // $scope.
+  $scope.regionsDetails = [];
 
-  var sapsMap = initiateMap("map", appConfig.heatMap, callbackSelectionInfo, updateVisibleRegions);
-  
+  var sapsMap = initiateMap("map", appConfig.heatMap);
 
-  function callbackSelectionInfo(selectionInfo){
+  function callbackBoxSelectionInfo(selectionInfo){
     $scope.message = 'Selection: '+JSON.stringify(selectionInfo);
     $scope.$apply(); //This is for apply the modification avbove, that is made by callback.
     if(selectionInfo.quaresSelected > 4) {
@@ -509,22 +494,21 @@ dashboardControllers.controller('MapController', function($scope, $log, $filter,
 
   };
 
-  var regions;
-
   function updateVisibleRegions(){
     
     var visibleReqions = sapsMap.getVisibleUnloadedRegions();
-    var visibleIds = "";
-    
-    RegionService.getRegionsDetails(visibleReqions, 
+    if(visibleReqions.length > 0){
+      RegionService.getRegionsDetails(visibleReqions, 
       function(data){
-        data.forEach(function(item,index){
-          sapsMap.updateRegionInfo(item.name, item.totalImgs);
+        data.forEach(function(regionDetail ,index){
+          sapsMap.updateRegionDetail(regionDetail);
         });
       },
       function(error){
         GlobalMsgService.pushMessageFail("Erro while trying to load regions' information: "+error)
       });
+    }
+    
   }
 
   function loadRegions(){
@@ -532,7 +516,6 @@ dashboardControllers.controller('MapController', function($scope, $log, $filter,
       RegionService.getRegions(
         function(response){
           sapsMap.generateGrid(response);
-          regions = response;
           updateVisibleRegions();
         },
         function(error){
@@ -541,9 +524,62 @@ dashboardControllers.controller('MapController', function($scope, $log, $filter,
 
   }
 
+  function selectRegionOnMap(regionDetail){
+
+    selectedRegion = regionDetail;
+    // console.log("Selected "+JSON.stringify(regionDetail));
+    $scope.$apply(updateRegionsDetails);
+
+  };
+
+  function updateRegionsDetails(){
+    $scope.regionsDetails = [];
+    if(selectedRegion != undefined){
+      $scope.regionsDetails.push(selectedRegion)
+    }
+    if(searchedRegions.length > 0){
+      searchedRegions.forEach(function(regionDetail, index){
+        if($scope.selectedRegion != undefined && 
+            regionDetail.name != selectedRegion.name){
+          //console.log("Updating pushing "+JSON.stringify(regionDetail))
+          $scope.regionsDetails.push(regionDetail)
+        }else{
+          //console.log("Updating pushing "+JSON.stringify(regionDetail))
+          $scope.regionsDetails.push(regionDetail)
+        }
+      });
+    }
+  }
+
+  sapsMap.on('mapMove',updateVisibleRegions)
+  sapsMap.on('regionSelect',selectRegionOnMap)
+  sapsMap.on('regionBoxSelect',callbackBoxSelectionInfo)
 
   loadRegions();
 
+  //Interface controls
+  $scope.submitSearch = function(){
+
+    if(!$rootScope.validateDate($('#search-first-year-input').val())){
+      $scope.firstYearFilter = $rootScope.parseDate($('#search-first-year-input').val())
+    }
+
+    if(!$rootScope.validateDate($('#search-last-year-input').val())){
+      $scope.lastYearFilter = $rootScope.parseDate($('#search-last-year-input').val())
+    }
+
+    if($scope.firstYearFilter > $scope.lastYearFilter){
+      console.log("Last year date must be greater than first year date")
+      $scope.modalMsgError = "Last year date must be greater than first year date";
+      hasError = true
+    }
+
+    //$scope.regionsDetails.push({name:"ola mundo"})
+
+    searchedRegions = sapsMap.getRegionsByName($scope.regionFilter);
+    console.log("Returned: "+JSON.stringify(searchedRegions));
+    updateRegionsDetails();
+  }
   
   $scope.zoomIn = function(){
     sapsMap.zoomIn()

@@ -93,6 +93,17 @@
 		padding-top: 15px;
 		font-size: 1em;
 	}
+	.sb-region-detail-line{
+		min-height: 32px;
+		padding-top: 5px;
+		margin-bottom: 3px;
+	}
+	.sb-image-detail-line{
+		min-height: 32px;
+		padding-top: 5px;
+		padding-left: 15px;
+		margin-bottom: 3px;
+	}
     .sb-map-controls{
     	z-index: 1000;
     	position: fixed;
@@ -128,7 +139,7 @@
 	.sb-checkbox-map{
 		width: 20px;
 	    height: 20px;
-	    bottom: 5px;
+	    margin-top: 0px !important;
 	}
 	.sebal-input{
 		padding-left: 10px;

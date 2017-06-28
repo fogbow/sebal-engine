@@ -12,7 +12,8 @@
 .panel-heading, .sb-steps-panel, .sb-dropdown-sub-item, .sb-map-feature-label{
 	background-color: rgb(0, 125, 111);
 }
-.sb-map-feature-options, .sb-heat-map-legends{
+.sb-map-feature-options, .sb-region-detail-line, .sb-image-detail,
+.sb-heat-map-legends{
 	background-color: rgb(221,221,219);
 }
 .sb-button.sb-main{
@@ -25,7 +26,8 @@
 	background-color: rgb(255,35,100); 
 }
 .sebal-input, .sebal-input.input-small, .sebal-label, .sb-map-fatures, 
-.zoom-control, .sb-table-detail, .list-group-item{
+.zoom-control, .sb-table-detail, .list-group-item, .sb-map-feature-details,
+.sb-image-detail-line{
 	background-color: rgb(255,255,255); 
 }
 .nav-button-selected, .nav-button:hover, .sb-dropdown:hover{
@@ -90,15 +92,13 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
     padding-top: 6px;
     cursor: pointer;
 }
-.sb-map-feature-options{
-	
-}
 .regions-map{
 	height: 80% !important;
 	width: 100%;
 	position: fixed;
 	margin-left: -20px;
 }
+
 /*BUTTONS*/
 .sb-button{
 	font-weight: bold;	

@@ -130,9 +130,15 @@ function SquareSelection(coordinates){
   return squareSelectionApi;
 }
 
-function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFuncForMapUpdate){
+function initiateMap(elementId, heatMapRef){
   
   var heatMapREF = heatMapRef;
+  var eventHandlers = {
+    mapMove:undefined,
+    regionSelect:undefined,
+    regionBoxSelect:undefined,
+    regionSearch:undefined
+  }
 
   /** MAP INITIALIZATION **/
   var vectorSource = new ol.source.Vector({
@@ -180,7 +186,7 @@ function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFu
     if(regions){
       //console.log("regions: "+JSON.stringify(regions))
       regions.forEach(function(item, index){
-
+        //console.log("Region: "+JSON.stringify(item));
         var polygonCoords = [
           item.coordinates[0],
           item.coordinates[1],
@@ -253,7 +259,6 @@ function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFu
     polygonFeature.setStyle(style);
     polygonFeature.set("regionName",regionName);
     polygonFeature.set("regionId",regionId);
-    polygonFeature.set("loaded",false);
 
     var heatMap = new ol.style.Fill({
           color: [0, 0, 0, 0]
@@ -263,6 +268,7 @@ function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFu
     { 
       regionName: regionName,
       regionId: regionId,
+      detailLoaded: false,
       coordinates: polygonCoords,
       source: new ol.source.Vector({
         features: [polygonFeature]
@@ -292,9 +298,8 @@ function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFu
           var regionSelection = SquareSelection(item.get("coordinates"));
           if(regionSelection.isInsideOf(mapSelection) 
             || regionSelection.intersects(mapSelection)){
-
-            if(!item.loaded){
-              visibleRegions.push(item.get("regionId"))  
+            if(!item.get("detailLoaded")){
+              visibleRegions.push(item.get("regionName"))  
             }
             
           }
@@ -304,7 +309,9 @@ function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFu
     return visibleRegions;
   }
 
-  var updateRegionInfo = function (regionName, numberOfImages){
+  var updateRegionDetail = function (regionDetail){
+
+    //console.log("Updating "+JSON.stringify(regionDetail));
 
     var heatMap = new ol.style.Fill({
           color: [0, 0, 0, 0]
@@ -315,8 +322,8 @@ function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFu
 
       var item = heatMapREF.colours[index];
 
-      if( (item.maxValue == undefined && numberOfImages >= item.minValue) ||
-          (numberOfImages >= item.minValue && numberOfImages <= item.maxValue) ){
+      if( (item.maxValue == undefined && regionDetail.totalImgs >= item.minValue) ||
+          (regionDetail.totalImgs >= item.minValue && regionDetail.totalImgs <= item.maxValue) ){
         heatMap = new ol.style.Fill({
           color: [item.r, item.g, item.b, transparency]
         })
@@ -335,16 +342,15 @@ function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFu
     });
 
     gridLayerGroup.getLayers().forEach(function(item, index){
-
-      if(item.get("regionName") == regionName){
-
-        item.set("loaded",true);
-
+      //ITEM: newLayerVector
+      if(item.get("regionName") == regionDetail.name){
+        item.set("detailLoaded",true);
+        //item.set("regionDetail",regionDetail);
         var source = item.getSource();
         var features = source.getFeatures();
         // console.log(JSON.stringify(features))
         var polygon = features[0];
-
+        polygon.set("regionDetail",regionDetail)
         polygon.setStyle(new ol.style.Style({
           stroke: new ol.style.Stroke({
             width: 1,
@@ -356,14 +362,48 @@ function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFu
     })
 
   }
+  var getRegionsByName = function(regionName){
+    
+    var regionsDetails = [];
+
+    map.getLayers().forEach(function(item, index){
+      if(item.get("name") == "gridLayer"){
+        gridLayerGroup = item;
+      }
+            
+    });
+
+    if(gridLayerGroup){
+      gridLayerGroup.getLayers().forEach(function(item, index){
+          
+          var regionSelection = SquareSelection(item.get("coordinates"));
+          if(regionName == item.get("regionName")){
+            var source = item.getSource();
+            var features = source.getFeatures();
+            var polygon = features[0];
+            regionsDetails.push(polygon.get("regionDetail"))
+          }
+      })
+    }
+    return regionsDetails;
+  }
 
   /// ********* INTERACTIONS **********************
 
   // a normal select interaction to handle click
   var select = new ol.interaction.Select();
+  // a DragBox interaction used to select features by drawing boxes
+  var dragBox = new ol.interaction.DragBox({
+    condition: ol.events.condition.platformModifierKeyOnly
+  });
+
+  map.addInteraction(select);
+  map.addInteraction(dragBox);
 
   select.on('select', function(event){
 
+    console.log("Selecionado: "+event.selected[0].getKeys())
+    //polygonFeature
     var polygon = event.selected[0];
     var style = polygon.getStyle();
     style.setStroke(new ol.style.Stroke({
@@ -375,18 +415,11 @@ function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFu
     color[3] = 1;
     fill.setColor(color);
     
+    if(eventHandlers.regionSelect !== undefined){
+      eventHandlers.regionSelect(polygon.get('regionDetail'));  
+    }
+
   });
-  
-  map.addInteraction(select);
-
-
-  // a DragBox interaction used to select features by drawing boxes
-  var dragBox = new ol.interaction.DragBox({
-    condition: ol.events.condition.platformModifierKeyOnly
-  });
-
-  map.addInteraction(dragBox);
-
 
   dragBox.on('boxend', function() {
     // features that intersect the box are added to the collection of
@@ -394,7 +427,7 @@ function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFu
     // div
     var info = [];
     var userSelection = SquareSelection(dragBox.getGeometry().getCoordinates()[0])
-    console.log(JSON.stringify(dragBox.getGeometry().getCoordinates()));
+    //console.log(JSON.stringify(dragBox.getGeometry().getCoordinates()));
     
 
     var gridSquareSelecteds = 0;
@@ -408,7 +441,10 @@ function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFu
       coordinates: userSelection.getCoordinates(),
       quaresSelected: gridSquareSelecteds
     }
-    callbackFuncForSelection(selectionInfos);
+    if(eventHandlers.regionBoxSelect !== undefined){
+      eventHandlers.regionBoxSelect(selectionInfos);  
+    }
+    
   });
 
   // clear selection when drawing a new box and when clicking on the map
@@ -425,30 +461,34 @@ function initiateMap(elementId, heatMapRef, callbackFuncForSelection, callbackFu
     //Do anything else after this?
   });
   map.on('moveend', function() {
-    if(callbackFuncForMapUpdate){
-      callbackFuncForMapUpdate();
+    console.log("moveend: ")
+    if(eventHandlers.mapMove !== undefined){
+      eventHandlers.mapMove();
     }
     
   });
-
 
   //API
   var sapsMapAPI = {
     generateGrid: generateGridFunc,
     getVisibleUnloadedRegions: getVisibleUnloadedRegions,
-    updateRegionInfo: updateRegionInfo,
+    updateRegionDetail: updateRegionDetail,
+    getRegionsByName:getRegionsByName,
     zoomIn: function() {
-      console.log("Applying zoom in");
+      //console.log("Applying zoom in");
       var view = map.getView();
       var zoom = view.getZoom();
       view.setZoom(zoom + 1);
     },
     zoomOut: function() {
-      console.log("Applying zoom out");
+      //console.log("Applying zoom out");
       var view = map.getView();
       var zoom = view.getZoom();
       view.setZoom(zoom - 1);
     },
+    on: function(eventName, callbackFunction){
+      eventHandlers[eventName]=callbackFunction;
+    }
   }
 
   return sapsMapAPI;

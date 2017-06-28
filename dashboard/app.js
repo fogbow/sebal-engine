@@ -117,52 +117,27 @@ var startApp = function(){
 	*/
 	//Return list of images
 	app.get("/images", extractUserInfo, function(req, res) {
-
 		
 		logger.debug("Getting images")
 		var callbackFunction = registerCallBack(handleGetImagesResponse, req, res);
 		sebalApi.getImages(reqUserInfo, callbackFunction);
 		
-		
 	});
 	app.get("/regions", extractUserInfo, function(req, res) {
-		logger.debug("req query: "+JSON.stringify(req.query))
-		//If has IDs, get detail, otherwise, get all regions.
-		if(req.query.ids){
-			logger.debug("Getting regions details for: "+req.query.ids)
-			var callbackFunction = registerCallBack(handleGetRegionsResponse, req, res);
-			sebalApi.getRegionsDetails(reqUserInfo, callbackFunction);
-		}else{
-			logger.debug("Getting regions")
-			var callbackFunction = registerCallBack(handleGetRegionsDetailsResponse, req, res);
-			sebalApi.getRegions(reqUserInfo, callbackFunction);
-		}
+		logger.debug("Getting regions")
+		var callbackFunction = registerCallBack(handleGetRegionsResponse, req, res);
+		sebalApi.getRegions(reqUserInfo, callbackFunction);
+		
+	});
+	app.get("/regions/details", extractUserInfo, function(req, res) {
+		var regionsNames = req.query.regionsNames.split(',');
+		logger.debug("Getting regions details")
+		var callbackFunction = registerCallBack(handleGetRegionsDetailsResponse, req, res);
+		sebalApi.getRegionsDetails(reqUserInfo, regionsNames, callbackFunction);
 		
 	});
 
 
-	function extractUserInfo(req, res, next){
-
-		if(appConfig.logLevel == "DEBUG"){
-			console.log("Headers: "+JSON.stringify(req.headers));
-			console.log("Header token: "+req.headers[tokenHeader]);
-			console.log("Header user: "+req.headers[userEmailHeader]);
-			console.log("Header pass: "+req.headers[userPassHeader]);
-		}
-	
-		reqUserInfo.userEmail = req.headers[userEmailHeader];
-		reqUserInfo.userPass = req.headers[userPassHeader];
-		reqUserInfo.authToken = req.headers[tokenHeader];
-
-		if(!reqUserInfo.userEmail ||
-				!reqUserInfo.userPass){
-			res.setHeader("Access-Control-Allow-Origin", "*");
-			res.status(400);
-			res.end("User credentials not informed");
-		}
-		next();
-
-	}
 	//**** CALLBACK FUNCTIONS TO HANDLE SEBAL API RESPONSES ****//
 	function registerCallBack(callBackfunction, httpReq, httpRes){
 		return function(resonse){
@@ -186,8 +161,8 @@ var startApp = function(){
 		resonse.data.forEach(function(item, index){
 
 			var region ={
-				"id": index,
-				"name": item.name,
+				"id": item.regionId,
+				"name": item.regionName,
 				"coordinates": []
 			}
 			for(var count=0; count < item.coordinates.length; count=count+2){
@@ -205,36 +180,64 @@ var startApp = function(){
 		//console.log("responding: "+resonse.data)
 		var formattedData = [];
 		resonse.data.forEach(function(item, index){
-
+			//console.log("item: "+JSON.stringify(item));
 			var regionDetail ={
 				"name": "",
+				"totalImgs": 0,
 				"images": [],
 				"totalSatellitesImgs": {}
 			}
+			//console.log("item.images: "+item.images)
 			regionDetail.name = item.regionName;
 			regionDetail.images = item.images;
 			var totalImgs = 0;
-			var satelliteTotal = {};
+			var satelliteTotal = {
+				l4:{
+					name:"L4",
+					total:0
+				},
+				l5:{
+					name:"L5",
+					total:0
+				},
+				l7:{
+					name:"L7",
+					total:0
+				}
+			};
 
 			regionDetail.images.forEach(function(image, index){
 
 				totalImgs++;
 				image.satellites.forEach(function(sat, index){
-					if(satelliteTotal[sat.name]){
-						satelliteTotal[sat.name] = satelliteTotal[sat.name]+1
-					}else{
-						satelliteTotal[sat.name] = 1
-					}
+					//console.log(JSON.stringify(satelliteTotal[sat.name]))
+					satelliteTotal[sat.name].total = satelliteTotal[sat.name].total+1;
 				});
 			});
-			
+			regionDetail.totalImgs = item.imgsProcessed;//TODO Change this for totalImgs
 			regionDetail.totalSatellitesImgs = satelliteTotal;
-			logger.debug("Keys for satellites: "+satelliteTotal.keys());
 			formattedData.push(regionDetail)
 		})
 		httpRes.status(resonse.code);
 		httpRes.end(JSON.stringify(formattedData));
 		
+	}
+
+	//HELPER FUNCTIONS
+	function extractUserInfo(req, res, next){
+	
+		reqUserInfo.userEmail = req.headers[userEmailHeader];
+		reqUserInfo.userPass = req.headers[userPassHeader];
+		reqUserInfo.authToken = req.headers[tokenHeader];
+
+		if(!reqUserInfo.userEmail ||
+				!reqUserInfo.userPass){
+			res.setHeader("Access-Control-Allow-Origin", "*");
+			res.status(400);
+			res.end("User credentials not informed");
+		}
+		next();
+
 	}
 }
 

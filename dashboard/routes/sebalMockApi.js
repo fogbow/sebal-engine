@@ -29,7 +29,6 @@ var startApi = function(){
 	
 	var loadFileInfo = function(fileName, callbackFunction){		
 		
-		console.log("Returning file info")
 		fs.readFile( __dirname + fileName, 'utf8', function (err, data) {
 		   	
 		   	if(err){
@@ -83,7 +82,7 @@ var startApi = function(){
 				callbackFunction(response);
 			});
 		},
-		getRegionsDetails: function(userInfo, callbackFunction){
+		getRegionsDetails: function(userInfo, regionNames, callbackFunction){
 			var response = {
 				"resp": undefined,
 				"status" : undefined,
@@ -97,16 +96,30 @@ var startApi = function(){
 					response.code = 500;
 					response.data = err
 				}else{
+					
+					var responseData = [];
+					var regionsDetails = JSON.parse(data)
+
+					regionNames.forEach(function(regionName, index){
+
+						for(count = 0; count < regionsDetails.length; count++){
+							if(regionName == regionsDetails[count].regionName){
+								responseData.push(regionsDetails[count]);
+								break;
+							}
+						}
+
+					});
+
 					response.status = "SUCCESS"
 					response.code = 200;
-					response.data = JSON.parse(data)
+					response.data = responseData;
 				}
 				callbackFunction(response);
 			});
 		}
 	};
 
-	console.log("Returning api: "+JSON.stringify(api));
 	module.exports = api;
 }
 
