@@ -7,13 +7,20 @@ var app = angular.module('schedulerDashboard', [
 //Global Functions available on pages
 app.run(function($rootScope) {
 	//console.log('Creating global functions')
-	$rootScope.switchVisibility = function(elementId) {
-		var element = $("#"+elementId);
-	    if(element.hasClass( "sb-hidden" )){
-	    	element.removeClass("sb-hidden");
-	    }else{
-	    	element.addClass("sb-hidden");
-	    }
+	$rootScope.switchVisibility = function() {
+		for(var index=0; index < arguments.length; index++){
+			
+			var elementId = arguments[index];
+			console.log('Changing visibility for : '+elementId);
+			if(	"string" === typeof elementId){
+				var element = $("#"+elementId);
+			    if(element.hasClass( "sb-hidden" )){
+			    	element.removeClass("sb-hidden");
+			    }else{
+			    	element.addClass("sb-hidden");
+			    }
+			}
+		}
 	};
 	$rootScope.validateDate = function (date){
 
@@ -38,10 +45,36 @@ app.run(function($rootScope) {
 		// console.log("Creating date: d"+d+" - m"+m+" - y"+y)
 		return new Date(y, m - 1, d);
 	};
+
+	function loadDefaultLang(){
+		$rootScope.languageOptions = langLoader.getLangAvailables();
+		//console.log("Lang opt "+JSON.stringify($rootScope.languageOptions))
+		var lang = langLoader.getDefault();
+		if(lang !== undefined){
+			console.log("Lang chosen "+JSON.stringify($rootScope.languageOptions[langLoader.defaultIndex]))
+			$rootScope.languageContent = lang.content;
+			$rootScope.languageChosen = $rootScope.languageOptions[langLoader.defaultIndex];
+		}
+	}
+	loadDefaultLang();
+
+	$rootScope.heatMap = {
+		transparency:0.5,
+		colours:[
+			{"minValue":undefined,"maxValue":0,"r":255,"g":255,"b":178},
+			{"minValue":1,"maxValue":300,"r":254,"g":217,"b":118},
+			{"minValue":301,"maxValue":500,"r":254,"g":178,"b":76},
+			{"minValue":501,"maxValue":700,"r":253,"g":141,"b":60},
+			{"minValue":701,"maxValue":900,"r":240,"g":59,"b":32},
+			{"minValue":901,"maxValue":undefined,"r":189,"g":0,"b":38},
+		]
+	}
+	
 });
+
 app.constant("appConfig", {
-	"urlSebalSchedulerService":"http://localhost:8080/",
-	"imagePath":"images",
+	"urlSapsService":"http://localhost:8080/",
+	"submissionPath":"images",
 	"regionPath":"regions",
 	"regionDetailsPath":"regions/details",
 	"LOGIN_SUCCEED":"login.succeed",
@@ -55,19 +88,10 @@ app.constant("appConfig", {
 		{"label":"Landsat 8", "value":"landsat_8"}
 	],
 	"MODAL_OPENED":"modalOpened",
-	"MODAL_CLOSED":"modalClosed",
-	"heatMap":{
-		transparency:0.5,
-		colours:[
-			{"label":"0","minValue":0,"maxValue":0,"r":255,"g":255,"b":178},
-			{"label":"1 a 300","minValue":1,"maxValue":300,"r":254,"g":217,"b":118},
-			{"label":"300 a 500","minValue":301,"maxValue":500,"r":254,"g":178,"b":76},
-			{"label":"500 a 700","minValue":501,"maxValue":700,"r":253,"g":141,"b":60},
-			{"label":"700 a 900","minValue":701,"maxValue":900,"r":240,"g":59,"b":32},
-			{"label":"900+","minValue":901,"maxValue":undefined,"r":189,"g":0,"b":38},
-		]
-	}
+	"MODAL_CLOSED":"modalClosed"
 });
+
+
 app.config(function($logProvider){
   $logProvider.debugEnabled(true);
 });
@@ -91,19 +115,19 @@ app.config(function($routeProvider){
 		resolve: {
 			"check": checkUser
 		},
-	    templateUrl : '/pages/select_region.html',
+	    templateUrl : '/pages/regions_map.html',
+	})
+	.when('/submissions-list', {
+		resolve: {
+			"check": checkUser
+		},
+	    templateUrl : '/pages/submissions_list.html',
 	})
 	.when('/help', {
 		resolve: {
 			"check": checkUser
 		},
 	    templateUrl : '/pages/help.html',
-	})
-	.when('/contact', {
-		resolve: {
-			"check": checkUser
-		},
-	    templateUrl : '/pages/contact.html',
 	})
 	.otherwise({
         redirectTo: '/'

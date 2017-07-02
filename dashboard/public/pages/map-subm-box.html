@@ -1,9 +1,6 @@
 <div class="sb-map-feature-label" 
-	ng-click="">
-	<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> - Nova Subimiss&atilde;o
+	ng-click="openCloseModal('submissionsModal', true)">
+	<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> - {{languageContent.mapFeature.submissionBox.title}}
 </div>
-<div id="sb-map-feature-options" class="sb-map-feature-options sb-hidden">
-	<form>
-		<!-- No submission box for now -->
-	</form>
-</div>
+
+<!-- Modal -->

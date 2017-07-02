@@ -5,9 +5,33 @@ dashboardControllers.controller('MainController', function($scope, $rootScope, $
   
   $scope.user = {name:"", token: ""};
   $scope.globalMsg = GlobalMsgService;
-  getUserName();
   $scope.previousButton = undefined;
   $scope.actual = undefined;
+
+  getUserName();
+
+  $scope.loadLanguagebyName = function(langOpt) {
+    
+    var lang = langLoader.getLangByName(langOpt.langName);
+    if(lang !== undefined){
+      $rootScope.languageContent = lang.content;
+      $rootScope.languageChosen = langOpt;
+      //$rootScope.$apply();
+    }
+    
+  };
+
+  $scope.loadLanguagebyShortName = function(langOpt) {
+    
+    var lang = langLoader.getLangByShortName(langOpt.langShortName);
+    if(lang !== undefined){
+      //console.log("New lang: "+JSON.stringify(lang.langName))
+      $rootScope.languageContent = lang.content;
+      $rootScope.languageChosen = langOpt;
+      //$rootScope.$apply();
+    }
+    
+  };
 
   $scope.activateButton = function(idButton){
     
@@ -129,168 +153,164 @@ dashboardControllers.controller('LoginController', function($scope, $rootScope, 
  
 });
 
-// dashboardControllers.controller('MonitorController', function($scope, $log, $filter, $timeout, $filter,
-//    ImageService, AuthenticationService, GlobalMsgService, appConfig) {
+dashboardControllers.controller('ListSubmissionsController', function($scope, $log, $filter, $timeout, $filter,
+   SubmissionService, AuthenticationService, GlobalMsgService, appConfig) {
   
-//   $scope.sebalSubmissions = [];
-//   $scope.elementShowingDetail = undefined;
+  $scope.sapsSubmissions = [];
+  $scope.elementShowingDetail = undefined;
 
-//   $scope.detail={
-//     downloadLink:"",
-//     state:"",
-//     federationMember:"",
-//     priority:"",
-//     stationId:"",
-//     sebalVersion:"",
-//     sebalTag:"",
-//     crawlerVersion:"",
-//     fetcherVersion:"",
-//     blowoutVersion:"",
-//     fmaskVersion:"",
-//     creationTime:"",
-//     updateTime:"",
-//     status:"",
-//     error:""
-//   }
+  $scope.detail={
+    downloadLink:"",
+    state:"",
+    federationMember:"",
+    priority:"",
+    stationId:"",
+    sebalVersion:"",
+    sebalTag:"",
+    crawlerVersion:"",
+    fetcherVersion:"",
+    blowoutVersion:"",
+    fmaskVersion:"",
+    creationTime:"",
+    updateTime:"",
+    status:"",
+    error:""
+  }
 
-//   $scope.switchSubmitionDetail = function(submissionId){
+  $scope.switchSubmitionDetail = function(submissionId){
 
-//     //console.log("Switching "+submissionId);
+    //console.log("Switching "+submissionId);
 
-//     $scope.sebalSubmissions.forEach(function(item, index){
+    $scope.sapsSubmissions.forEach(function(item, index){
 
-//       if(item.id == submissionId){
-//         //console.log("Found "+submissionId);
-//         item.showDetail = !item.showDetail;
-//       }
-//     })
-//   }
+      if(item.id == submissionId){
+        //console.log("Found "+submissionId);
+        item.showDetail = !item.showDetail;
+      }
+    })
+  }
 
-//   function processImages(images){
+  function processImages(images){
 
-//     console.log(images)
+    submissions = []
 
-//     submissions = []
-
-//     submission = {
-//       id:"sb01",
-//       name:"Submission 01",
-//       showDetail: false,
-//       date:"2017-05-01",
-//       totalImages:0,
-//       totalDownloading:0,
-//       totalDownloaded:0,
-//       totalQueued:0,
-//       totalFeched:0,
-//       totalError:0,
-//       images:[]
-//     }
-//     images.forEach(function(item, index){
+    submission = {
+      id:"sb01",
+      name:"Submission 01",
+      showDetail: false,
+      date:"2017-05-01",
+      totalImages:0,
+      totalDownloading:0,
+      totalDownloaded:0,
+      totalQueued:0,
+      totalFeched:0,
+      totalError:0,
+      images:[]
+    }
+    images.forEach(function(item, index){
       
-//       submission.totalImages = submission.totalImages +1
+      submission.totalImages = submission.totalImages +1
       
-//       if(item.state === 'downloading'){
-//         submission.totalDownloading = submission.totalDownloading+1
-//       }
-//       if(item.state === 'downloaded'){
-//         submission.totalDownloaded = submission.totalDownloaded +1
-//       }
-//       if(item.state === 'queued'){
-//         submission.totalQueued = submission.totalQueued +1
-//       }
-//       if(item.state === 'fetched'){
-//         submission.totalFeched = submission.totalFeched +1
-//       }
-//       if(item.state === 'error'){
-//         submission.totalError = submission.totalError +1
-//       }
+      if(item.state === 'downloading'){
+        submission.totalDownloading = submission.totalDownloading+1
+      }
+      if(item.state === 'downloaded'){
+        submission.totalDownloaded = submission.totalDownloaded +1
+      }
+      if(item.state === 'queued'){
+        submission.totalQueued = submission.totalQueued +1
+      }
+      if(item.state === 'fetched'){
+        submission.totalFeched = submission.totalFeched +1
+      }
+      if(item.state === 'error'){
+        submission.totalError = submission.totalError +1
+      }
 
-//       //Converting string to date
-//       item.creationTime = new Date(item.creationTime)
-//       item.updateTime = new Date(item.updateTime)
+      //Converting string to date
+      item.creationTime = new Date(item.creationTime)
+      item.updateTime = new Date(item.updateTime)
       
-//       submission.images.push(item)
-//     })
+      submission.images.push(item)
+    })
 
-//     submissions.push(submission)
-//     return submissions
-//   }
+    submissions.push(submission)
+    return submissions
+  }
 
-//   $scope.getSebalImages = function(){
-//     ImageService.getImages(
-//           function(data){
-//               $scope.sebalSubmissions = processImages(data);   
-//           },
-//           function(error){
-//               var msg = "An error occurred when tried to get Images";
-//               $log.error(msg+" : "+error);
-//               GlobalMsgService.pushMessageFail(msg)
-//           }
-//     ); 
-//   }
-//   $scope.showDetail = function(elementId, item){
+  $scope.getSapsSubmissions = function(){
+    SubmissionService.getSubmissions(
+          function(data){
+              $scope.sapsSubmissions = processImages(data);   
+          },
+          function(error){
+              var msg = "An error occurred when tried to get Images";
+              $log.error(msg+" : "+error);
+              GlobalMsgService.pushMessageFail(msg)
+          }
+    ); 
+  }
+  $scope.showDetail = function(elementId, item){
 
-//     var detailContent = 
-//     "<div class='col-md-12'>"+
-//       "<dl class='dl-horizontal'>"+
-//         "<dt>ID:</dt>"+
-//         "<dd>"+item.stationId+"</dd>"+
-//         "<dt>State:</dt>"+
-//         "<dd>"+item.state+"</dd>"+
-//         "<dt>Creation Time:</dt>"+
-//         "<dd>"+$filter('date')(item.creationTime, 'yyyy-MM-dd hh:mm:ss')+"</dd>"+
-//         "<dt>Update Time:</dt>"+
-//         "<dd>"+$filter('date')(item.updateTime, 'yyyy-MM-dd hh:mm:ss')+"</dd>"+
-//         "<dt>Version/Tag:</dt>"+
-//         "<dd><input type='text' readonly class='sb-width-lg' value='"+item.sebalVersion+"'/></dd>"+
-//         "<dt>Fmask Version</dt>"+
-//         "<dd><input type='text' readonly class='sb-width-lg' value='"+item.fmaskVersion+"'/></dd>"+
-//         "<dt>Download Link</dt>"+
-//         "<dd><input type='text' readonly class='sb-width-lg' value='"+item.downloadLink+"'/></dd>"+
+    var detailContent = 
+    "<div class='col-md-12'>"+
+      "<dl class='dl-horizontal'>"+
+        "<dt>ID:</dt>"+
+        "<dd>"+item.stationId+"</dd>"+
+        "<dt>State:</dt>"+
+        "<dd>"+item.state+"</dd>"+
+        "<dt>Creation Time:</dt>"+
+        "<dd>"+$filter('date')(item.creationTime, 'yyyy-MM-dd hh:mm:ss')+"</dd>"+
+        "<dt>Update Time:</dt>"+
+        "<dd>"+$filter('date')(item.updateTime, 'yyyy-MM-dd hh:mm:ss')+"</dd>"+
+        "<dt>Version/Tag:</dt>"+
+        "<dd><input type='text' readonly class='sb-width-lg' value='"+item.sebalVersion+"'/></dd>"+
+        "<dt>Fmask Version</dt>"+
+        "<dd><input type='text' readonly class='sb-width-lg' value='"+item.fmaskVersion+"'/></dd>"+
+        "<dt>Download Link</dt>"+
+        "<dd><input type='text' readonly class='sb-width-lg' value='"+item.downloadLink+"'/></dd>"+
         
-//         // "<dt>Federation Member</dt>"+
-//         // "<dd>"+item.federationMember+"</dd>"+
-//         // "<dt>Priority</dt>"+
-//         // "<dd>"+item.priority+"</dd>"+
-//         // "<dt>Sebal Tag</dt>"+
-//         // "<dd>"+item.sebalTag+"</dd>"+
-//         // "<dt>Crawler Version</dt>"+
-//         // "<dd>"+item.crawlerVersion+"</dd>"+
-//         // "<dt>Fetcher Version</dt>"+
-//         // "<dd>"+item.fetcherVersion+"</dd>"+
-//         // "<dt>Blowout Version</dt>"+
-//         // "<dd>"+item.blowoutVersion+"</dd>"+
-//         // "<dt>Status</dt>"+
-//         // "<dd>"+item.status+"</dd>"+
-//         // "<dt>Error</dt>"+
-//         // "<dd>"+item.error+"</dd>"+
-//       "</dl>"+
-//     "</div>";
+        // "<dt>Federation Member</dt>"+
+        // "<dd>"+item.federationMember+"</dd>"+
+        // "<dt>Priority</dt>"+
+        // "<dd>"+item.priority+"</dd>"+
+        // "<dt>Sebal Tag</dt>"+
+        // "<dd>"+item.sebalTag+"</dd>"+
+        // "<dt>Crawler Version</dt>"+
+        // "<dd>"+item.crawlerVersion+"</dd>"+
+        // "<dt>Fetcher Version</dt>"+
+        // "<dd>"+item.fetcherVersion+"</dd>"+
+        // "<dt>Blowout Version</dt>"+
+        // "<dd>"+item.blowoutVersion+"</dd>"+
+        // "<dt>Status</dt>"+
+        // "<dd>"+item.status+"</dd>"+
+        // "<dt>Error</dt>"+
+        // "<dd>"+item.error+"</dd>"+
+      "</dl>"+
+    "</div>";
 
-//     //console.log(elementId+" -- "+JSON.stringify(item));
-//     if($scope.elementShowingDetail !== undefined ||
-//         $scope.elementShowingDetail === elementId){
-//       $("#"+elementId).empty();
-//       $("#"+elementId).addClass('hidden');
-//       $scope.elementShowingDetail = undefined;
+    //console.log(elementId+" -- "+JSON.stringify(item));
+    if($scope.elementShowingDetail !== undefined ||
+        $scope.elementShowingDetail === elementId){
+      $("#"+elementId).empty();
+      $("#"+elementId).addClass('hidden');
+      $scope.elementShowingDetail = undefined;
 
-//     }else{
+    }else{
       
 
-//       $("#"+elementId).append(detailContent);
-//       $("#"+elementId).removeClass('hidden');
-//       $scope.elementShowingDetail = elementId;
-//     }
-//   }
+      $("#"+elementId).append(detailContent);
+      $("#"+elementId).removeClass('hidden');
+      $scope.elementShowingDetail = elementId;
+    }
+  }
 
-//   $scope.getSebalImages();
+  $scope.getSapsSubmissions();
  
-// });
+});
 
-
-
-dashboardControllers.controller('JobController', function($scope, $rootScope, $log, $filter, 
-  $timeout, AuthenticationService, JobService, GlobalMsgService, appConfig) {
+dashboardControllers.controller('NewSubmissionsController', function($scope, $rootScope, $log, $filter, 
+  $timeout, AuthenticationService, SubmissionService, GlobalMsgService, appConfig) {
   
   $scope.DEFAULT_VALUE = 'd';
   $scope.OTHER_VALUE = 'o';
@@ -363,7 +383,7 @@ dashboardControllers.controller('JobController', function($scope, $rootScope, $l
   }
 
   
-  $scope.submitJob = function(){
+  $scope.newSubmission = function(){
 
     hasError = false;
     $scope.modalMsgError = undefined;
@@ -448,7 +468,7 @@ dashboardControllers.controller('JobController', function($scope, $rootScope, $l
 
     //console.log("Sending "+JSON.stringify(data));
     
-    JobService.postJob(data,
+    SubmissionService.postSubmission(data,
       function(response){
         GlobalMsgService.pushMessageSuccess('Your job was submitted. Wait for the processing be completed. ' 
               + 'If you activated the notifications you will get an email when finished.');
@@ -465,14 +485,13 @@ dashboardControllers.controller('JobController', function($scope, $rootScope, $l
  
 });
 
-dashboardControllers.controller('MapController', function($scope, $rootScope,
+dashboardControllers.controller('RegionController', function($scope, $rootScope,
   $log, $filter, $http, $timeout, AuthenticationService, RegionService, 
   GlobalMsgService, appConfig) {
 
   var selectedRegion;
   var searchedRegions = [];
 
-  $scope.heatLabels = appConfig.heatMap.colours;
   $scope.regionFilter = "";
   $scope.firstYearFilter = "";
   $scope.lastYearFilter = "";
@@ -481,7 +500,7 @@ dashboardControllers.controller('MapController', function($scope, $rootScope,
   // $scope.
   $scope.regionsDetails = [];
 
-  var sapsMap = initiateMap("map", appConfig.heatMap);
+  var sapsMap = initiateMap("map", $rootScope.heatMap);
 
   function callbackBoxSelectionInfo(selectionInfo){
     $scope.message = 'Selection: '+JSON.stringify(selectionInfo);

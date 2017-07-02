@@ -38,7 +38,7 @@ var startApi = function(){
 			}else{
 				response.status = "SUCCESS"
 				response.code = 200;
-				response.data = data
+				response.data = JSON.parse(data)
 			}
 			callbackFunction(response);
 

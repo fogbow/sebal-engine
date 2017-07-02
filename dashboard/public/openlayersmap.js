@@ -261,7 +261,7 @@ function initiateMap(elementId, heatMapRef){
     polygonFeature.set("regionId",regionId);
 
     var heatMap = new ol.style.Fill({
-          color: [0, 0, 0, 0]
+          color: [255, 255, 255, 0]
     })
     
     var newLayerVector =  new ol.layer.Vector(
@@ -314,7 +314,7 @@ function initiateMap(elementId, heatMapRef){
     //console.log("Updating "+JSON.stringify(regionDetail));
 
     var heatMap = new ol.style.Fill({
-          color: [0, 0, 0, 0]
+          color: [255, 255, 255, 0]
     })
     var transparency = heatMapREF.transparency;
 
@@ -322,7 +322,8 @@ function initiateMap(elementId, heatMapRef){
 
       var item = heatMapREF.colours[index];
 
-      if( (item.maxValue == undefined && regionDetail.totalImgs >= item.minValue) ||
+      if( (item.minValue == undefined && regionDetail.totalImgs <= item.maxValue) ||
+          (item.maxValue == undefined && regionDetail.totalImgs >= item.minValue) ||
           (regionDetail.totalImgs >= item.minValue && regionDetail.totalImgs <= item.maxValue) ){
         heatMap = new ol.style.Fill({
           color: [item.r, item.g, item.b, transparency]
@@ -367,6 +368,7 @@ function initiateMap(elementId, heatMapRef){
     var regionsDetails = [];
 
     map.getLayers().forEach(function(item, index){
+
       if(item.get("name") == "gridLayer"){
         gridLayerGroup = item;
       }
@@ -377,12 +379,21 @@ function initiateMap(elementId, heatMapRef){
       gridLayerGroup.getLayers().forEach(function(item, index){
           
           var regionSelection = SquareSelection(item.get("coordinates"));
-          if(regionName == item.get("regionName")){
+          if(index > 10 && index < 20){
+            console.log("adding new region to search")
             var source = item.getSource();
             var features = source.getFeatures();
             var polygon = features[0];
-            regionsDetails.push(polygon.get("regionDetail"))
+            if(polygon.get("regionDetail") != null){
+              regionsDetails.push(polygon.get("regionDetail"))
+            }  
           }
+          // if(regionName == item.get("regionName")){
+          //   var source = item.getSource();
+          //   var features = source.getFeatures();
+          //   var polygon = features[0];
+          //   regionsDetails.push(polygon.get("regionDetail"))
+          // }
       })
     }
     return regionsDetails;
@@ -392,6 +403,35 @@ function initiateMap(elementId, heatMapRef){
 
   // a normal select interaction to handle click
   var select = new ol.interaction.Select();
+  select.previous = undefined;
+  select.cleanSelectionStyle = function(polygon){
+    if(polygon != undefined){
+      console.log("Previous: "+polygon.get("regionName"))
+      var style = this.previous.getStyle();
+      style.setStroke(new ol.style.Stroke({
+              width: 1,
+              color: [0, 0, 0, 1]
+      }));
+      var fill = style.getFill();
+      var color = fill.getColor();
+      color[3] = 0.5; 
+      fill.setColor(color);
+
+    }
+  };
+  select.applySelectionStyle = function(polygon){
+    if(polygon != undefined){
+      var style = polygon.getStyle();
+      style.setStroke(new ol.style.Stroke({
+              width: 4,
+              color: [0, 125, 111, 1]
+      }));
+      var fill = style.getFill();
+      var color = fill.getColor();
+      color[3] = 1; 
+      fill.setColor(color);
+    }
+  }
   // a DragBox interaction used to select features by drawing boxes
   var dragBox = new ol.interaction.DragBox({
     condition: ol.events.condition.platformModifierKeyOnly
@@ -402,22 +442,21 @@ function initiateMap(elementId, heatMapRef){
 
   select.on('select', function(event){
 
-    console.log("Selecionado: "+event.selected[0].getKeys())
+    // This cancel multiple select by holding shift key
+    this.cleanSelectionStyle(this.previous);
+
+    console.log("Selecionado: "+event.selected.length)
     //polygonFeature
-    var polygon = event.selected[0];
-    var style = polygon.getStyle();
-    style.setStroke(new ol.style.Stroke({
-            width: 4,
-            color: [0, 125, 111, 1]
-    }));
-    var fill = style.getFill();
-    var color = fill.getColor();
-    color[3] = 1;
-    fill.setColor(color);
-    
-    if(eventHandlers.regionSelect !== undefined){
-      eventHandlers.regionSelect(polygon.get('regionDetail'));  
+    if(event.selected[0] != undefined){
+
+      var polygon = event.selected[0];
+      this.previous = polygon;
+      this.applySelectionStyle(this.previous);
+      if(eventHandlers.regionSelect !== undefined){
+        eventHandlers.regionSelect(polygon.get('regionDetail'));  
+      }
     }
+    
 
   });
 
@@ -462,11 +501,23 @@ function initiateMap(elementId, heatMapRef){
   });
   map.on('moveend', function() {
     console.log("moveend: ")
+    
     if(eventHandlers.mapMove !== undefined){
       eventHandlers.mapMove();
     }
     
   });
+
+  map.on('movestart', function() {
+    console.log("movestart")
+    
+    if(eventHandlers.mapMove !== undefined){
+      eventHandlers.mapMove();
+    }
+    
+  });
+
+  
 
   //API
   var sapsMapAPI = {

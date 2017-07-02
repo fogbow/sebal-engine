@@ -41,7 +41,7 @@ dashboardServices.service('GlobalMsgService', function () {
 dashboardServices.service('AuthenticationService', function($log, $http,
   Session, appConfig) {
 
-	var resourceUrl = appConfig.urlSebalSchedulerService+appConfig.imagePath;
+	var resourceUrl = appConfig.urlSapsService+appConfig.submissionPath;
 	var authService = {};
 
   var getCredentials = function(){
@@ -240,34 +240,21 @@ dashboardServices.service('Session', function () {
 
 
 
-dashboardServices.service('ImageService', function($log, $http, AuthenticationService, appConfig) {
+dashboardServices.service('SubmissionService', function($log, $http, 
+  AuthenticationService, appConfig) {
 
-  var resourceUrl = appConfig.urlSebalSchedulerService+appConfig.imagePath;
+  var resourceUrl = appConfig.urlSapsService+appConfig.submissionPath;
   var headerCredentials = AuthenticationService.getHeaderCredentials();
   
-  var imageService = {};
+  var submissionService = {};
 
-  imageService.getImages = function(successCallback, errorCalback){
+  submissionService.getSubmissions = function(successCallback, errorCalback){
     $http.get(resourceUrl, {headers: headerCredentials})
       .success(successCallback).error(errorCalback);
       
   };
 
-  return imageService;
-  
-});
-
-dashboardServices.service('JobService', function($log, $http, AuthenticationService, 
-  ImageService, appConfig) {
-
-  var resourceUrl = appConfig.urlSebalSchedulerService+appConfig.imagePath;
-  var headerCredentials = AuthenticationService.getHeaderCredentials();
-
-  var jobService = {};
-
-
-
-  jobService.postJob = function(dataForm, successCallback, errorCalback){
+  submissionService.postSubmission = function(dataForm, successCallback, errorCalback){
     //console.log('Service will send '+JSON.stringify(dataForm));
     var req = {
       method: 'POST',
@@ -278,19 +265,17 @@ dashboardServices.service('JobService', function($log, $http, AuthenticationServ
 
     $http(req).success(successCallback).error(errorCalback);
       
-      
   };
 
-  return jobService;
+  return submissionService;
 
-  
 });
 
 
 dashboardServices.service('RegionService', function($log, $http, AuthenticationService, appConfig) {
 
-	var resourceUrl = appConfig.urlSebalSchedulerService+appConfig.regionPath;
-  var resourceDetailsUrl = appConfig.urlSebalSchedulerService+appConfig.regionDetailsPath
+	var resourceUrl = appConfig.urlSapsService+appConfig.regionPath;
+  var resourceDetailsUrl = appConfig.urlSapsService+appConfig.regionDetailsPath
   var headerCredentials = AuthenticationService.getHeaderCredentials();
   
   var regionService = {};
@@ -317,8 +302,6 @@ dashboardServices.service('RegionService', function($log, $http, AuthenticationS
       .success(successCallback).error(errorCalback);
       
   };
-
-  
 
   return regionService;
 });

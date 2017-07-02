@@ -26,7 +26,7 @@ var logger;
 
 var loadAppConfig = function(next){
 	
-	fs.readFile( __dirname + "/" + "app.config", 'utf8', function (err, data) {
+	fs.readFile( __dirname + "/" + "dashboard.config", 'utf8', function (err, data) {
    		
    		appConfig = JSON.parse(data);
 
@@ -77,7 +77,7 @@ var loadAppConfig = function(next){
 	
 }
 var loadSebalConfig = function(next){
-	fs.readFile( __dirname + "/" + "sebal.config", 'utf8', function (err, data) {
+	fs.readFile( __dirname + "/" + "saps.config", 'utf8', function (err, data) {
    		sebalConfig = JSON.parse(data);
    		logger.info("Sebal config "+JSON.stringify(sebalConfig));
    		startApp();

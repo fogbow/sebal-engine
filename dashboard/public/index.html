@@ -4,9 +4,9 @@
 <head>
   <!-- Meta, title, CSS, favicons, etc. -->
   <meta charset="utf-8">
-  <title>Sebal Scheduler Monitor</title>
-  <meta name="keywords" content="Sebal Scheduler Monitor Cloud" />
-  <meta name="description" content="Sebal Scheduler Monitor">
+  <title>SAPS Monitor</title>
+  <meta name="keywords" content="Saps Monitor Cloud" />
+  <meta name="description" content="Saps Monitor">
   <meta name="author" content="LSD - Laboratório de Sistemas Distribuidos">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
@@ -19,21 +19,22 @@
   <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700'>
 
   <!-- Summernote CSS  -->
-  <link rel="stylesheet" type="text/css" href="vendor/plugins/summernote/summernote.css">
+  <!-- <link rel="stylesheet" type="text/css" href="vendor/plugins/summernote/summernote.css"> -->
   <!-- Iconsweets CSS(font) -->
   <link rel="stylesheet" type="text/css" href="assets/fonts/iconsweets/iconsweets.css">
   <!-- magnific modal -->
-  <link href="vendor/plugins/magnific/magnific-popup.css" rel="stylesheet" type="text/css" >
+  <!-- <link href="vendor/plugins/magnific/magnific-popup.css" rel="stylesheet" type="text/css" > -->
   <!-- Theme CSS -->
-  <link rel="stylesheet" type="text/css" href="assets/skin/default_skin/css/theme.css">
+  <!-- <link rel="stylesheet" type="text/css" href="assets/skin/default_skin/css/theme.css"> -->
   <!-- Admin Forms CSS -->
-  <link rel="stylesheet" type="text/css" href="assets/admin-tools/admin-forms/css/admin-forms.css">
+  <!-- <link rel="stylesheet" type="text/css" href="assets/admin-tools/admin-forms/css/admin-forms.css"> -->
   <!-- Favicon -->
   <link rel="shortcut icon" href="assets/img/favicon.ico">
   <!-- Openlayers CSS -->
   <link rel="stylesheet" href="https://openlayers.org/en/v3.20.1/css/ol.css" type="text/css">
 
-  <link rel="stylesheet" type="text/css" href="css/sebal.css">
+  <link rel="stylesheet" type="text/css" href="vendor/bootstrap-3.3.7/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/saps.css">
   <link rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
 
 
@@ -46,13 +47,28 @@
 
 </head>
 
-<body class="ng-clock sb-body"  ng-app="schedulerDashboard"">
+<body class="ng-clock sb-body"  ng-app="schedulerDashboard">
   <!-- Start: Main -->
   <div ng-controller="MainController">
+    
     <span class='ng-clock'></span>
+    
 
-      <div ng-view></div>
+    <div id="lang-choser" class="lang-choser">
+      <div class="lang-choser-item" ng-click="switchVisibility('lang-choser-sub-menu','lang-chosen')"/>
+        <img src="/images/lang/lang-icon-world.png">
+        <img id="lang-chosen" src="/images/lang/{{languageChosen.img}}" class="lang-chosen"/>
+      </div>
+      <div id="lang-choser-sub-menu" class="sb-hidden">
+        <div class="lang-choser-item" ng-repeat="langOpt in languageOptions">
+          <img src="/images/lang/{{langOpt.img}}" 
+          ng-click="loadLanguagebyShortName(langOpt); switchVisibility('lang-choser-sub-menu','lang-chosen')"/>
+        </div>
+      </div>
+    </div>
+    
 
+    <div ng-view></div>
   </div>
   <!-- End: Main -->
  
@@ -79,8 +95,10 @@
   <script src="assets/js/utility/utility.js"></script>
   <script src="assets/js/demo/demo.js"></script>
   <script src="assets/js/main.js"></script>
+  <script src="vendor/bootstrap-3.3.7/js/bootstrap.js"></script>
   <!-- Angular -->
   <script src="vendor/angular/angular-resource.min.js"></script>
+  <script src="/lang/lang_loader.js"></script>
   <script src="dashboardApp.js"></script>
   <script src="controllers/dashboardControllers.js"></script>
   <script src="services/dashboardServices.js"></script>

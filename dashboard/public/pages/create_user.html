@@ -1,24 +1,23 @@
 <!-- Begin: Content -->
 <div ng-controller="LoginController">
 
-  <div align="right" class="row panel-heading" style="height:110px">
-    <div class="col-lg-3">
-      <img src="/images/logo-topo.png" class="sb-logo-sm" style="border: 10px solid rgb(237,237,237);background: rgb(237,237,237)"/>
+  <div class="row panel-heading" style="height:110px">
+    <div align="center" class="create-account-logo">
+      <img src="/images/logo-topo.png" class="sb-logo-sm"/>
     </div>
-    <div class="col-lg-9"></div>
   </div>
-  <div class="row" style="margin-top: 5%;">
+  <div class="create-account-panel">
     <div class="panel panel-default">
     <div class="panel-heading" style="padding: 15px 15px 15px 15px;">
       <div class="row">
-        <h3 class="panel-title">Criar Conta</h3>
+        <h3 class="panel-title">{{languageContent.createAccount.title}}</h3>
       </div>
     </div>
     <div class="panel-body">
       <div id="formContent" ng-show="create === true">
         <form action="/" id="createUserFormId">
  
-          <div ng-show="errorMsg !== undefined" class="sebal-label sb-error sb-md" id="alert-login">
+          <div ng-show="errorMsg !== undefined" class="saps-label sb-error sb-md" id="alert-login">
                 <button type="button" class="close" ng-click="clearLoginMsg()" aria-hidden="true">×</button>
                 <i class="fa fa-info"></i>
                 {{errorMsg}}
@@ -26,26 +25,26 @@
      
           <div class="row creat-user-form">
      
-              <div>Nome</div>
-              <input type="text" class="sebal-input input-small sb-wpercent-lg"  id="createNameInput" ng-model="username" required placeholder="">
+              <div>{{languageContent.createAccount.labels.name}}</div>
+              <input type="text" class="saps-input input-small sb-wpercent-lg"  id="createNameInput" ng-model="username" required placeholder="">
               </input>
 
-              <div>Email</div>
-              <input type="text" class="sebal-input input-small sb-wpercent-lg" id="createEmailInput" ng-model="email" required placeholder="">
+              <div>{{languageContent.createAccount.labels.email}}</div>
+              <input type="text" class="saps-input input-small sb-wpercent-lg" id="createEmailInput" ng-model="email" required placeholder="">
               </input>
 
-              <div>Senha</div>
-              <input type="password" class="sebal-input input-small sb-wpercent-lg" id="createPasswordInput" ng-model="password" required placeholder="">
+              <div>{{languageContent.createAccount.labels.password}}</div>
+              <input type="password" class="saps-input input-small sb-wpercent-lg" id="createPasswordInput" ng-model="password" required placeholder="">
 
-              <div>Confirmar Senha</div>
-              <input type="password" class="sebal-input input-small sb-wpercent-lg" id="createPasswordConfirmInput" ng-model="passwordConfirm" required placeholder="">
+              <div>{{languageContent.createAccount.labels.confirmPassword}}</div>
+              <input type="password" class="saps-input input-small sb-wpercent-lg" id="createPasswordConfirmInput" ng-model="passwordConfirm" required placeholder="">
               </input>
 
           </div>
 
           <div class="row creat-user-form">
             <div class="col-lg-8">
-              <div align="center" ng-click="createNewUser()" class="sb-button btn-sm sb-main">Criar Conta</div>
+              <div align="center" ng-click="createNewUser()" class="sb-button btn-sm sb-main">{{languageContent.createAccount.buttons.create}}</div>
             </div>
             <div align="right" class="col-lg-3">
               <a href="/">

@@ -1,0 +1,289 @@
+@import url("saps-large.css");
+@import url("saps-medium.css");
+@import url("saps-small.css");
+
+/*BG Colors*/
+.sb-submission-panel, .sb-nav, .modal-body{
+	background-color: rgb(237, 237, 237) !important;
+}
+.sb-body, .sb-content, .div-table-row, .div-table-th{
+	background-color: rgb(211, 211, 211) !important;
+}
+.panel-heading, .sb-steps-panel, .sb-dropdown-sub-item, .sb-map-feature-label{
+	background-color: rgb(0, 125, 111) !important;
+}
+.sb-map-feature-options, .sb-region-detail-line, .sb-image-detail,
+.sb-heat-map-legends{
+	background-color: rgb(221,221,219) !important;
+}
+.sb-button.sb-main{
+	background-color: rgb(95,230,195) !important;
+}
+.sb-button.sb-second{
+	background-color: rgb(180,180,190) !important;
+}
+.sb-button.sb-cancel{
+	background-color: rgb(255,35,100) !important; 
+}
+.saps-input, .saps-input.input-small, .saps-label, .sb-map-features, 
+.zoom-control, .sb-table-detail, .list-group-item, .sb-map-feature-details,
+.sb-image-detail-line{
+	background-color: rgb(255,255,255) !important; 
+}
+.nav-button-selected, .nav-button:hover, .sb-dropdown:hover{
+	background-color: rgb(150,230,195) !important;
+}
+.saps-label.sb-error{
+	background-color: rgb(255,150,120) !important;
+}
+div.div-table-row:hover, div.div-table-row:hover .main-column{
+	background-color:rgb(150,150,150) !important;
+}
+
+.main-column{
+	background-color:rgb(237,237,237) !important;
+}
+
+/*Font Colors*/
+.sb-button.sb-second, .panel-heading, .sb-steps-panel, .sb-map-feature-label,
+.sb-dropdown, .sb-dropdown-sub-item{
+	color:rgb(255,255,255) !important; /*White*/
+}
+.sb-nav a{
+	color: rgb(150,150,150) !important;
+}
+.span-button.main{
+	color: rgb(95,230,195) !important;
+}
+.span-button.cancel{
+	color: rgb(255,35,100) !important; 
+}
+.nav-button:hover span, .nav-button-selected span{
+	color: rgb(70,75,78) !important;
+}
+div.saps-label button{
+	color: rgb(150, 80, 80) !important;
+}
+.zoom-control{
+	color: rgb(0,161,93) !important;
+}
+.btn-refresh:hover{
+	color: rgb(30,120,30) !important;
+}
+.sb-close-md-btn{
+	color: rgb(200,130,100) !important;
+}
+.sb-close-md-btn:hover{;
+	color: rgb(250,130,100) !important;
+}
+.sb-table-detail, .list-group-item, 
+div.div-table-row:hover, div.div-table-row:hover .main-column{
+	color: rgb(30,30,30) !important;
+}
+
+/*Z-INDEX LEVEL 1 - MODALS*/
+.modal-content,.sb-header{
+	z-index: 9999 !important;
+}
+.modal-backdrop,{
+	z-index: 9900 !important;
+}
+/*Z-INDEX LEVEL 2*/
+.lang-choser, .lang-chosen, .sb-dropdown-sub-item{
+	z-index: 9899;
+}
+/*Z-INDEX LEVEL 3*/
+.logo-nav-bar{
+	z-index: 9898;
+}
+/*Z-INDEX LEVEL 5*/
+.sb-map-features,.sb-map-controls,.sb-heat-map-legends{
+	z-index: 9897;
+}
+
+
+/*LANG CHOSER*/
+
+.lang-choser-item,.lang-chosen img{
+	border: 1px solid rgb(155,155,155);
+	border-radius: 50%;
+	cursor: pointer;
+}
+.lang-choser-item:hover img{
+	border: 2px solid rgb(255,255,255);
+	border-radius: 50%;
+}
+
+/*SUBMISSION LIST*/
+.sb-submissions-panel{
+	overflow-y: auto !important;
+}
+/*REGION FEATURES*/
+.sb-map-features{
+	position: absolute;
+	cursor: pointer;
+	margin-bottom: 15px;
+}
+.sb-map-feature-label{
+    font-size: 1.1em;
+    padding-left: 12px;
+    padding-top: 6px;
+    cursor: pointer;
+}
+.regions-map{
+	height: 100% !important;
+	width: 100%;
+	position: fixed;
+}
+
+/*BUTTONS*/
+.sb-button{
+	font-weight: bold;	
+}
+
+/*  DROPDOWN */
+.sb-dropdown{
+	text-align: center;
+	vertical-align: middle;
+	font-size: 1.2em !important;
+}
+.sb-dropdown span{
+	padding-left: 10px;
+}
+
+.sb-dropdown:hover .sb-dropdown-sub-item{
+  	display: block;
+}
+.sb-dropdown-sub-item{
+	display: none;
+	cursor: pointer;
+	position: absolute;
+	text-align: center;
+}
+/* BUTTONS */
+.sb-nav a{
+	text-decoration: none;
+}
+.span-button{
+	text-align: center;
+	vertical-align: middle;
+	font-size: 2.5em;
+}
+.span-button:hover{
+	font-size: 2.7em;
+	cursor: pointer;
+}
+
+.sb-button:hover{
+	border: 2px solid rgb(70,80,90);
+	cursor: pointer;
+}
+
+/* INPUTS */
+.saps-input{ 
+	font-weight: bold;
+}
+.saps-input-span{
+	font-size: 2em;
+	position: relative !important;
+    display: inline !important;
+    margin-left: -35px !important;
+}
+/* STEPS PANEL */
+.sb-steps-panel-ht{
+	font-size: 1.5em;
+	margin-bottom: 20px;
+}
+/* LABELS */
+.saps-label{
+	margin-top: 10px;
+	text-align: center;
+	vertical-align: middle;
+	font-family: monospace;
+	font-size: 1.2em;
+	width: 300px;
+	font-weight: bold;
+}
+div.saps-label button{
+	text-align: center;
+	font-size: 2em;
+}
+
+.saps-label.sb-error{
+	font-weight: bold;
+}
+
+
+/* TABLE */
+
+.saps-table-conteiner{
+	padding: 10px 10px 10px 10px;
+}
+.saps-table{
+	margin-left: 1%;
+	width: 98%;
+}
+.saps-table tr{
+	font-size: 1em;
+    /*border: 10px solid rgb(120, 130, 140);*/
+    text-align: center;
+}
+.saps-table td{
+	padding: 5px;
+}
+.saps-table th{
+	padding: 5px;
+	font-size: 1.2em;
+	text-align: center;
+	font-weight: bold;
+}
+.div-table{
+	height: 50px;
+}
+div.div-table-row div{
+	padding: 10px;
+	height: 100%;
+}
+div.div-table-row:hover, div.div-table-row:hover .main-column{
+	color: rgb(30,30,30);
+	font-size: 1.2em;
+	font-weight: bold;
+}
+.sb-table-detail, .list-group-item{
+	text-align: left;
+	padding: 5px 5px 5px 5px;
+	height: 100%;
+	font-size: 0.9em;
+}
+/* MISC */
+.zoom-control{
+	font-size: 2.5em;
+	border-radius: 20px;
+}
+.sb-required{
+	font-weight: bold; 
+	font-size: 1.2em; 
+	color: red;
+}
+.sb-hidden{
+	display: none;
+}
+.btn-refresh{
+	margin: 15px 15px 15px 15px;
+	font-size: 15px;
+}
+
+.btn-refresh:hover{
+	margin: 12px 12px 12px 12px;
+	border: 4px solid rgb(70,80,90);
+}
+
+.sb-close-md-btn{
+	margin: 10px 10px 10px 10px;
+	font-size: 30px;
+}
+.sb-close-md-btn:hover{
+	margin: 5px 5px 5px 5px;
+	font-size: 40px;
+	cursor: pointer;
+}
