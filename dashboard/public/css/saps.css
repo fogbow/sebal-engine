@@ -1,6 +1,7 @@
 @import url("saps-large.css");
 @import url("saps-medium.css");
 @import url("saps-small.css");
+@import url("saps-extra-small.css");
 
 /*BG Colors*/
 .sb-submission-panel, .sb-nav, .modal-body{
@@ -82,23 +83,23 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
 }
 
 /*Z-INDEX LEVEL 1 - MODALS*/
-.modal-content,.sb-header{
-	z-index: 9999 !important;
-}
-.modal-backdrop,{
-	z-index: 9900 !important;
+.lang-choser, .lang-chosen, .sb-dropdown-sub-item{
+	z-index: 9999;
 }
 /*Z-INDEX LEVEL 2*/
-.lang-choser, .lang-chosen, .sb-dropdown-sub-item{
-	z-index: 9899;
+.modal{
+	z-index: 9995 !important;
+}
+.modal-backdrop{
+	z-index: 9990 !important;
 }
 /*Z-INDEX LEVEL 3*/
-.logo-nav-bar{
-	z-index: 9898;
+.sb-header,.logo-nav-bar{
+	z-index: 8000;
 }
 /*Z-INDEX LEVEL 5*/
 .sb-map-features,.sb-map-controls,.sb-heat-map-legends{
-	z-index: 9897;
+	z-index: 8000;
 }
 
 

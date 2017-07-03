@@ -18,9 +18,9 @@
 			{{languageContent.heatMap.label}}
 		</div>
 		<div ng-repeat="heatLabel in heatMap.colours" class="row">
-			<div ng-show="heatLabel.minValue == undefined" class="col-md-10" align="right">{{heatLabel.maxValue}}</div>
-			<div ng-show="heatLabel.minValue && heatLabel.maxValue" class="col-md-10" align="right">{{heatLabel.minValue}} {{languageContent.heatMap.infoTo}} {{heatLabel.maxValue}}</div>
-			<div ng-show="heatLabel.maxValue == undefined" class="col-md-10" align="right">{{heatLabel.minValue}}+</div>
+			<div ng-show="heatLabel.minValue == undefined" class="col-lg-10 col-md-10 col-sm-10" align="right">{{heatLabel.maxValue}}</div>
+			<div ng-show="heatLabel.minValue && heatLabel.maxValue" class="col-lg-10 col-md-10 col-sm-10" align="right">{{heatLabel.minValue}} {{languageContent.heatMap.infoTo}} {{heatLabel.maxValue}}</div>
+			<div ng-show="heatLabel.maxValue == undefined" class="col-lg-10 col-md-10 col-sm-10" align="right">{{heatLabel.minValue}}+</div>
 			<div class="col-md-1" align="left">
 				<span class="glyphicon glyphicon-stop" 
 				style="font-size: 1.5em; color: rgb({{heatLabel.r}},{{heatLabel.g}},{{heatLabel.b}})" 

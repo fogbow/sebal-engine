@@ -9,40 +9,40 @@
         {{languageContent.submissionsList.steps.title}}
       </div>
       <div class="row" align="center">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-2 col-xs-3">
+        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
           <img src="/images/steps/downloading.png"/>
           <p>{{languageContent.submissionsList.steps.downloading}}</p>
           <img src="/images/steps/01.png"/>
         </div>
-        <div class="col-lg-2 col-xs-3">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
           <img src="/images/steps/downloaded.png"/>
           <p>{{languageContent.submissionsList.steps.downloaded}}</p>
           <img src="/images/steps/02.png"/>
         </div>
-        <div class="col-lg-2 col-xs-3">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
           <img src="/images/steps/queued.png"/>
           <p>{{languageContent.submissionsList.steps.queued}}</p>
           <img src="/images/steps/03.png"/>
         </div>
-        <div class="col-lg-2 col-xs-3">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
           <img src="/images/steps/fetched.png"/>
           <p>{{languageContent.submissionsList.steps.fetched}}</p>
           <img src="/images/steps/04.png"/>
         </div>
-        <div class="col-lg-2"></div>
+        <div class="col-lg-2 col-md-2 col-sm-2"></div>
       </div>
     </div>
 
     <div ng-controller="ListSubmissionsController">
       
       <div id="search-box" class="row panel-default" >
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-6 col-sm-6">
           <div ng-click="openCloseModal('submissionsModal', true)" style="cursor: pointer; font-size: 1.5em; width: 70%;">
             <img src="/images/create-subm.png" height="42" width="42"/>&nbsp;{{languageContent.submissionsList.button.newSubmission}}
           </div>
         </div>
-        <div class="col-lg-6" align="right">
+        <div class="col-lg-6 col-md-6 col-sm-6" align="right">
               <input type="text" class="saps-input sb-md sb-height-sm" id="filter-all" ng-model="filterValue['searchable']" placeholder="Search in all submissions" ng-change="filterTable('searchable')">
               </input>
               <img src="/images/search.png"/>
@@ -56,14 +56,14 @@
               <div class="panel-heading">
                 <div class="row">
                   
-                  <div align="left" class="col-lg-5 col-xs-12" style="cursor: pointer;">
+                  <div align="left" class="col-lg-5 col-md-5 col-sm-5 col-xs-12" style="cursor: pointer;">
                     <h4 ng-click="switchVisibility('table-div-sub'+$index)">
                       <img ng-hide="ss.showDetail" src="/images/b-left.png"/>
                       <img ng-show="ss.showDetail" src="/images/b-down.png"/>
                       &nbsp;{{ss.name}} - {{ss.date}}
                     </h4>
                   </div>
-                  <div align="right" class="col-lg-7 col-xs-12">
+                  <div align="right" class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                     {{ss.totalImages}} <img src="/images/steps/pics.png"/>&nbsp;|&nbsp;
                     {{ss.totalDownloading}}&nbsp;<img src="/images/steps/downloading.png"/>&nbsp;&nbsp;
                     {{ss.totalDownloaded}}&nbsp;<img src="/images/steps/downloaded.png"/>&nbsp;&nbsp;
@@ -86,17 +86,17 @@
                       <tr class="table-header">
                         <th>
                           <div class="div-table-th row">
-                            <div class="col-lg-1 col-xs-1">#</div>
-                            <div class="col-lg-4 col-xs-7">
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">#</div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-7">
                               {{languageContent.submissionsList.table.columnName}}
                             </div>
-                            <div class="col-lg-2 mobile-hide">
+                            <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">
                               {{languageContent.submissionsList.table.columnCreationDate}}
                             </div>
-                            <div class="col-lg-2 mobile-hide">
+                            <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">
                               {{languageContent.submissionsList.table.columnEndDate}}
                             </div>
-                            <div class="col-lg-3 col-xs-4">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
                               {{languageContent.submissionsList.table.columnState}}
                             </div>
                           </div>
@@ -107,11 +107,11 @@
                       <tr ng-repeat="i in ss.images">
                         <td>
                           <div class="div-table-row row">
-                            <div class="col-lg-1 col-xs-1">{{$index + 1}}</div>
-                            <div class="col-lg-4 col-xs-7 selectable" ng-click="showDetail('detail'+$index, i)">{{i.name}}</div>
-                            <div class="col-lg-2 mobile-hide">{{i.creationTime | date : 'yyyy-MM-dd' }}</div>
-                            <div class="col-lg-2 mobile-hide">{{i.updateTime | date : 'yyyy-MM-dd' }}</div>
-                            <div class="col-lg-3 col-xs-4">{{i.state}}</div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">{{$index + 1}}</div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-7 selectable" ng-click="showDetail('detail'+$index, i)">{{i.name}}</div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">{{i.creationTime | date : 'yyyy-MM-dd' }}</div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">{{i.updateTime | date : 'yyyy-MM-dd' }}</div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">{{i.state}}</div>
                           </div>
                           </div>
                           </div>

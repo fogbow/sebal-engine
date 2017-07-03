@@ -1,56 +1,62 @@
-@media screen and (max-width: 767px) {
-
-	.mobile-hide{
-		display: none
-	}
-	.mobile-show{
-		display: inline;
-	}
-	.logo-nav-bar{
-		background: rgb(237,237,237);
+@media screen and (min-width: 768px) and ( max-width: 991px) {
+    
+    .sb-header{
 		position: fixed;
-	    height: 100px;
-	    width: 115px;
-	    z-index: 9999;
-	    left: 0px;
-	    padding-top: 25px;
-	    top: 0px;
-	}
-	.sb-nav{
-		position: fixed;
-	    height: 500px !important;
-	    width: 115px;
-	    z-index: 9998;
-	    left: 0px;
-	    top: 100px;
-	    padding: 5px 15px 5px 15px;
-	}
-	.sb-nav img{
-		display: block !important
+	    width: 100%;
+	    height: 200px;
 	}
 	.sb-content{
-    	margin-left: 50px;
+		width: 100%;
+		padding-top: 210px;
 	}
-	.panel-default {
-    	width: 80% !important;
+	.sb-body{
+		min-height: 550px !important;
+		overflow-x: hidden;
+		/*overflow-y: hidden;*/
 	}
-    .sb-nav-buttons, .nav-button{
+	.lang-choser{
+		position: fixed;
+		left: 10px;
+	    top: 10px;
+	}
+	.lang-choser img{
+		width: 35px;
+		height: 35px;
+	}
+	.lang-chosen{
+		position: fixed !important;
+	    left: 30px !important;
+	    top: 30px !important;
+	    width: 22px !important;
+	    height: 22px !important;
+	}
+
+	.logo-nav-bar{
+	    background: rgb(237,237,237);
+	    height: 140px;
+	    width: 110px;
+	    position: absolute;
+	    left: -110px;
+	    padding-top: 25px;
+	    top: -51px;
+	}
+	.sb-nav{
+		margin-bottom: 5px;
+	}
+    .sb-nav, .sb-nav-buttons, .nav-button{
         height: 80px;
     }
     .sb-steps-panel{
 		height: 140px;
     }
-    .sb-dropdown{
+    .sb-dropdown, .sb-dropdown-item, .sb-dropdown-sub-item{
+    	height: 50px;
     	width: 300px;
     }
-    .sb-dropdown-item, .sb-dropdown-sub-item{
-    	height: 60px;
-    	padding-top: 20px;
-    }
     .nav-button{
+    	font-size: 1.3em;
     	padding-top: 20px;
     }
-
     .nav-button span{
     	color: rgb(255,255,255) !important;
     	padding: 20px 60px 20px 60px;
@@ -65,9 +71,13 @@
     	width: 70%;
     	margin-left:15%;
     }
+    .creat-user-form{
+    	width: 60%;
+    	margin-left:20%;
+    }
     .sb-logo-sm{
-    	height: 50px;
-    	width: 49px;
+    	height: 70px;
+    	width: 68px;
     }
     .sb-logo-md{
     	height: 110px;
@@ -77,45 +87,123 @@
     	height: 230px;
     	width: 222px;
     }
-
-    /*BUTTON*/
-    .sb-button{
+    /*CREATE ACCOUNT*/
+    .create-account-logo{
+		background: rgb(211, 211, 211);
+		border-radius: 50%;
+		width: 90px;
+		height: 90px;
+		margin-left: 80px;
+		margin-top: 10px;
+    }
+    .create-account-panel{
+	    width: 60%;
+	    margin-left: 20%;
+	    margin-top: 50px;
+	}
+    /*MAP*/
+    .sb-map-features{
+    	left: 35px;
+    	top: 220px;
+    	width: 400px;
+    	padding-bottom: 3px;
+    	border-style: solid;
+    	border-width: 1px;
+    }
+    .sb-map-feature-label{
+    	height: 37px;
+    	margin-top: 3px;
+    }
+	.sb-map-feature-options{
+		padding-left: 30px;
 		padding-top: 15px;
+		font-size: 1em;
+	}
+	.sb-region-detail-line{
+		min-height: 32px;
+		padding-top: 5px;
+		margin-bottom: 3px;
+	}
+	.sb-image-detail-line{
+		min-height: 32px;
+		padding-top: 5px;
+		padding-left: 15px;
+		margin-bottom: 3px;
+	}
+    .sb-map-controls{
+    	position: fixed;
+    	right: 55px;
+    	top: 220px;
+    	cursor: pointer;
+    }
+    .sb-heat-map-legends{
+    	position: fixed;
+    	padding-right: 15px;
+    	padding-bottom: 15px;
+    	right: 45px;
+    	bottom: 45px;
+    	border-style: solid;
+    	border-width: 1px;
+    }
+
+	/*BUTTON*/
+	.sb-span-round-button{
+	    background-color: rgb(255,255,255);
+	    border-radius: 50%;
+	    width: 22px;
+    	padding: 2px 3px 1px 1px;
+	}
+
+    .sb-button{
+		padding-top: 6px;
 		border-radius: 10px;
 	}
 
 	/* INPUTS */
+	.sb-checkbox-map{
+		width: 20px;
+	    height: 20px;
+	    margin-top: 0px !important;
+	}
 	.saps-input{
 		padding-left: 10px;
 		padding-right: 10px;
-		
 	}
 
 	/* FORM ITENS */
 	.sb-button, .saps-input{
-		margin-top: 10px;
-		margin-bottom: 10px;
+		margin-top: 5px;
+		margin-bottom: 5px;
 
-		font-size: 1.5em;
-		height: 60px;
-		width: 300px;
+		font-size: 1.3em;
+		height:40px;
+		width: 250px;
 	}
 
 	/* SIZES */
 	.sb-width-xs{
-		width: 50px !important;
-	}
-	.sb-width-sm{
-		width: 60px !important;
-	}
-	.sb-width-md{
 		width: 100px !important;
 	}
+	.sb-width-sm{
+		width: 150px !important;
+	}
+	.sb-width-md{
+		width: 250px !important;
+	}
 	.sb-width-lg{
-		width: 230px !important;
+		width: 350px !important;
 	}
 	.sb-width-xl{
-		width: 300px !important;
+		width: 550px !important;
+	}
+	.sb-wpercent-sm{
+		width: 25% !important;
+	}
+	.sb-wpercent-md{
+		width: 55% !important;
+	}
+	.sb-wpercent-lg{
+		width: 95% !important;
 	}
 	.sb-height-sm{
 		height:40px;
@@ -123,5 +211,4 @@
 	.sb-height-md{
 		height:50px;
 	}
-    
 }

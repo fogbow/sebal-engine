@@ -132,14 +132,14 @@
 	}
     .sb-map-controls{
     	position: fixed;
-    	right: 35px;
+    	right: 25px;
     	top: 220px;
     	cursor: pointer;
     }
     .sb-heat-map-legends{
     	position: fixed;
-    	padding-right: 15px;
-    	padding-bottom: 15px;
+    	padding-right: 55px;
+    	padding-bottom: 55px;
     	right: 15px;
     	bottom: 15px;
     	border-style: solid;

@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="row sb-nav">
-    <div align="center" class="col-lg-3">
+    <div align="center" class="col-lg-3 col-md-3 col-sm-3">
       <a href="#monitor">
         <img src="/images/logo-topo.png" class="sb-logo-sm"/>
       </a>
@@ -19,32 +19,32 @@
     <div class="col-lg-7">
       <div class="row" align="center">
            <!--  <a href="#monitor">
-              <div id="homeBtn" class="col-lg-2 nav-button">
+              <div id="homeBtn" class="col-lg-2 col-md-2 col-sm-2 nav-button">
                  <img src="/images/menu/home.png"/>&nbsp;Home
               </div>
             </a> -->
             <a href="#submissions-list">
-              <div id="submitBtn" class="col-lg-4 nav-button">
+              <div id="submitBtn" class="col-lg-4 col-md-3 col-sm-3 nav-button">
                 <img src="/images/menu/submissions.png"/>&nbsp;{{languageContent.navbar.menu.submission}}
               </div>
             </a>
             <a href="#regions-map" ng-click="activateButton('selectRegionBtn')">
-              <div id="selectRegionBtn" class="col-lg-4 nav-button" >
+              <div id="selectRegionBtn" class="col-lg-4 col-md-2 col-sm-2 nav-button" >
                 <img src="/images/menu/map.png"/>&nbsp;{{languageContent.navbar.menu.map}}
               </div>
             </a>
             <a href="#help" ng-click="activateButton('selectRegionBtn')">
-              <div id="helpBtn" class="col-lg-4 nav-button" >
+              <div id="helpBtn" class="col-lg-4 col-md-2 col-sm-2 nav-button" >
                 <img src="/images/menu/help.png"/>&nbsp;{{languageContent.navbar.menu.help}}
               </div>
             </a>
          <!--    <a href="#contact" ng-click="activateButton('selectRegionBtn')">
-              <div id="contactBtn" class="col-lg-3 nav-button" >
+              <div id="contactBtn" class="col-lg-3 col-md-3 col-sm-3 nav-button" >
                 <img src="/images/menu/contact.png"/>&nbsp;Contact
               </div>
             </a> -->
       </div>
-      <div class="col-lg-2"></div>
+      <div class="col-lg-2 col-md-2 col-sm-2"></div>
     </div>              
   </div>
 </header>
@@ -53,6 +53,5 @@
       <button type="button" class="close" ng-click="clearGlobalMsg()" aria-hidden="true">×</button>
       <i class="fa fa-info pr10"></i>
       {{globalMsg.getContent()}}
-  </div>
-  <div ng-include="'pages/submission_modal.html'"></div>
+  </div> 
 </div>

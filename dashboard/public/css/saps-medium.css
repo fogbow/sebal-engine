@@ -1,38 +1,54 @@
-@media screen and (min-width: 768px) and ( max-width: 1199px) {
+@media screen and (min-width: 992px) and ( max-width: 1199px) {
     
-    .sb-body{
-		min-height: 600px !important;
-	}
-
-	.sb-header{
-		height: 200px;
-		width: 100%;
-		z-index: 9999;
+    .sb-header{
 		position: fixed;
+	    width: 100%;
+	    height: 200px;
 	}
-
 	.sb-content{
 		width: 100%;
-		padding-top: 200px;
+		padding-top: 210px;
 	}
-    .logo-nav-bar{
+	.sb-body{
+		min-height: 550px !important;
+		overflow-x: hidden;
+		/*overflow-y: hidden;*/
+	}
+	.lang-choser{
+		position: fixed;
+		left: 10px;
+	    top: 10px;
+	}
+	.lang-choser img{
+		width: 35px;
+		height: 35px;
+	}
+	.lang-chosen{
+		position: fixed !important;
+	    left: 30px !important;
+	    top: 30px !important;
+	    width: 22px !important;
+	    height: 22px !important;
+	}
+
+	.logo-nav-bar{
 	    background: rgb(237,237,237);
 	    height: 140px;
 	    width: 110px;
 	    position: absolute;
-	    z-index: 9999;
 	    left: -110px;
 	    padding-top: 25px;
 	    top: -51px;
 	}
-
+	.sb-nav{
+		margin-bottom: 5px;
+	}
     .sb-nav, .sb-nav-buttons, .nav-button{
         height: 80px;
     }
     .sb-steps-panel{
 		height: 140px;
     }
-
     .sb-dropdown, .sb-dropdown-item, .sb-dropdown-sub-item{
     	height: 50px;
     	width: 300px;
@@ -41,7 +57,6 @@
     	font-size: 1.3em;
     	padding-top: 20px;
     }
-
     .nav-button span{
     	color: rgb(255,255,255) !important;
     	padding: 20px 60px 20px 60px;
@@ -72,18 +87,87 @@
     	height: 230px;
     	width: 222px;
     }
+    /*CREATE ACCOUNT*/
+    .create-account-logo{
+		background: rgb(211, 211, 211);
+		border-radius: 50%;
+		width: 90px;
+		height: 90px;
+		margin-left: 80px;
+		margin-top: 10px;
+    }
+    .create-account-panel{
+	    width: 60%;
+	    margin-left: 20%;
+	    margin-top: 50px;
+	}
+    /*MAP*/
+    .sb-map-features{
+    	left: 35px;
+    	top: 220px;
+    	width: 400px;
+    	padding-bottom: 3px;
+    	border-style: solid;
+    	border-width: 1px;
+    }
+    .sb-map-feature-label{
+    	height: 37px;
+    	margin-top: 3px;
+    }
+	.sb-map-feature-options{
+		padding-left: 30px;
+		padding-top: 15px;
+		font-size: 1em;
+	}
+	.sb-region-detail-line{
+		min-height: 32px;
+		padding-top: 5px;
+		margin-bottom: 3px;
+	}
+	.sb-image-detail-line{
+		min-height: 32px;
+		padding-top: 5px;
+		padding-left: 15px;
+		margin-bottom: 3px;
+	}
+    .sb-map-controls{
+    	position: fixed;
+    	right: 55px;
+    	top: 220px;
+    	cursor: pointer;
+    }
+    .sb-heat-map-legends{
+    	position: fixed;
+    	padding-right: 15px;
+    	padding-bottom: 15px;
+    	right: 45px;
+    	bottom: 45px;
+    	border-style: solid;
+    	border-width: 1px;
+    }
 
 	/*BUTTON*/
+	.sb-span-round-button{
+	    background-color: rgb(255,255,255);
+	    border-radius: 50%;
+	    width: 22px;
+    	padding: 2px 3px 1px 1px;
+	}
+
     .sb-button{
 		padding-top: 6px;
 		border-radius: 10px;
 	}
 
 	/* INPUTS */
+	.sb-checkbox-map{
+		width: 20px;
+	    height: 20px;
+	    margin-top: 0px !important;
+	}
 	.saps-input{
 		padding-left: 10px;
 		padding-right: 10px;
-		
 	}
 
 	/* FORM ITENS */
@@ -127,5 +211,6 @@
 	.sb-height-md{
 		height:50px;
 	}
+
 
 }
