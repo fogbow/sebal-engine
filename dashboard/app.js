@@ -23,7 +23,7 @@ var credentialsHeader = "x-auth-credentials";
 
 var logger;
 
-var loadAppConfig = function(next){
+var loadAppConfig = function(){
 	
 	fs.readFile( __dirname + "/" + "dashboard.config", 'utf8', function (err, data) {
    		
@@ -71,7 +71,7 @@ var loadAppConfig = function(next){
 			return api;
 		})();
 
-	   	next();
+		startApp();
 	});
 	
 }
@@ -233,9 +233,4 @@ var startApp = function(){
 	}
 }
 
-var startConfig = function(){
-
-	loadAppConfig(loadappConfig.saps)
-}
-
-startConfig();
+loadAppConfig();

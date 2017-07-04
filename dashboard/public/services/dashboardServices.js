@@ -244,11 +244,12 @@ dashboardServices.service('SubmissionService', function($log, $http,
   AuthenticationService, appConfig) {
 
   var resourceUrl = appConfig.urlSapsService+appConfig.submissionPath;
-  var headerCredentials = AuthenticationService.getHeaderCredentials();
-  
   var submissionService = {};
 
   submissionService.getSubmissions = function(successCallback, errorCalback){
+
+    var headerCredentials = AuthenticationService.getHeaderCredentials();
+
     $http.get(resourceUrl, {headers: headerCredentials})
       .success(successCallback).error(errorCalback);
       
@@ -256,6 +257,9 @@ dashboardServices.service('SubmissionService', function($log, $http,
 
   submissionService.postSubmission = function(dataForm, successCallback, errorCalback){
     //console.log('Service will send '+JSON.stringify(dataForm));
+
+    var headerCredentials = AuthenticationService.getHeaderCredentials();
+
     var req = {
       method: 'POST',
       url: resourceUrl,
@@ -276,11 +280,12 @@ dashboardServices.service('RegionService', function($log, $http, AuthenticationS
 
 	var resourceUrl = appConfig.urlSapsService+appConfig.regionPath;
   var resourceDetailsUrl = appConfig.urlSapsService+appConfig.regionDetailsPath
-  var headerCredentials = AuthenticationService.getHeaderCredentials();
-  
   var regionService = {};
 
   regionService.getRegions = function(successCallback, errorCalback){
+
+    var headerCredentials = AuthenticationService.getHeaderCredentials();
+
     $http.get(resourceUrl, {headers: headerCredentials})
       .success(successCallback).error(errorCalback);
       
@@ -289,7 +294,7 @@ dashboardServices.service('RegionService', function($log, $http, AuthenticationS
   regionService.getRegionsDetails = function(regionsToLoad, successCallback, errorCalback){
     
     //console.log(JSON.stringify(regionsToLoad))
-
+    var headerCredentials = AuthenticationService.getHeaderCredentials();
     var visibleRegionsNames = regionsToLoad.join(",");
     var config = {
       url:resourceDetailsUrl,

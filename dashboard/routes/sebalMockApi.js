@@ -18,7 +18,10 @@ var startApi = function(){
 
 	var validateUser = function(userInfo){
 
+		console.log("User - "+JSON.stringify(userInfo));
+
 		if(userInfo.userEmail !== "admin@admin.com" || userInfo.userPass !== "admin"){
+			
 			console.log("invalid user");
 			return false;
 
@@ -56,6 +59,7 @@ var startApi = function(){
 			}else{
 				loadFileInfo(imagesFile, callbackFunction);
 			}
+			loadFileInfo(imagesFile, callbackFunction);
 
 		},
 		getImage: function(userInfo, imageId, callbackFunction){
