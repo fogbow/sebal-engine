@@ -9,7 +9,6 @@ var app = express();
 var port = 8080;
 
 var appConfig;
-var sebalConfig;
 
 var reqUserInfo = {
 	"userEmail" : undefined,
@@ -76,13 +75,6 @@ var loadAppConfig = function(next){
 	});
 	
 }
-var loadSebalConfig = function(next){
-	fs.readFile( __dirname + "/" + "saps.config", 'utf8', function (err, data) {
-   		sebalConfig = JSON.parse(data);
-   		logger.info("Sebal config "+JSON.stringify(sebalConfig));
-   		startApp();
-	});
-}
 
 
 var startApp = function(){
@@ -93,7 +85,7 @@ var startApp = function(){
 		sebalApi = require('./routes/sebalMockApi.js');
 	}else{
 		sebal = require('./routes/sebalApi.js');
-		sebalApi = sebal.SebalApi(sebalConfig);
+		sebalApi = sebal.SebalApi(appConfig.saps);
 	}
 
 	app.use(bodyParser.json());
@@ -243,7 +235,7 @@ var startApp = function(){
 
 var startConfig = function(){
 
-	loadAppConfig(loadSebalConfig)
+	loadAppConfig(loadappConfig.saps)
 }
 
 startConfig();
