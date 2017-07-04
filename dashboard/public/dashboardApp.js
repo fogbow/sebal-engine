@@ -6,7 +6,13 @@ var app = angular.module('schedulerDashboard', [
 ]);
 //Global Functions available on pages
 app.run(function($rootScope) {
-	//console.log('Creating global functions')
+
+	$(function () {
+      $('.saps-datepicker').datetimepicker({
+          format: 'DD/MM/YYYY'
+      });
+	});
+
 	$rootScope.switchVisibility = function() {
 		for(var index=0; index < arguments.length; index++){
 			

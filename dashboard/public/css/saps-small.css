@@ -30,7 +30,9 @@
 	    width: 22px !important;
 	    height: 22px !important;
 	}
-
+	.sb-head-panel-bar{
+		height: 60px;
+	}
 	.logo-nav-bar{
 	    background: rgb(237,237,237);
 	    height: 140px;

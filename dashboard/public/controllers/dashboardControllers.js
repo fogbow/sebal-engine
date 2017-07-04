@@ -341,7 +341,7 @@ dashboardControllers.controller('NewSubmissionsController', function($scope, $ro
 
   //Managing datepickers
   $(function () {
-      $('.sebal-datapicker').datetimepicker({
+      $('.saps-datepicker').datetimepicker({
           format: 'DD/MM/YYYY'
       });
   });
@@ -499,6 +499,12 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
   // $scope.
   // $scope.
   $scope.regionsDetails = [];
+
+  $(function () {
+      $('.saps-datepicker').datetimepicker({
+          format: 'DD/MM/YYYY'
+      });
+  });
 
   var sapsMap = initiateMap("map", $rootScope.heatMap);
 
