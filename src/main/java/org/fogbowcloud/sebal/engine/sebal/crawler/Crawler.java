@@ -180,21 +180,24 @@ public class Crawler {
 			List<ImageData> errorImages = imageStore.getIn(ImageState.ERROR);
 
 			for (ImageData imageData : errorImages) {
-				String imageInputsDirPath = properties
-						.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH)
-						+ File.separator + "images" + imageData.getName();
-				String imageOutputsDirPath = properties
-						.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH)
-						+ File.separator + "results" + imageData.getName();
-				File imageInputsDir = new File(imageInputsDirPath);
-				File imageOutputsDir = new File(imageOutputsDirPath);
-				
-				if(imageInputsDir.exists() && imageInputsDir.isDirectory()) {
-					FileUtils.deleteDirectory(imageInputsDir);
-				}
-				
-				if(imageOutputsDir.exists() && imageOutputsDir.isDirectory()) {
-					FileUtils.deleteDirectory(imageOutputsDir);
+				if (imageData.getFederationMember().equals(federationMember)) {
+					String imageInputsDirPath = properties
+							.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH)
+							+ File.separator + "images" + imageData.getName();
+					String imageOutputsDirPath = properties
+							.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH)
+							+ File.separator + "results" + imageData.getName();
+					File imageInputsDir = new File(imageInputsDirPath);
+					File imageOutputsDir = new File(imageOutputsDirPath);
+
+					if (imageInputsDir.exists() && imageInputsDir.isDirectory()) {
+						FileUtils.deleteDirectory(imageInputsDir);
+					}
+
+					if (imageOutputsDir.exists()
+							&& imageOutputsDir.isDirectory()) {
+						FileUtils.deleteDirectory(imageOutputsDir);
+					}
 				}
 			}
 		} catch (SQLException e) {
