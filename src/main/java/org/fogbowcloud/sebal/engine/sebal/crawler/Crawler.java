@@ -176,6 +176,7 @@ public class Crawler {
 	}
 	
 	private void removeErrorImages(Properties properties) {
+		LOGGER.debug("Removing error images from disk if it exists");
 		try {
 			List<ImageData> errorImages = imageStore.getIn(ImageState.ERROR);
 
