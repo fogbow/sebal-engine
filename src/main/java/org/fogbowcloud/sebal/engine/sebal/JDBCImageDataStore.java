@@ -1053,7 +1053,7 @@ public class JDBCImageDataStore implements ImageDataStore {
 			lockAndUpdateStatement.setString(1, ImageState.SELECTED.getValue());
 			lockAndUpdateStatement.setString(2, federationMember);
 			lockAndUpdateStatement.setString(3,
-					ImageState.NOT_DOWNLOADED.getValue());
+					ImageState.SELECTED.getValue());
 			lockAndUpdateStatement.setString(4, ImageData.AVAILABLE);
 			lockAndUpdateStatement.setInt(5, limit);
 			lockAndUpdateStatement.setQueryTimeout(300);
