@@ -130,9 +130,8 @@ function SquareSelection(coordinates){
   return squareSelectionApi;
 }
 
-function initiateMap(elementId, heatMapRef){
+function initiateMap(elementId){
   
-  var heatMapREF = heatMapRef;
   var eventHandlers = {
     mapMove:undefined,
     regionSelect:undefined,
@@ -316,23 +315,13 @@ function initiateMap(elementId, heatMapRef){
     var heatMap = new ol.style.Fill({
           color: [255, 255, 255, 0]
     })
-    var transparency = heatMapREF.transparency;
 
-    for(var index = 0; index < heatMapREF.colours.length; index++){
-
-      var item = heatMapREF.colours[index];
-
-      if( (item.minValue == undefined && regionDetail.totalImgs <= item.maxValue) ||
-          (item.maxValue == undefined && regionDetail.totalImgs >= item.minValue) ||
-          (regionDetail.totalImgs >= item.minValue && regionDetail.totalImgs <= item.maxValue) ){
-        heatMap = new ol.style.Fill({
-          color: [item.r, item.g, item.b, transparency]
-        })
-        break;
-      }
-
-    };
-
+    if(regionDetail.color && regionDetail.color.length == 4){
+      heatMap = new ol.style.Fill({
+           color: regionDetail.color
+      })
+    }
+    
     var gridLayerGroup;
 
     map.getLayers().forEach(function(item, index){

@@ -17,15 +17,28 @@
 		<div style="font-size: 1em; padding-left: 10px; margin-top: 10px; margin-bottom: 10px">
 			{{languageContent.heatMap.label}}
 		</div>
-		<div ng-repeat="heatLabel in heatMap.colours" class="row">
-			<div ng-show="heatLabel.minValue == undefined" class="col-lg-10 col-md-10 col-sm-10" align="right">{{heatLabel.maxValue}}</div>
-			<div ng-show="heatLabel.minValue && heatLabel.maxValue" class="col-lg-10 col-md-10 col-sm-10" align="right">{{heatLabel.minValue}} {{languageContent.heatMap.infoTo}} {{heatLabel.maxValue}}</div>
-			<div ng-show="heatLabel.maxValue == undefined" class="col-lg-10 col-md-10 col-sm-10" align="right">{{heatLabel.minValue}}+</div>
-			<div class="col-md-1" align="left">
-				<span class="glyphicon glyphicon-stop" 
-				style="font-size: 1.5em; color: rgb({{heatLabel.r}},{{heatLabel.g}},{{heatLabel.b}})" 
-				aria-hidden="true"></span>
-			</div>
+		<div align="right">
+			<table>
+				<tr ng-repeat="heatLabel in heatMap.colours">
+					<td ng-show="heatLabel.minValue == undefined" 
+						style="padding-right: 10px" align="right">
+					{{heatLabel.maxValue}}
+					</td>
+					<td ng-show="heatLabel.minValue && heatLabel.maxValue"
+						style="padding-right: 10px" align="right">
+					{{heatLabel.minValue}} {{languageContent.heatMap.infoTo}} {{heatLabel.maxValue}}
+					</td>
+					<td ng-show="heatLabel.maxValue == undefined"
+						style="padding-right: 10px" align="right">
+					{{heatLabel.minValue}}+
+					</td>
+					<td>
+						<span class="glyphicon glyphicon-stop" 
+							style="font-size: 1.5em; color: rgb({{heatLabel.r}},{{heatLabel.g}},{{heatLabel.b}})" aria-hidden="true">
+						</span>
+					</td>
+				</tr>
+			</table>
 		</div>
 		
 	</div>

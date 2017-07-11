@@ -129,6 +129,12 @@ app.config(function($routeProvider){
 		},
 	    templateUrl : '/pages/submissions_list.html',
 	})
+	.when('/test', {
+		resolve: {
+			"check": checkUser
+		},
+	    templateUrl : '/pages/teste.html',
+	})
 	.when('/help', {
 		resolve: {
 			"check": checkUser

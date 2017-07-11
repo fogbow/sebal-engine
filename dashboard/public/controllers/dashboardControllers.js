@@ -232,10 +232,35 @@ dashboardControllers.controller('ListSubmissionsController', function($scope, $l
       item.updateTime = new Date(item.updateTime)
       
       submission.images.push(item)
+
+
+
     })
+
+    
 
     submissions.push(submission)
     return submissions
+  }
+
+  $scope.generateTagsComponent = function(submission){
+    
+    if(submission.tagListComponent == undefined){
+      console.log('Gerando tags para: '+submission.id)
+      //Creating tag component
+      var jnlitemListConfg = {
+        target:submission.id+'-tags-div',
+        items:['Tag 1', 'Tag 2'],
+        options:{
+          editButton:undefined,
+          permanentInput:false,
+        },
+      }
+
+      var tagList = lnil.NLItemsList(jnlitemListConfg);
+      submission.tagListComponent = tagList;
+    }
+    
   }
 
   $scope.getSapsSubmissions = function(){
@@ -506,7 +531,7 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
       });
   });
 
-  var sapsMap = initiateMap("map", $rootScope.heatMap);
+  var sapsMap = initiateMap("map");
 
   function callbackBoxSelectionInfo(selectionInfo){
     $scope.message = 'Selection: '+JSON.stringify(selectionInfo);
@@ -525,7 +550,25 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
     if(visibleReqions.length > 0){
       RegionService.getRegionsDetails(visibleReqions, 
       function(data){
+
         data.forEach(function(regionDetail ,index){
+
+          var transparency = $rootScope.heatMap.transparency;
+
+          for(var index = 0; index < $rootScope.heatMap.colours.length; index++){
+
+            var item = $rootScope.heatMap.colours[index];
+
+            if( (item.minValue == undefined && regionDetail.totalImgs <= item.maxValue) ||
+                (item.maxValue == undefined && regionDetail.totalImgs >= item.minValue) ||
+                (regionDetail.totalImgs >= item.minValue && regionDetail.totalImgs <= item.maxValue) ){
+              
+              regionDetail.color = [item.r, item.g, item.b, transparency];
+              regionDetail.cssColor = "rgb("+item.r+","+item.g+","+item.b+")"
+              break;
+            }
+
+          };
           sapsMap.updateRegionDetail(regionDetail);
         });
       },

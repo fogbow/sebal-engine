@@ -1,0 +1,40 @@
+ <link rel="stylesheet" href="/vendor/lnInputList/lnil.css" />
+<script src="/vendor/lnInputList/lnil.js"></script>
+<br>
+<br>
+<br>
+<br>
+
+  <!-- <span class="input-group-addon" id="basic-addon3">https://example.com/users/</span> -->
+
+<div id="id-user-pick"></div>
+
+
+<script type="text/javascript">
+var count = 0;
+
+
+var keyGeneratorTeste = function(value){
+	return value+"-id-"+(++count);
+}
+
+var sbilConfg = {
+	target:'id-user-pick',
+	items:['Value 1', 'Value 2'],
+	options:{
+		width: 800,
+		editButton:undefined,
+		inputReady:false
+	},
+	keyGenerator:keyGeneratorTeste
+}
+
+var inputList = lnil.NLItemsList.newItemsList(sbilConfg);
+
+// inputList.on('listchange', function(itemsList){
+// 	console.log('New list of items: '+JSON.stringify(itemsList));
+// })
+
+
+
+</script>
