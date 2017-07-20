@@ -43,23 +43,23 @@
           </div>
         </div>
       </div>
-      <div id="search-box" class="row panel-default" >
+      <div id="search-box" class="row panel-default sb-search-box" >
 
         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="margin-top: 5px;">
           <div class="sb-checkbox-sub-list">
-            <input type="checkbox" value="">
+          <input type="checkbox" ng-model="allSubmissionsChecked" ng-change="checkAllImages()">
             <img ng-hide="ss.showDetail" src="/images/b-left.png"/>
             <img ng-show="ss.showDetail" src="/images/b-down.png"/>
           </div>
         </div>
         <div align="right" class="col-lg-2 col-md-2 col-sm-2" style="font-size: 1em; padding-top: 8px;">
-          <div align="center" class="sb-span-round-button" style="display: inline-block; margin-right: 10px">
+          <div align="center" class="sb-span-round-button sb-rb-med" style="display: inline-block; margin-right: 10px">
             <span class="glyphicon glyphicon-remove" aria-hidden="true">
           </div>
-          <div align="center" class="sb-span-round-button" style="display: inline-block; margin-right: 10px">
+          <div align="center" class="sb-span-round-button sb-rb-med" style="display: inline-block; margin-right: 10px">
             <span class="glyphicon glyphicon-trash" aria-hidden="true">
           </div>
-          <div align="center" class="sb-span-round-button" style="display: inline-block;">
+          <div align="center" class="sb-span-round-button sb-rb-med" style="display: inline-block;">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true">
           </div>
         </div>
@@ -74,33 +74,46 @@
       <div id="tables-box" class="sb-submissions-panel">
           <div class="tray tray-center pn">
             <div ng-repeat="ss in sapsSubmissions" class="panel panel-default sb-submission-panel">
+
               <div class="panel-heading">
                 <div class="row">
-                  <div align="left" class="col-lg-5 col-md-5 col-sm-5 col-xs-12" style="cursor: pointer;">
-                    <h4 ng-click="switchVisibility('panel-body-sub'+$index);generateTagsComponent(ss)">
+                  <div align="left" class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="cursor: pointer; 
+                        border-style: solid; 
+                        border-width: 0px 2px 0px 0px;
+                        border-color: rgb(237, 237, 237);">
+                    <h4 ng-click="switchVisibility('image-table-'+$index)">
                       <img ng-hide="ss.showDetail" src="/images/b-left.png"/>
                       <img ng-show="ss.showDetail" src="/images/b-down.png"/>
-                      &nbsp;{{ss.name}} - {{ss.date}}
+                      &nbsp;{{ss.name}}
+                      <div style="display: inline;" ng-repeat="tag in ss.tags">
+                        - {{tag}}
+                      </div>
                     </h4>
                   </div>
-                  <div align="right" class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                    {{ss.totalImages}} <img src="/images/steps/pics.png"/>&nbsp;|&nbsp;
+                  <div align="right" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    {{ss.totalImages}} <img src="/images/steps/pics.png"/>&nbsp;- &nbsp;
                     {{ss.totalDownloading}}&nbsp;<img src="/images/steps/downloading.png"/>&nbsp;&nbsp;
                     {{ss.totalDownloaded}}&nbsp;<img src="/images/steps/downloaded.png"/>&nbsp;&nbsp;
                     {{ss.totalQueued}}&nbsp;<img src="/images/steps/queued.png"/>&nbsp;&nbsp;
                     {{ss.totalFeched}}&nbsp;<img src="/images/steps/fetched.png"/>&nbsp;&nbsp;
                     {{ss.totalError}}&nbsp;<img src="/images/steps/error.png"/>&nbsp;&nbsp;
                   </div>
+                  <div align="right" class="col-lg- col-md-2 col-sm-2 col-xs-12" style="
+                        border-style: solid; 
+                        border-width: 0px 0px 0px 2px;
+                        border-color: rgb(237, 237, 237);">
+                        <h4>{{ss.date}}</h4>
+                  </div>
                 </div>
               </div>
-              <div id="panel-body-sub{{$index}}" class="panel-body sb-hidden">
+              <div id="panel-body-sub{{$index}}" class="panel-body">
                 <div class="row">
-                  <div id="{{ss.id}}-tags-div"></div>
+                  <div id="{{ss.id}}-tags-div">{{generateTagsComponent(ss)}}</div>
                 </div>
                 <div id="table-div-sub{{$index}}" >
                   <!-- message listings table -->
                   
-                  <table id="image-table" class="saps-table">
+                  <table id="image-table-{{$index}}" class="saps-table sb-hidden">
                   
                     <thead>
                       <tr class="table-header">
@@ -108,16 +121,16 @@
                         <div class="div-table-th row">
                           <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="margin-top: 5px;">
                             <div class="sb-checkbox-sub-list">
-                              <input type="checkbox" value="">
+                              <input type="checkbox" ng-model="ss.allChecked" ng-change="checkUncheckAllBySubId(ss.id)">
                               <img ng-hide="ss.showDetail" src="/images/b-left.png"/>
                               <img ng-show="ss.showDetail" src="/images/b-down.png"/>
                             </div>
                           </div>
                           <div align="center" class="col-lg-1 col-md-1 col-sm-1" style="font-size: 1em; padding-top: 8px;">
-                            <div class="sb-span-round-button" style="display: inline-block; margin-right: 10px">
+                            <div class="sb-span-round-button sb-rb-med" style="display: inline-block; margin-right: 10px">
                               <span class="glyphicon glyphicon-trash" aria-hidden="true">
                             </div>
-                            <div class="sb-span-round-button" style="display: inline-block;">
+                            <div class="sb-span-round-button sb-rb-med" style="display: inline-block;">
                               <span class="glyphicon glyphicon-download-alt" aria-hidden="true">
                             </div>
                           </div>
@@ -153,7 +166,11 @@
                       <tr ng-repeat="i in ss.images">
                         <td>
                           <div class="div-table-row row">
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">{{$index + 1}}</div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                              <input type="checkbox" class="checkbox-submission-list"
+                              ng-model="i.checked" ng-change="checkUncheckImageByName(ss.id, i.checked)">
+                              {{$index + 1}}
+                            </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-7 selectable" ng-click="showDetail('detail'+$index, i)">{{i.name}}</div>
                             <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">{{i.creationTime | date : 'yyyy-MM-dd' }}</div>
                             <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">{{i.updateTime | date : 'yyyy-MM-dd' }}</div>

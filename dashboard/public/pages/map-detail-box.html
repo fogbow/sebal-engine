@@ -8,20 +8,20 @@
 		<div id="sb-map-feature-details" class="sb-map-feature-details">
 			<div class="sb-region-detail-line">
 				<div class="col-lg-9 col-md-9 col-sm-9 sb-detail-label">
-		 			<input class="sb-checkbox-map" type="checkbox" value="">
+		 			<input class="sb-checkbox-map" type="checkbox" ng-model="allDetailsChecked" ng-click="checkUncheckAllDetails()">
 				</div>
 				<div align="center" class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-					<div class="sb-span-round-button">
+					<div class="sb-span-round-button sb-rb-small">
 						<span class="glyphicon glyphicon-trash" aria-hidden="true">
 					</div>
 				</div>
 				<div align="center" class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-					<div class="sb-span-round-button">
+					<div class="sb-span-round-button sb-rb-small">
 						<span class="glyphicon glyphicon-download-alt" aria-hidden="true">
 					</div>
 				</div>
 				<div align="center" class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-					<div class="sb-span-round-button">
+					<div class="sb-span-round-button sb-rb-small">
 						<span class="glyphicon glyphicon-filter" aria-hidden="true">
 					</div>
 				</div>
@@ -29,7 +29,7 @@
 			<div ng-repeat="regionDetail in regionsDetails">
 				<div id="{{regionDetail.name}}-details" class="sb-region-detail-line" >
 					<div class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-						<input class="sb-checkbox-map" type="checkbox" value="{{regionDetail.name}}">
+						<input class="sb-checkbox-map" type="checkbox" ng-model="regionDetail.checked">
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-4 sb-detail-label" ng-click="switchVisibility(regionDetail.name+'-images')">
 						<span class="glyphicon glyphicon-stop" 
@@ -46,17 +46,17 @@
 						({{regionDetail.totalSatellitesImgs.l7.total}})
 					</div>
 					<div align="center" class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-						<div class="sb-span-round-button">
+						<div class="sb-span-round-button sb-rb-small">
 							<span class="glyphicon glyphicon-trash" aria-hidden="true">
 						</div>
 					</div>
 					<div align="center" class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-						<div class="sb-span-round-button">
+						<div class="sb-span-round-button sb-rb-small">
 							<span class="glyphicon glyphicon-download-alt" aria-hidden="true">
 						</div>
 					</div>
 					<div align="center" class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-						<div class="sb-span-round-button">
+						<div class="sb-span-round-button sb-rb-small">
 							<span class="glyphicon glyphicon-filter" aria-hidden="true">
 						</div>
 					</div>

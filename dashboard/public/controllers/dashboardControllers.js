@@ -157,6 +157,7 @@ dashboardControllers.controller('ListSubmissionsController', function($scope, $l
    SubmissionService, AuthenticationService, GlobalMsgService, appConfig) {
   
   $scope.sapsSubmissions = [];
+  $scope.allSubmissionsChecked = false;
   $scope.elementShowingDetail = undefined;
 
   $scope.detail={
@@ -194,9 +195,10 @@ dashboardControllers.controller('ListSubmissionsController', function($scope, $l
 
     submissions = []
 
-    submission = {
+    submission1 = {
       id:"sb01",
       name:"Submission 01",
+      tags:["tag1","tag2","tag3"],
       showDetail: false,
       date:"2017-05-01",
       totalImages:0,
@@ -205,9 +207,34 @@ dashboardControllers.controller('ListSubmissionsController', function($scope, $l
       totalQueued:0,
       totalFeched:0,
       totalError:0,
-      images:[]
+      images:[],
+      allChecked:false
     }
+
+    submission2 = {
+      id:"sb02",
+      name:"Submission 02",
+      tags:[],
+      showDetail: false,
+      date:"2017-05-27",
+      totalImages:0,
+      totalDownloading:0,
+      totalDownloaded:0,
+      totalQueued:0,
+      totalFeched:0,
+      totalError:0,
+      images:[],
+      allChecked:false
+    }
+
     images.forEach(function(item, index){
+
+      var submission;
+      if(index % 2 == 0){
+        submission = submission1;
+      }else{
+        submission = submission2;
+      }
       
       submission.totalImages = submission.totalImages +1
       
@@ -230,16 +257,14 @@ dashboardControllers.controller('ListSubmissionsController', function($scope, $l
       //Converting string to date
       item.creationTime = new Date(item.creationTime)
       item.updateTime = new Date(item.updateTime)
+      item.checked = false;
       
       submission.images.push(item)
 
-
-
     })
 
-    
-
-    submissions.push(submission)
+    submissions.push(submission1);
+    submissions.push(submission2);
     return submissions
   }
 
@@ -250,7 +275,7 @@ dashboardControllers.controller('ListSubmissionsController', function($scope, $l
       //Creating tag component
       var jnlitemListConfg = {
         target:submission.id+'-tags-div',
-        items:['Tag 1', 'Tag 2'],
+        items:submission.tags,
         options:{
           editButton:undefined,
           permanentInput:false,
@@ -259,9 +284,55 @@ dashboardControllers.controller('ListSubmissionsController', function($scope, $l
 
       var tagList = lnil.NLItemsList(jnlitemListConfg);
       submission.tagListComponent = tagList;
+      submission.tagListComponent.on('listchange',function(newList){
+        $scope.$apply(function(){
+          submission.tags = submission.tagListComponent.getValues();
+        })
+      });
+      
     }
     
   }
+
+  $scope.checkAllImages = function(){
+    $scope.sapsSubmissions.forEach(function(submission, index){
+      submission.allChecked = $scope.allSubmissionsChecked;
+      $scope.checkUncheckAllBySubId(submission.id)
+    });
+  }
+
+  $scope.checkUncheckAllBySubId = function(submissionId){
+    
+    for(var index = 0; index < $scope.sapsSubmissions.length; index++){
+      if($scope.sapsSubmissions[index].id == submissionId){
+        //$scope.sapsSubmissions[index].allChecked = !$scope.sapsSubmissions[index].allChecked;
+        $scope.sapsSubmissions[index].images.forEach(function(image,ind){
+          image.checked = $scope.sapsSubmissions[index].allChecked;
+        });
+        break;
+      }
+    }
+  }
+  $scope.checkUncheckImageByName = function(submissionId, checked){
+    console.log("Checking for "+submissionId+" ...")
+    for(var index = 0; index < $scope.sapsSubmissions.length; index++){
+      if($scope.sapsSubmissions[index].id == submissionId){
+        if(!checked){
+          $scope.sapsSubmissions[index].allChecked = false;
+        }else{
+          var allChecked = true;
+          $scope.sapsSubmissions[index].images.forEach(function(image,ind){
+            if(!image.checked){
+              allChecked = false;
+            }
+          });
+          $scope.sapsSubmissions[index].allChecked = allChecked;
+        }
+        break;
+      }
+    }
+  }
+  // sub-{{ss.name}}-check-{{i.name}}
 
   $scope.getSapsSubmissions = function(){
     SubmissionService.getSubmissions(
@@ -386,8 +457,8 @@ dashboardControllers.controller('NewSubmissionsController', function($scope, $ro
       $('#radio-defaul-tag').prop( "checked", 'checked' );
       $('#radio-other-tag').prop( "checked", null );
 
-      $scope.sebalVersionOpt = $scope.DEFAULT_VALUE
-      $scope.sebalTagOpt = $scope.DEFAULT_VALUE
+      $scope.sapsVersionOpt = $scope.DEFAULT_VALUE
+      $scope.sapsTagOpt = $scope.DEFAULT_VALUE
 
       $scope.satelliteOpts.forEach(function(item, index){
         $('#radioSatellite'+(index+1)).prop( "checked", null );
@@ -517,13 +588,30 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
   var selectedRegion;
   var searchedRegions = [];
 
-  $scope.regionFilter = "";
-  $scope.firstYearFilter = "";
-  $scope.lastYearFilter = "";
+  $scope.satelliteOpts = appConfig.SATELLITE_OPTS;
+  $scope.DEFAULT_VALUE = 'd';
+  $scope.OTHER_VALUE = 'o';
+  // Filters
+  $scope.searchFilters = {
+    generalSearch:'',
+    regionFilter:'',
+    sapsVersionOptFilter:$scope.DEFAULT_VALUE,
+    sapsVersionFilter:'',
+    sapsTagOptFilter:$scope.DEFAULT_VALUE,
+    sapsTagFilter:'',
+    satellite:''
+  };
+
+  $('#rad-filter-defaul-ver').prop( "checked", 'checked' );
+  $('#rad-filter-other-ver').prop( "checked", null );
+  $('#rad-filter-defaul-tag').prop( "checked", 'checked' );
+  $('#rad-filter-other-tag').prop( "checked", null );
+  // $scope.cleanSearch();
   // $scope.
   // $scope.
   // $scope.
   $scope.regionsDetails = [];
+  $scope.allDetailsChecked = false;
 
   $(function () {
       $('.saps-datepicker').datetimepicker({
@@ -595,7 +683,6 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
   function selectRegionOnMap(regionDetail){
 
     selectedRegion = regionDetail;
-    // console.log("Selected "+JSON.stringify(regionDetail));
     $scope.$apply(updateRegionsDetails);
 
   };
@@ -609,10 +696,8 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
       searchedRegions.forEach(function(regionDetail, index){
         if($scope.selectedRegion != undefined && 
             regionDetail.name != selectedRegion.name){
-          //console.log("Updating pushing "+JSON.stringify(regionDetail))
           $scope.regionsDetails.push(regionDetail)
         }else{
-          //console.log("Updating pushing "+JSON.stringify(regionDetail))
           $scope.regionsDetails.push(regionDetail)
         }
       });
@@ -642,13 +727,53 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
       hasError = true
     }
 
+    console.log('regionFilter = '+$scope.regionFilter)
+
     //$scope.regionsDetails.push({name:"ola mundo"})
 
     searchedRegions = sapsMap.getRegionsByName($scope.regionFilter);
-    console.log("Returned: "+JSON.stringify(searchedRegions));
+    //console.log("Returned: "+JSON.stringify(searchedRegions));
+    searchedRegions.forEach(function(regionDetail, index){
+      regionDetail.checked = false;
+    });
     updateRegionsDetails();
   }
-  
+
+  $scope.cleanSearch = function(){
+
+    $scope.allDetailsChecked = false;
+    $scope.regionsDetails = [];
+    selectedRegion = undefined;
+    searchedRegions = [];
+
+    $('#search-first-year-input').val('');
+    $('#search-last-year-input').val('');
+
+    $scope.searchFilters.generalSearch = '';
+    $scope.searchFilters.regionFilter = '';
+    $scope.searchFilters.sapsVersionOptFilter = $scope.DEFAULT_VALUE;
+    $scope.searchFilters.sapsVersionFilter = '';
+    $scope.searchFilters.sapsTagOptFilter = $scope.DEFAULT_VALUE;
+    $scope.searchFilters.sapsTagFilter = '';
+    $scope.searchFilters.satellite = '';
+    
+    $('#rad-filter-defaul-ver').prop( "checked", 'checked' );
+    $('#rad-filter-other-ver').prop( "checked", null );
+    $('#rad-filter-defaul-tag').prop( "checked", 'checked' );
+    $('#rad-filter-other-tag').prop( "checked", null );
+
+    $scope.satelliteOpts.forEach(function(item, index){
+      $('#radio-satellite-'+(index+1)).prop( "checked", null );
+    });
+
+  }
+
+  $scope.checkUncheckAllDetails = function(){
+    $scope.allDetailsChecked = !$scope.allDetailsChecked;
+    $scope.regionsDetails.forEach(function(regionDetail, index){
+      regionDetail.checked = $scope.allDetailsChecked;
+    });
+  }
   $scope.zoomIn = function(){
     sapsMap.zoomIn()
   }

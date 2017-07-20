@@ -1,31 +1,42 @@
-<div ng-controller="NewSubmissionsController">
-    <form>
-        <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">{{languageContent.mapFeature.submissionBox.label.submissionName}}</div>
-        <div style="margin-left: 15%; margin-right: 20%;">
-            <input type="text" class="saps-input saps-input input-small sb-width-lg"  id="submissionName" 
+<form ng-controller="NewSubmissionsController">
+        <div style="font-weight: bold; font-size: 1.2em; ">{{languageContent.mapFeature.submissionBox.label.submissionName}}</div>
+        <div style=" ">
+            <input type="text" class="saps-input input-small sb-width-100"  id="submissionName" 
               ng-model="submissionName" required>
         </div>
 
-        <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">{{languageContent.mapFeature.submissionBox.label.firstDate}} *</div>
-        <div id="firstYearField" style="margin-left: 15%; margin-right: 20%;">
-            <input type="text" class="saps-input input-small sb-width-lg saps-datepicker" id="firstYear" required>
+        <div style="font-weight: bold; font-size: 1.2em; ">{{languageContent.mapFeature.submissionBox.label.submissionTags}}</div>
+        <div style=" ">
+            <input type="text" class="saps-input input-small sb-width-100"  id="submissionTags" 
+              ng-model="submissionTags">
+        </div>
+
+        <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.firstDate}} *</div>
+        <div id="firstYearField" style=" ">
+            <input type="text" class="saps-input input-small sb-width-100 saps-datepicker" id="firstYear" required>
             <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
         </div>
 
-        <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">{{languageContent.mapFeature.submissionBox.label.lastDate}} *</div>
-        <div id="lastYearField" style="margin-left: 15%; margin-right: 20%;">
-            <input type="text" class="saps-input input-small sb-width-lg saps-datepicker" id="lastYear" required>
+        <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.lastDate}} *</div>
+        <div id="lastYearField" style=" ">
+            <input type="text" class="saps-input input-small sb-width-100 saps-datepicker" id="lastYear" required>
             <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
         </div>
 
-        <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">{{languageContent.mapFeature.submissionBox.label.region}} *</div>
-        <div id="regionField" style="margin-left: 15%; margin-right: 20%;">
-            <input type="text" class="saps-input saps-input input-small sb-width-lg"   ng-model="region" required >
+        <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.region}} *</div>
+        <div id="regionField" style=" ">
+            <input type="text" class="saps-input saps-input input-small sb-width-90" ng-model="region" required >
             <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
+            <span class="glyphicon glyphicon-plus-sign sb-tooltip" aria-hidden="true" style="font-size: 1.5em">
+                <div class="sb-info">
+                    <p>{{languageContent.infos.regionSearchFilter.info}}</p>
+                    <p>{{languageContent.infos.regionSearchFilter.eg}}</p>
+                </div>      
+            </span>
         </div>
 
-        <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">{{languageContent.mapFeature.submissionBox.label.sapsVersion}} *</div>
-        <div style="font-size: 1.2em; margin-left: 15%; margin-right: 20%;">
+        <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.sapsVersion}} *</div>
+        <div style="font-size: 1.2em;">
             <label class="radio-inline">
               <input onclick="document.getElementById('versionFieldInput').setAttribute('disabled','disabled')" type="radio" name="sbVersionRadio" id="radio-defaul-version" value="{{DEFAULT_VALUE}}" ng-model="sapsVersionOpt" checked > {{languageContent.mapFeature.submissionBox.raioButton.default}}
             </label>
@@ -33,14 +44,14 @@
               <input onclick="document.getElementById('versionFieldInput').removeAttribute('disabled')" type="radio" name="sbVersionRadio" id="radio-other-version" value="{{OTHER_VALUE}}" ng-model="sapsVersionOpt">{{languageContent.mapFeature.submissionBox.raioButton.other}}
             </label>
         </div>
-        <div  id="versionField" style="margin-left: 15%; margin-right: 20%;">
-            <input id='versionFieldInput' disabled type="text" class="saps-input saps-input input-small sb-width-lg" ng-model="sapsVersion" required>
+        <div  id="versionField" style=" ">
+            <input id='versionFieldInput' disabled type="text" class="saps-input saps-input input-small sb-width-100" ng-model="sapsVersion" required>
              <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
         </div>
 
 
-        <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">{{languageContent.mapFeature.submissionBox.label.sapsTag}}</div>
-        <div style="font-size: 1.2em; margin-left: 15%; margin-right: 20%;">
+        <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.sapsTag}}</div>
+        <div style="font-size: 1.2em;  ">
             <label class="radio-inline">
               <input onclick="document.getElementById('tagFieldInput').setAttribute('disabled','disabled')" type="radio" name="sbTagRadio" id="radio-defaul-tag" value="{{DEFAULT_VALUE}}" ng-model="sapsTagOpt" checked > {{languageContent.mapFeature.submissionBox.raioButton.default}}
             </label>
@@ -48,14 +59,14 @@
               <input onclick="document.getElementById('tagFieldInput').removeAttribute('disabled')" type="radio" name="sbTagRadio" id="radio-other-tag" value="{{OTHER_VALUE}}" ng-model="sapsTagOpt">{{languageContent.mapFeature.submissionBox.raioButton.other}}
             </label>
         </div>
-        <div id="tagField" style="margin-left: 15%; margin-right: 20%; margin-bottom: 20px;">
-            <input id='tagFieldInput' disabled type="text" class="saps-input saps-input input-small sb-width-lg" ng-model="sapsTag" required>
+        <div id="tagField" style="  margin-bottom: 20px;">
+            <input id='tagFieldInput' disabled type="text" class="saps-input saps-input input-small sb-width-100" ng-model="sapsTag" required>
              <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
         </div>
 
-        <div style="font-weight: bold; font-size: 1.2em; margin-left: 15%; margin-right: 20%;">{{languageContent.mapFeature.submissionBox.label.satellite}} *</div>
+        <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.satellite}} *</div>
 
-        <div id="satelliteField" style="margin-left: 15%; margin-right: 20%; margin-bottom: 20px;">
+        <div id="satelliteField" style="  margin-bottom: 20px;">
             <div style="font-size: 1.2em;">
 
               <label class="radio-inline" ng-repeat="sat in satelliteOpts">
@@ -65,10 +76,9 @@
             <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
         </div>
 
-        <div style="margin-left: 15%; margin-right: 160px;" align="right">
+        <div align="right">
           <div ng-click="submitJob()" class="sb-button sb-main sb-width-sm" align="center">
             {{languageContent.mapFeature.submissionBox.button.submit}}
           </div>
         </div>
-    </form>
-</div>
+</form>

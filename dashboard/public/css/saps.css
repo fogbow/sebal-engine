@@ -4,10 +4,14 @@
 @import url("saps-extra-small.css");
 
 /*BG Colors*/
-.sb-submission-panel, .sb-nav, .modal-body{
+.sb-submission-panel, .sb-nav, .modal-body, .sb-search-box{
 	background-color: rgb(237, 237, 237) !important;
 }
-.sb-body, .sb-content, .div-table-row, .div-table-th{
+.sb-search-box .sb-span-round-button{
+	background-color: rgb(137, 137, 137) !important;
+	color: rgb(255,255,255);
+}
+.sb-body, .div-table-th, .div-table-row{
 	background-color: rgb(211, 211, 211) !important;
 }
 .sb-head-panel-bar,.panel-heading, .sb-steps-panel, 
@@ -264,6 +268,9 @@ div.saps-label button{
 div.div-table-row div{
 	padding: 10px;
 	height: 100%;
+	border-style: solid;
+    border-width: 0px 2px 0px 0px;
+	border-color: rgb(237, 237, 237);
 }
 div.div-table-row:hover, div.div-table-row:hover .main-column{
 	color: rgb(30,30,30);
@@ -277,6 +284,13 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
 	font-size: 0.9em;
 }
 /* MISC */
+.checkbox-submission-list{
+	width: 15px;
+    height: 15px;
+    margin: 0px 15px 0px 0px !important;
+    position: relative;
+    top: 3px;
+}
 .zoom-control{
 	font-size: 2.5em;
 	border-radius: 20px;
@@ -307,4 +321,42 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
 	margin: 5px 5px 5px 5px;
 	font-size: 40px;
 	cursor: pointer;
+}
+
+/*WIDTH IN %*/
+.sb-width-100{
+	width: 100% !important;
+}
+.sb-width-90{
+	width: 90% !important;
+}
+.sb-tooltip:hover div.sb-info{
+	visibility: visible;
+}
+.sb-info{
+	visibility: hidden;
+	position: absolute;
+	min-width: 220px;
+	height: 80px;
+	background-color: #666;
+	border: 1px solid #666;
+	border-radius: 5px;
+	box-shadow: 2px 2px 4px #888;
+	top:-105px;
+	left: -50px;
+	padding: 8px 5px 16px 5px;
+	color: rgb(255,255,255);
+	font-size: 0.8em;
+}
+.sb-info:before {
+	content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 55px;
+    right: auto;
+    top: auto;
+    bottom: -22px;
+    border: 11px solid;
+    border-color: #666 transparent transparent #666;
 }

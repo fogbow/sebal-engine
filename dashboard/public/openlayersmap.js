@@ -366,15 +366,13 @@ function initiateMap(elementId){
 
     if(gridLayerGroup){
       gridLayerGroup.getLayers().forEach(function(item, index){
-          
           var regionSelection = SquareSelection(item.get("coordinates"));
-          if(index > 10 && index < 20){
-            console.log("adding new region to search")
+          if(regionsDetails.length < 11){
             var source = item.getSource();
             var features = source.getFeatures();
             var polygon = features[0];
-            if(polygon.get("regionDetail") != null){
-              regionsDetails.push(polygon.get("regionDetail"))
+            if(polygon.get('regionDetail') != undefined){
+              regionsDetails.push(polygon.get('regionDetail'))
             }  
           }
           // if(regionName == item.get("regionName")){
@@ -489,7 +487,7 @@ function initiateMap(elementId){
     //Do anything else after this?
   });
   map.on('moveend', function() {
-    console.log("moveend: ")
+    //console.log("moveend: ")
     
     if(eventHandlers.mapMove !== undefined){
       eventHandlers.mapMove();
@@ -498,7 +496,7 @@ function initiateMap(elementId){
   });
 
   map.on('movestart', function() {
-    console.log("movestart")
+    //console.log("movestart")
     
     if(eventHandlers.mapMove !== undefined){
       eventHandlers.mapMove();

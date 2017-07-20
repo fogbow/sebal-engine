@@ -101,13 +101,13 @@
 					var itemsListElement = $('#'+itemsListElementId);
 					if(lnilConfig.options && lnilConfig.options.width){
 						inputListSize = lnilConfig.options.width;
+						itemsListElement.css('width', inputListSize);
 					}else{
 
 						inputListSize = itemsListElement.width();
 						console.log("List size: "+inputListSize)
 					}
 
-					itemsListElement.css('width', inputListSize);
 					if(lnilConfig.options.permanentInput){
 						itemsListElement.addClass(CLASS_LNIL_COMP_PERMANENT_INPUT);
 					}else{
@@ -120,10 +120,10 @@
 						lnilConfig.items.forEach(function(item,index){
 							if(item){
 								if(typeof item === "object"){
-									addNewItem(item.key, item.value)
+									addPreviousItem(item.key, item.value)
 								}
 								if(typeof item === "string"){
-									addNewItem('', item)
+									addPreviousItem('', item)
 								}	
 							}
 						})
@@ -174,7 +174,9 @@
 					addNewItem('', value);
 					if(!lnilConfig.options.permanentInput){
 						hideInput();
+						inputElement.blur();
 					}
+					inputElement.val('');
 
 				    return false;
 				  }
@@ -207,12 +209,7 @@
 					removeItem(lnilItem.htmlId);
 				})
 				
-				if(eventHandlers.additem && !previous){
-					eventHandlers.additem(lnilItem.item)
-				}
-				if(eventHandlers.listchange && !previous){
-					eventHandlers.listchange(getItems())
-				}
+				
 
 			}
 
@@ -244,7 +241,37 @@
 					$('#'+ID_INPUT).val('');
 					addItem(lnilItem, ID_INPUT);
 					resizeInput(ID_INPUT);
+
+					if(eventHandlers.additem){
+						eventHandlers.additem(lnilItem.item)
+					}
+					if(eventHandlers.listchange){
+						eventHandlers.listchange(getItems())
+					}
 				}
+			}
+
+			var addPreviousItem = function(key,value){
+				
+				if(isStringEmpty(key) && lnilConfig.keyGenerator){
+					key = lnilConfig.keyGenerator(value);
+				}
+				var newItemId = ID_LIST_ITEM+(++itemsHtmlIdCounter);
+
+				var lnilItem = {
+					htmlId:newItemId,
+					item:{
+						key:key,
+						value:value
+					},
+				}
+
+				itemsList.push(lnilItem);
+
+				$('#'+ID_INPUT).val('');
+				addItem(lnilItem, ID_INPUT);
+				resizeInput(ID_INPUT);
+
 			}
 
 			var handleEditItemEvent = function(htmlId){
@@ -384,17 +411,17 @@
 
 				var itemsListElement = $('#'+itemsListElementId);
 				inputListSize = itemsListElement.width();
-					
+
 				itemsListElement = $('#'+itemsListElementId);
 				
 				itemsListElement.children().each(function(){
 					//Input elements will not be considerated
 					if($(this).prop("id") == ID_INPUT ||
 						$(this).prop("id") == ID_INPUT_EDIT){
-						console.log('Stoping loop')
+						// console.log('Stoping loop')
 						return false;
 					}
-					console.log('Continuing loop')
+					// console.log('Continuing loop')
 					lineSize = lineSize+$(this).outerWidth();
 					if(lineSize > (inputListSize - paddingFix)){
 						lineSize = $(this).outerWidth();
@@ -402,16 +429,19 @@
 				})
 
 				var inputElement = $('#'+inputId);
-				var inputSize = (inputListSize - lineSize - paddingFix);
+				var inputSizePixel = (inputListSize - lineSize - paddingFix);
 
 				var minSize = lnilConfig.options.permanentInput ? inputMinSize:hiddenInputMinSize;
 
-				if(inputSize < minSize){
-					inputSize = (inputListSize - paddingFix);
+				if(inputSizePixel < minSize){
+					inputSizePixel = (inputListSize - paddingFix);
 				}
-				inputElement.css('width',inputSize);
 
-				console.log('lineSize: '+lineSize+' -- Inputsize: '+inputSize)
+				var inputSizePercent = ((inputSizePixel*100)/inputListSize);
+
+				inputElement.css('width',inputSizePercent+'%');
+
+				console.log('lineSize: '+lineSize+' -- Inputsize: '+inputSizePercent)
 			}
 
 			var isStringEmpty = function(str){

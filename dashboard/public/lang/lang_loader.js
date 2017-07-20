@@ -65,6 +65,7 @@
 						title:"New Submission",
 						label:{
 							submissionName:"Submission Name",
+							submissionTags:"Tags",
 							firstDate:"First Year",
 							lastDate:"Last Year",
 							region:"Region",
@@ -87,6 +88,12 @@
 							regionName:"Region",
 						},
 					},
+				},
+				infos:{
+					regionSearchFilter:{
+						info:"For add more regions use \";\".",
+						eg:"Eg: region1;region2",
+					}
 				},
 				submissionsList:{
 					steps:{
@@ -170,6 +177,7 @@
 						title:"Nova Submissão",
 						label:{
 							submissionName:"Nome da Submissão",
+							submissionTags:"Tags",
 							firstDate:"Data inicial",
 							lastDate:"Data final",
 							region:"Região",
@@ -191,6 +199,12 @@
 						label:{
 							regionName:"Área",
 						},
+					},
+				},
+				infos:{
+					regionSearchFilter:{
+						info:"Para acresentar mais de uma região acrescente \";\".",
+						eg:"Ex: região1;região2",
 					},
 				},
 				submissionsList:{

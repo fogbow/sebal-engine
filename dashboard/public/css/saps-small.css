@@ -11,7 +11,7 @@
 	}
 	.sb-body{
 		min-height: 550px !important;
-		overflow-x: hidden;
+		/*overflow-x: hidden;*/
 		/*overflow-y: hidden;*/
 	}
 	.lang-choser{
@@ -89,6 +89,14 @@
     	height: 230px;
     	width: 222px;
     }
+    /*SUBMISSION MODAL*/
+    .sb-sub-modal{
+    	width: 450px!important;
+    }
+    div.sb-sub-modal .modal-body{
+    	padding-left: 50px;
+    	padding-right: 50px;
+    }
     /*CREATE ACCOUNT*/
     .create-account-logo{
 		background: rgb(211, 211, 211);
@@ -118,6 +126,7 @@
     }
 	.sb-map-feature-options{
 		padding-left: 30px;
+		padding-right: 30px;
 		padding-top: 15px;
 		font-size: 1em;
 	}

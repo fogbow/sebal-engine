@@ -8,15 +8,20 @@
 			class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.generalSearch}}</div>
 			<div>
 			  <input type="text" class="saps-input sb-width-md sb-height-sm" 
-			  	id="search-term" ng-model="$parent.general.search">
+			  	id="search-term" ng-model="$parent.searchFilters.generalSearch">
 			</div>
 			<div style="font-weight: bold;" class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.detailSearch}}</div>
 			<div class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.region}}</div>
 			<div>
 			  <input type="text" class="saps-input sb-width-md sb-height-sm"
-			  	id="search-region-filter" ng-model="$parent.regionFilter">
-			  	<span class="glyphicon glyphicon-info-sign" aria-hidden="true"
-			  		style="font-size: 1.5em"></span> 
+			  	id="search-region-filter" ng-model="$parent.searchFilters.regionFilter">
+			  	<span class="glyphicon glyphicon-info-sign sb-tooltip" aria-hidden="true"
+			  		style="font-size: 1.5em">
+			  		<div class="sb-info">
+				  		<p>{{languageContent.infos.regionSearchFilter.info}}</p>
+				  		<p>{{languageContent.infos.regionSearchFilter.eg}}</p>
+			  		</div>		
+			  	</span>
 			</div>
 			<div class="row">
 				<div class="col-lg-5 col-md-5 col-sm-5 sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.firstDate}}</div>
@@ -38,39 +43,39 @@
 			<div id="saps-version-filter">
 				<div class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.sapsVersion}}</div>
 				<label class="radio-inline">
-					<input onclick="document.getElementById('saps-version-filter-input').setAttribute('disabled','disabled')" type="radio" name="saps_ver-radio" id="rad-filter-defaul-ver" value="{{DEFAULT_VALUE}}" ng-model="$parent.sapsVersionOptFilter" checked> {{languageContent.mapFeature.searchBox.raioButton.default}}
+					<input onclick="document.getElementById('saps-version-filter-input').setAttribute('disabled','disabled')" type="radio" name="saps-ver-radio-filter" id="rad-filter-defaul-ver" value="{{DEFAULT_VALUE}}" ng-model="$parent.searchFilters.sapsVersionOptFilter" checked > {{languageContent.mapFeature.searchBox.raioButton.default}}
 				</label>
 				<label class="radio-inline">
-					<input onclick="document.getElementById('saps-version-filter-input').removeAttribute('disabled')" type="radio" name="saps_ver-radio" id="rad-filter-other-ver" value="{{OTHER_VALUE}}" ng-model="$parent.sapsVersionOptFilter">{{languageContent.mapFeature.searchBox.raioButton.other}}
+					<input onclick="document.getElementById('saps-version-filter-input').removeAttribute('disabled')" type="radio" name="saps-ver-radio-filter" id="rad-filter-other-ver" value="{{OTHER_VALUE}}" ng-model="$parent.searchFilters.sapsVersionOptFilter">{{languageContent.mapFeature.searchBox.raioButton.other}}
 				</label>
 				<div id="saps-version-filter-field">
-				  <input id='saps-version-filter-input' disabled type="text" class="saps-input sb-width-md sb-height-sm" ng-model="$parent.sapsVersionFilter" required>
+				  <input id='saps-version-filter-input' disabled type="text" class="saps-input sb-width-md sb-height-sm" ng-model="$parent.searchFilters.sapsVersionFilter">
 				</div>
 	      	</div>
 
 	      	<div id="saps-tag-filter">
 				<div class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.sapsTag}}</div>
 				<label class="radio-inline">
-					<input onclick="document.getElementById('saps-tag-filter-input').setAttribute('disabled','disabled')" type="radio" name="saps-tag-radio" id="rad-filter-defaul-tag" value="{{DEFAULT_VALUE}}" ng-model="$parent.sapsTagOptFilter" checked> {{languageContent.mapFeature.searchBox.raioButton.default}}
+					<input onclick="document.getElementById('saps-tag-filter-input').setAttribute('disabled','disabled')" type="radio" name="saps-tag-radio" id="rad-filter-defaul-tag" value="{{DEFAULT_VALUE}}" ng-model="$parent.searchFilters.sapsTagOptFilter" checked> {{languageContent.mapFeature.searchBox.raioButton.default}}
 				</label>
 				<label class="radio-inline">
-					<input onclick="document.getElementById('saps-tag-filter-input').removeAttribute('disabled')" type="radio" name="saps-tag-radio" id="rad-filter-other-tag" value="{{OTHER_VALUE}}" ng-model="$parent.sapsTagOptFilter">{{languageContent.mapFeature.searchBox.raioButton.other}}
+					<input onclick="document.getElementById('saps-tag-filter-input').removeAttribute('disabled')" type="radio" name="saps-tag-radio" id="rad-filter-other-tag" value="{{OTHER_VALUE}}" ng-model="$parent.searchFilters.sapsTagOptFilter">{{languageContent.mapFeature.searchBox.raioButton.other}}
 				</label>
 				<div id="saps-version-filter-field">
-					<input id='saps-tag-filter-input' disabled type="text" class="saps-input sb-width-md sb-height-sm" ng-model="$parent.sapsTagFilter" required>
+					<input id='saps-tag-filter-input' disabled type="text" class="saps-input sb-width-md sb-height-sm" ng-model="$parent.searchFilters.sapsTagFilter" required>
 				</div>
 	      	</div>
 
 	      	<div id="satellite-field">
 	      		<div class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.satellite}}</div>
 				<label class="radio-inline" ng-repeat="sat in satelliteOpts">
-				  <input type="radio" name="inlineRadioOptions" id="radio-satellite-{{$index + 1}}" value="{{sat.value}}" ng-model="$parent.satellite">{{sat.label}}
+				  <input type="radio" name="inlineRadioOptions" id="radio-satellite-{{$index + 1}}" value="{{sat.value}}" ng-model="$parent.searchFilters.satellite">{{sat.label}}
 				</label>
 			</div>
 			
 			<div class="row">
 				<div class="col-lg-6 col-md-6 col-sm-6" align="right">
-					<div ng-click="cleanForm()" class="sb-button sb-second sb-width-sm" align="center">
+					<div ng-click="cleanSearch()" class="sb-button sb-second sb-width-sm" align="center">
 					  {{languageContent.mapFeature.searchBox.button.clear}}
 					</div>
 				</div>
