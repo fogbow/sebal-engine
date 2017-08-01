@@ -1,12 +1,23 @@
 <!-- HEADER AND NAVBAR OF saps DASHBOARD-->
 <header>
   <div class="row sb-head-panel-bar">
-    <div class="col-lg-12" align="right">
+    <div class="sb-col-lg-18 sb-col-md-18"></div>
+    <div class="sb-col-lg-2 sb-col-md-2">
       <div class="sb-dropdown">
-        <div class="sb-dropdown-item">
+        <div class="sb-dropdown-button" align="right">
           {{user.name}}&nbsp;&nbsp;<a href=""><img src="/images/avatar.png"/></a>
         </div>
-        <div class="sb-dropdown-sub-item" ng-click="doLogout()">{{languageContent.navbar.menu.logout}}</div>
+        <div class="sb-dropdown-menu">
+          <div class="sb-dropdown-item">{{languageContent.navbar.menu.settings}}</div>
+          <div class="sb-dropdown-group">
+            <div class="sb-dropdown-group-title">{{languageContent.navbar.menu.langopt}}</div>
+            <div class="sb-dropdown-option" ng-repeat="langOpt in $parent.languageOptions" ng-click="loadLanguagebyShortName(langOpt)">{{langOpt.langName}}</div>
+          </div>
+          <div class="sb-dropdown-option">
+            <div class="option" ng-click="doLogout()">{{languageContent.navbar.menu.logout}}</div>
+          </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -25,17 +36,17 @@
             </a> -->
             <a href="#submissions-list">
               <div id="submitBtn" class="col-lg-4 col-md-3 col-sm-3 nav-button">
-                <img src="/images/menu/submissions.png"/>&nbsp;{{languageContent.navbar.menu.submission}}
+                <img src="/images/menu/submissions.png"/>&nbsp;{{languageContent.navbar.menu.button1}}
               </div>
             </a>
             <a href="#regions-map" ng-click="activateButton('selectRegionBtn')">
               <div id="selectRegionBtn" class="col-lg-4 col-md-2 col-sm-2 nav-button" >
-                <img src="/images/menu/map.png"/>&nbsp;{{languageContent.navbar.menu.map}}
+                <img src="/images/menu/map.png"/>&nbsp;{{languageContent.navbar.menu.button2}}
               </div>
             </a>
             <a href="#test" ng-click="activateButton('selectRegionBtn')">
               <div id="helpBtn" class="col-lg-4 col-md-2 col-sm-2 nav-button" >
-                <img src="/images/menu/help.png"/>&nbsp;{{languageContent.navbar.menu.help}}
+                <img src="/images/menu/help.png"/>&nbsp;{{languageContent.navbar.menu.button3}}
               </div>
             </a>
          <!--    <a href="#contact" ng-click="activateButton('selectRegionBtn')">

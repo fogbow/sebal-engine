@@ -7,16 +7,15 @@
 .sb-submission-panel, .sb-nav, .modal-body, .sb-search-box{
 	background-color: rgb(237, 237, 237) !important;
 }
-.sb-search-box .sb-span-round-button{
-	background-color: rgb(137, 137, 137) !important;
-	color: rgb(255,255,255);
-}
 .sb-body, .div-table-th, .div-table-row{
 	background-color: rgb(211, 211, 211) !important;
 }
 .sb-head-panel-bar,.panel-heading, .sb-steps-panel, 
-.sb-dropdown-sub-item, .sb-map-feature-label{
+.sb-map-feature-label{
 	background-color: rgb(0, 125, 111) !important;
+}
+.sb-modal, .sb-modal-sucess{
+	background-color: rgba(50, 175, 151, 0.5) !important;
 }
 .sb-map-feature-options, .sb-region-detail-line, .sb-image-detail,
 .sb-heat-map-legends{
@@ -36,7 +35,7 @@
 .sb-image-detail-line{
 	background-color: rgb(255,255,255) !important; 
 }
-.nav-button-selected, .nav-button:hover, .sb-dropdown:hover{
+.nav-button-selected, .nav-button:hover{
 	background-color: rgb(150,230,195) !important;
 }
 .saps-label.sb-error{
@@ -91,7 +90,7 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
 }
 
 /*Z-INDEX LEVEL 1 - MODALS*/
-.lang-choser, .lang-chosen, .sb-dropdown-sub-item{
+.lang-choser, .lang-chosen, .sb-dropdown, .sb-dropdown-menu{
 	z-index: 9999;
 }
 /*Z-INDEX LEVEL 2*/
@@ -103,13 +102,15 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
 }
 /*Z-INDEX LEVEL 3*/
 .sb-header,.logo-nav-bar{
-	z-index: 8000;
+	z-index: 9000;
 }
 /*Z-INDEX LEVEL 5*/
 .sb-map-features,.sb-map-controls,.sb-heat-map-legends{
 	z-index: 8000;
 }
-
+.sb-head-panel-bar{
+	padding: 10px 10px 10px 10px;
+}
 .lnil-comp {
 	position: relative;
 	top: -18px;
@@ -120,7 +121,6 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
 	padding-bottom: 10px;
 }
 /*LANG CHOSER*/
-
 .lang-choser-item,.lang-chosen img{
 	border: 1px solid rgb(155,155,155);
 	border-radius: 50%;
@@ -168,22 +168,74 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
 }
 /*  DROPDOWN */
 .sb-dropdown{
-	text-align: center;
 	vertical-align: middle;
-	font-size: 1.2em !important;
 }
-.sb-dropdown span{
-	padding-left: 10px;
-}
-
-.sb-dropdown:hover .sb-dropdown-sub-item{
+.sb-dropdown:hover .sb-dropdown-menu{
   	display: block;
 }
-.sb-dropdown-sub-item{
+.sb-dropdown-button{
+	padding-right: 10px;
+	text-align: right;
+}
+.sb-dropdown-menu{
+	padding: 5px 15px 5px 15px;
+    width: 100%;
+	background-color: rgb(220, 225, 225) !important;
+	border: 1px solid rgba(70,95,85,0.2);
 	display: none;
+	position: relative;
+}
+
+.sb-dropdown-group{
+	border-style: solid; 
+	border-width: 1px 0px 1px 0px;
+	border-color: rgba(0,10,5,0.3);
+}
+.sb-dropdown-group .sb-dropdown-group-title{
+	font-size: 0.9em;
+	color: rgb(80, 80, 80);
+	text-align: right;
+}
+.sb-dropdown-menu .sb-dropdown-item{
+	padding: 10px 0px 10px 0px;
+	color: rgb(100, 100, 100);
+}
+.sb-dropdown-menu .sb-dropdown-option{
 	cursor: pointer;
-	position: absolute;
-	text-align: center;
+	padding: 10px 0px 10px 0px;
+	color: rgb(100, 100, 100);
+}
+.sb-dropdown-menu .sb-dropdown-option:hover {
+	color: rgb(30, 30, 30);
+	background: rgba(110, 155, 125,0.5);
+	background: 
+		-webkit-linear-gradient(left,
+			rgba(190, 200, 200,0),
+			rgba(190, 200, 200,0.8), 
+			rgba(190, 200, 200,1), 
+			rgba(190, 200, 200,0.8),
+			rgba(190, 200, 200,0)); /* For Safari 5.1 to 6.0 */
+  	background: 
+  		-o-linear-gradient(left,
+  			rgba(190, 200, 200,0),
+			rgba(190, 200, 200,0.8), 
+			rgba(190, 200, 200,1), 
+			rgba(190, 200, 200,0.8),
+			rgba(190, 200, 200,0)); /* For Opera 11.1 to 12.0 */
+  	background: 
+  		-moz-linear-gradient(left,
+  			rgba(190, 200, 200,0),
+			rgba(190, 200, 200,0.8), 
+			rgba(190, 200, 200,1), 
+			rgba(190, 200, 200,0.8),
+			rgba(190, 200, 200,0)); /* For Firefox 3.6 to 15 */
+  	background: 
+  		linear-gradient(left,
+  			rgba(190, 200, 200,0),
+			rgba(190, 200, 200,0.8), 
+			rgba(190, 200, 200,1), 
+			rgba(190, 200, 200,0.8),
+			rgba(190, 200, 200,0)); /* Standard syntax */
 }
 /* BUTTONS */
 .sb-nav a{
@@ -264,6 +316,12 @@ div.saps-label button{
 }
 .div-table{
 	height: 50px;
+}
+.sb-sub-detail-table td{
+	text-align: left;
+}
+.sb-sub-detail-table .title-col{
+	font-weight: bold;
 }
 div.div-table-row div{
 	padding: 10px;
@@ -359,4 +417,19 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
     bottom: -22px;
     border: 11px solid;
     border-color: #666 transparent transparent #666;
+}
+
+.sb-rb-white{
+	background-color: rgb(255,255,255)!important;
+	color: rgb(137, 137, 137);
+}
+.sb-rb-grey{
+	background-color: rgb(137, 137, 137) !important;
+	color: rgb(255,255,255);
+}
+.sb-modal-sucess{
+
+}
+.sb-modal-sucess .modal-dialog{
+	margin-top: 15%;
 }

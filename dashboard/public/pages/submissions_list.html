@@ -53,14 +53,14 @@
           </div>
         </div>
         <div align="right" class="col-lg-2 col-md-2 col-sm-2" style="font-size: 1em; padding-top: 8px;">
-          <div align="center" class="sb-span-round-button sb-rb-med" style="display: inline-block; margin-right: 10px">
+          <div align="center" class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block; margin-right: 10px">
             <span class="glyphicon glyphicon-remove" aria-hidden="true">
           </div>
-          <div align="center" class="sb-span-round-button sb-rb-med" style="display: inline-block; margin-right: 10px">
+          <div align="center" class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block; margin-right: 10px">
             <span class="glyphicon glyphicon-trash" aria-hidden="true">
           </div>
-          <div align="center" class="sb-span-round-button sb-rb-med" style="display: inline-block;">
-            <span class="glyphicon glyphicon-download-alt" aria-hidden="true">
+          <div align="center" class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block;">
+            <span class="glyphicon glyphicon-send" aria-hidden="true">
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-3" align="right">
@@ -76,12 +76,9 @@
             <div ng-repeat="ss in sapsSubmissions" class="panel panel-default sb-submission-panel">
 
               <div class="panel-heading">
-                <div class="row">
-                  <div align="left" class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="cursor: pointer; 
-                        border-style: solid; 
-                        border-width: 0px 2px 0px 0px;
-                        border-color: rgb(237, 237, 237);">
-                    <h4 ng-click="switchVisibility('image-table-'+$index)">
+                  <div align="left" class="sb-col-lg-11 sb-col-md-11 sb-col-sm-11 sb-col-xs-20">
+                    <h4 ng-click="switchVisibility('image-table-'+$index)"
+                      style="cursor:pointer">
                       <img ng-hide="ss.showDetail" src="/images/b-left.png"/>
                       <img ng-show="ss.showDetail" src="/images/b-down.png"/>
                       &nbsp;{{ss.name}}
@@ -89,8 +86,16 @@
                         - {{tag}}
                       </div>
                     </h4>
+                    
                   </div>
-                  <div align="right" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                  <div align="right" class="sb-col-lg-1 sb-col-md-1 sb-col-sm-1 sb-col-xs-12">
+                        <div align="center" class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block; margin-right: 10px">
+                          <span class="glyphicon glyphicon-pencil" aria-hidden="true">
+                        </div>
+                  </div>      
+                  <div align="right" class="sb-col-lg-6 sb-col-md-6 sb-col-sm-6 sb-col-xs-20" style="border-style: solid; 
+                        border-width: 0px 2px 0px 2px;
+                        border-color: rgb(237, 237, 237);">
                     {{ss.totalImages}} <img src="/images/steps/pics.png"/>&nbsp;- &nbsp;
                     {{ss.totalDownloading}}&nbsp;<img src="/images/steps/downloading.png"/>&nbsp;&nbsp;
                     {{ss.totalDownloaded}}&nbsp;<img src="/images/steps/downloaded.png"/>&nbsp;&nbsp;
@@ -98,13 +103,9 @@
                     {{ss.totalFeched}}&nbsp;<img src="/images/steps/fetched.png"/>&nbsp;&nbsp;
                     {{ss.totalError}}&nbsp;<img src="/images/steps/error.png"/>&nbsp;&nbsp;
                   </div>
-                  <div align="right" class="col-lg- col-md-2 col-sm-2 col-xs-12" style="
-                        border-style: solid; 
-                        border-width: 0px 0px 0px 2px;
-                        border-color: rgb(237, 237, 237);">
+                  <div align="right" class="sb-col-lg-2 sb-col-md-2 sb-col-sm-2 sb-col-xs-12">
                         <h4>{{ss.date}}</h4>
                   </div>
-                </div>
               </div>
               <div id="panel-body-sub{{$index}}" class="panel-body">
                 <div class="row">
@@ -127,10 +128,10 @@
                             </div>
                           </div>
                           <div align="center" class="col-lg-1 col-md-1 col-sm-1" style="font-size: 1em; padding-top: 8px;">
-                            <div class="sb-span-round-button sb-rb-med" style="display: inline-block; margin-right: 10px">
+                            <div class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block; margin-right: 10px">
                               <span class="glyphicon glyphicon-trash" aria-hidden="true">
                             </div>
-                            <div class="sb-span-round-button sb-rb-med" style="display: inline-block;">
+                            <div class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block;">
                               <span class="glyphicon glyphicon-download-alt" aria-hidden="true">
                             </div>
                           </div>
@@ -171,7 +172,7 @@
                               ng-model="i.checked" ng-change="checkUncheckImageByName(ss.id, i.checked)">
                               {{$index + 1}}
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-7 selectable" ng-click="showDetail('detail'+$index, i)">{{i.name}}</div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-7 selectable" ng-click="showDetail('detail'+$index, i)" style="cursor:pointer">{{i.name}}</div>
                             <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">{{i.creationTime | date : 'yyyy-MM-dd' }}</div>
                             <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">{{i.updateTime | date : 'yyyy-MM-dd' }}</div>
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">{{i.state}}</div>

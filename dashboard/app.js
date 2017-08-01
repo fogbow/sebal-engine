@@ -185,26 +185,62 @@ var startApp = function(){
 			var totalImgs = 0;
 			var satelliteTotal = {
 				l4:{
-					name:"L4",
+					name:"l4",
 					total:0
 				},
 				l5:{
-					name:"L5",
+					name:"l5",
 					total:0
 				},
 				l7:{
-					name:"L7",
+					name:"l7",
 					total:0
 				}
 			};
 
 			regionDetail.images.forEach(function(image, index){
-
+				var sat04 = undefined;
+				var sat05 = undefined;
+				var sat07 = undefined;
 				totalImgs++;
 				image.satellites.forEach(function(sat, index){
 					//console.log(JSON.stringify(satelliteTotal[sat.name]))
+					if(satelliteTotal.l4.name == sat.name){
+						sat04 = sat;
+					}
+					if(satelliteTotal.l5.name == sat.name){
+						sat05 = sat;
+					}
+					if(satelliteTotal.l7.name == sat.name){
+						sat07 = sat;
+					}
 					satelliteTotal[sat.name].total = satelliteTotal[sat.name].total+1;
 				});
+
+				image.satellites = [];
+
+				if(!sat04){
+					sat04 = {
+						name:satelliteTotal.l4.name,
+               			link:undefined
+					}
+				}
+				image.satellites.push(sat04);
+				if(!sat05){
+					sat05 = {
+						name:satelliteTotal.l5.name,
+               			link:undefined
+					}
+					
+				}
+				image.satellites.push(sat05);
+				if(!sat07){
+					sat07 = {
+						name:satelliteTotal.l7.name,
+               			link:undefined
+					}
+				}
+				image.satellites.push(sat07);
 			});
 			regionDetail.totalImgs = item.imgsProcessed;//TODO Change this for totalImgs
 			regionDetail.totalSatellitesImgs = satelliteTotal;

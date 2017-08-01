@@ -51,10 +51,6 @@
     .sb-steps-panel{
 		height: 140px;
     }
-    .sb-dropdown, .sb-dropdown-item, .sb-dropdown-sub-item{
-    	height: 50px;
-    	width: 300px;
-    }
     .nav-button{
     	font-size: 1.3em;
     	padding-top: 20px;
@@ -221,5 +217,107 @@
 	}
 	.sb-height-md{
 		height:50px;
+	}
+
+	/* SIZES IN PERCENT */
+	.sb-col-sm-1{
+		width: 5%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-2{
+		width: 10%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-3{
+		width: 15%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-4{
+		width: 20%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-5{
+		width: 25%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-6{
+		width: 30%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-7{
+		width: 35%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-8{
+		width: 40%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-9{
+		width: 45%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-10{
+		width: 50%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-11{
+		width: 55%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-12{
+		width: 60%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-13{
+		width: 65%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-14{
+		width: 70%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-15{
+		width: 75%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-16{
+		width: 80%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-17{
+		width: 85%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-18{
+		width: 90%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-19{
+		width: 95%;
+		display: inline-block;
+		margin-right: -4px;
+	}
+	.sb-col-sm-20{
+		width: 100%;
+		display: inline-block;
+		margin-right: -4px;
 	}
 }

@@ -4,13 +4,7 @@
 	</div>
 	<div id="sb-map-feature-options" class="sb-map-feature-options sb-hidden">
 		<form>
-			<div style="font-weight: bold;" 
-			class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.generalSearch}}</div>
-			<div>
-			  <input type="text" class="saps-input sb-width-md sb-height-sm" 
-			  	id="search-term" ng-model="$parent.searchFilters.generalSearch">
-			</div>
-			<div style="font-weight: bold;" class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.detailSearch}}</div>
+			
 			<div class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.region}}</div>
 			<div>
 			  <input type="text" class="saps-input sb-width-md sb-height-sm"
@@ -23,6 +17,12 @@
 			  		</div>		
 			  	</span>
 			</div>
+			<div class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.generalSearch}}</div>
+			<div>
+			  <input type="text" class="saps-input sb-width-md sb-height-sm" 
+			  	id="search-term" ng-model="$parent.searchFilters.generalSearch">
+			</div>
+
 			<div class="row">
 				<div class="col-lg-5 col-md-5 col-sm-5 sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.firstDate}}</div>
 				<div class="col-lg-6 col-md-6 col-sm-6 sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.lastDate}}</div>	

@@ -10,19 +10,9 @@
 				<div class="col-lg-9 col-md-9 col-sm-9 sb-detail-label">
 		 			<input class="sb-checkbox-map" type="checkbox" ng-model="allDetailsChecked" ng-click="checkUncheckAllDetails()">
 				</div>
-				<div align="center" class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-					<div class="sb-span-round-button sb-rb-small">
-						<span class="glyphicon glyphicon-trash" aria-hidden="true">
-					</div>
-				</div>
-				<div align="center" class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-					<div class="sb-span-round-button sb-rb-small">
-						<span class="glyphicon glyphicon-download-alt" aria-hidden="true">
-					</div>
-				</div>
-				<div align="center" class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-					<div class="sb-span-round-button sb-rb-small">
-						<span class="glyphicon glyphicon-filter" aria-hidden="true">
+				<div align="center" class="col-lg-3 col-md-3 col-sm-3 sb-detail-label">
+					<div class="sb-span-round-button sb-rb-small sb-rb-white">
+						<span class="glyphicon glyphicon-send" aria-hidden="true">
 					</div>
 				</div>
 			</div>
@@ -31,34 +21,13 @@
 					<div class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
 						<input class="sb-checkbox-map" type="checkbox" ng-model="regionDetail.checked">
 					</div>
-					<div class="col-lg-4 col-md-4 col-sm-4 sb-detail-label" ng-click="switchVisibility(regionDetail.name+'-images')">
+					<div class="col-lg-8 col-md-8 col-sm-8 sb-detail-label" ng-click="switchVisibility(regionDetail.name+'-images')">
 						<span class="glyphicon glyphicon-stop" 
 							style="font-size: 1.5em; color: {{regionDetail.cssColor}}" aria-hidden="true">
 						</span>
-						{{regionDetail.name}}
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-4 sb-detail-label" align="center" style="padding-top:3px">
-						<strong>{{regionDetail.totalSatellitesImgs.l4.name}}</strong>
-						({{regionDetail.totalSatellitesImgs.l4.total}})
-						<strong>{{regionDetail.totalSatellitesImgs.l5.name}}</strong>
-						({{regionDetail.totalSatellitesImgs.l5.total}})
-						<strong>{{regionDetail.totalSatellitesImgs.l7.name}}</strong>
-						({{regionDetail.totalSatellitesImgs.l7.total}})
-					</div>
-					<div align="center" class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-						<div class="sb-span-round-button sb-rb-small">
-							<span class="glyphicon glyphicon-trash" aria-hidden="true">
-						</div>
-					</div>
-					<div align="center" class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-						<div class="sb-span-round-button sb-rb-small">
-							<span class="glyphicon glyphicon-download-alt" aria-hidden="true">
-						</div>
-					</div>
-					<div align="center" class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-						<div class="sb-span-round-button sb-rb-small">
-							<span class="glyphicon glyphicon-filter" aria-hidden="true">
-						</div>
+						{{regionDetail.name}} ({{regionDetail.totalSatellitesImgs.l4.total+
+						regionDetail.totalSatellitesImgs.l5.total+
+						regionDetail.totalSatellitesImgs.l7.total}})
 					</div>
 				</div>
 				<div id="{{regionDetail.name}}-images" class="sb-image-detail sb-hidden" >
@@ -69,16 +38,27 @@
 					</div>
 					<div class="sb-image-detail-line"
 						ng-repeat="images in regionDetail.images">
-						<div class="col-lg-2 col-md-2 col-sm-2">
+						<div class="col-lg-1 col-md-1 col-sm-1">
 							<input class="sb-checkbox-map" type="checkbox" value="{{images.name}}">
 						</div>
 						<div class="col-lg-4 col-md-4 col-sm-4">
 							{{images.date}}
 						</div>
-						<div class="col-lg-4 col-md-4 col-sm-4" align="right">
-							<strong>{{regionDetail.totalSatellitesImgs.l4.name}}</strong>
-							<strong>{{regionDetail.totalSatellitesImgs.l5.name}}</strong>
-							<strong>{{regionDetail.totalSatellitesImgs.l7.name}}</strong>
+						<div >
+							<div class="col-lg-6 col-md-6 col-sm-6" 
+								align="right">
+								<div ng-repeat="sat in images.satellites" style="display: inline-block;">
+									<strong>
+										{{sat.name}}
+										<span ng-show="sat.link" class="glyphicon glyphicon-ok-sign" aria-hidden="true"/>
+										</span>
+										<span ng-hide="sat.link" class="glyphicon glyphicon-ban-circle" aria-hidden="true">
+										</span>
+									</strong>
+									&nbsp;
+								</div>
+							</div>
+						</div>
 						</div>
 					</div>
 				</div>

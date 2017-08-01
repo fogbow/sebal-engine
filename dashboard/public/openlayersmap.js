@@ -393,7 +393,7 @@ function initiateMap(elementId){
   select.previous = undefined;
   select.cleanSelectionStyle = function(polygon){
     if(polygon != undefined){
-      console.log("Previous: "+polygon.get("regionName"))
+      //console.log("Previous: "+polygon.get("regionName"))
       var style = this.previous.getStyle();
       style.setStroke(new ol.style.Stroke({
               width: 1,

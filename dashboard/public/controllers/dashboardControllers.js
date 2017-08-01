@@ -10,12 +10,34 @@ dashboardControllers.controller('MainController', function($scope, $rootScope, $
 
   getUserName();
 
+  function getLangCookie(userName){
+    var cookies = document.cookie;
+    var prefix = "user-"+userName+"-lang=";
+    var begin = cookies.indexOf("; " + prefix);
+    if (begin == -1) {
+        begin = cookies.indexOf(prefix);
+        if (begin != 0) {
+            return null;
+        }
+
+    } else {
+        begin += 2;
+    }
+
+    var end = cookies.indexOf(";", begin);
+    if (end == -1) {
+        end = cookies.length;                        
+    }
+    return unescape(cookies.substring(begin + prefix.length, end));
+  }
+
   $scope.loadLanguagebyName = function(langOpt) {
     
     var lang = langLoader.getLangByName(langOpt.langName);
     if(lang !== undefined){
       $rootScope.languageContent = lang.content;
       $rootScope.languageChosen = langOpt;
+      document.cookie="user-"+$scope.user.name+"-lang="+langOpt.langName;
       //$rootScope.$apply();
     }
     
@@ -28,6 +50,7 @@ dashboardControllers.controller('MainController', function($scope, $rootScope, $
       //console.log("New lang: "+JSON.stringify(lang.langName))
       $rootScope.languageContent = lang.content;
       $rootScope.languageChosen = langOpt;
+      document.cookie="user-"+$scope.user.name+"-lang="+langOpt.langName;
       //$rootScope.$apply();
     }
     
@@ -60,8 +83,14 @@ dashboardControllers.controller('MainController', function($scope, $rootScope, $
     }
   }
 
+  $rootScope.showModalSuccess = function(msg){
+    $scope.modalMsgSuccess = msg;
+    $scope.openCloseModal('global-sucess-modal', true);
+  }
+
   $scope.openCloseModal = function(modalId, show){
     if(show){
+      console.log('Opening modal')
       $rootScope.$broadcast(appConfig.MODAL_OPENED);
       $('#'+modalId).modal('show')
     }else{
@@ -95,6 +124,12 @@ dashboardControllers.controller('MainController', function($scope, $rootScope, $
 
   //$scope.activateButton('monitorBtn');
 
+  var cookieLang = getLangCookie($scope.user.name);
+  if(cookieLang){
+    console.log("Loadign lang: "+cookieLang);
+    $scope.loadLanguagebyName(cookieLang);
+  }
+  
 });
 
 dashboardControllers.controller('LoginController', function($scope, $rootScope, $log, $filter, $timeout,
@@ -350,39 +385,36 @@ dashboardControllers.controller('ListSubmissionsController', function($scope, $l
 
     var detailContent = 
     "<div class='col-md-12'>"+
-      "<dl class='dl-horizontal'>"+
-        "<dt>ID:</dt>"+
-        "<dd>"+item.stationId+"</dd>"+
-        "<dt>State:</dt>"+
-        "<dd>"+item.state+"</dd>"+
-        "<dt>Creation Time:</dt>"+
-        "<dd>"+$filter('date')(item.creationTime, 'yyyy-MM-dd hh:mm:ss')+"</dd>"+
-        "<dt>Update Time:</dt>"+
-        "<dd>"+$filter('date')(item.updateTime, 'yyyy-MM-dd hh:mm:ss')+"</dd>"+
-        "<dt>Version/Tag:</dt>"+
-        "<dd><input type='text' readonly class='sb-width-lg' value='"+item.sebalVersion+"'/></dd>"+
-        "<dt>Fmask Version</dt>"+
-        "<dd><input type='text' readonly class='sb-width-lg' value='"+item.fmaskVersion+"'/></dd>"+
-        "<dt>Download Link</dt>"+
-        "<dd><input type='text' readonly class='sb-width-lg' value='"+item.downloadLink+"'/></dd>"+
-        
-        // "<dt>Federation Member</dt>"+
-        // "<dd>"+item.federationMember+"</dd>"+
-        // "<dt>Priority</dt>"+
-        // "<dd>"+item.priority+"</dd>"+
-        // "<dt>Sebal Tag</dt>"+
-        // "<dd>"+item.sebalTag+"</dd>"+
-        // "<dt>Crawler Version</dt>"+
-        // "<dd>"+item.crawlerVersion+"</dd>"+
-        // "<dt>Fetcher Version</dt>"+
-        // "<dd>"+item.fetcherVersion+"</dd>"+
-        // "<dt>Blowout Version</dt>"+
-        // "<dd>"+item.blowoutVersion+"</dd>"+
-        // "<dt>Status</dt>"+
-        // "<dd>"+item.status+"</dd>"+
-        // "<dt>Error</dt>"+
-        // "<dd>"+item.error+"</dd>"+
-      "</dl>"+
+      "<table class='sb-sub-detail-table'>"+
+        "<tr>"+
+          "<td class='title-col'>ID:</td>"+
+          "<td>"+item.stationId+"</td>"+
+        "</tr>"+
+        "<tr>"+
+          "<td class='title-col'>State:</td>"+
+          "<td>"+item.state+"</td>"+
+        "</tr>"+
+        "<tr>"+
+          "<td class='title-col'>Creation Time:</td>"+
+          "<td>"+$filter('date')(item.creationTime, 'yyyy-MM-dd hh:mm:ss')+"</td>"+
+        "</tr>"+
+        "<tr>"+
+          "<td class='title-col'>Update Time:</td>"+
+          "<td>"+$filter('date')(item.updateTime, 'yyyy-MM-dd hh:mm:ss')+"</td>"+
+        "</tr>"+
+        "<tr>"+
+          "<td class='title-col'>Version/Tag:</td>"+
+          "<td><input type='text' readonly class='sb-width-lg' value='"+item.sebalVersion+"'/></td>"+
+        "</tr>"+
+        "<tr>"+
+          "<td class='title-col'>Fmask Version</td>"+
+          "<td><input type='text' readonly class='sb-width-lg' value='"+item.fmaskVersion+"'/></td>"+
+        "</tr>"+
+        "<tr>"+
+          "<td class='title-col'>Download Link</td>"+
+          "<td><input type='text' readonly class='sb-width-lg' value='"+item.downloadLink+"'/></td>"+
+        "</tr>"+
+      "</table>"+
     "</div>";
 
     //console.log(elementId+" -- "+JSON.stringify(item));
@@ -540,7 +572,7 @@ dashboardControllers.controller('NewSubmissionsController', function($scope, $ro
         // console.log(radioId+' Checked: '+$(radioId).prop('checked'))
     });
 
-    //console.log('$scope.satellite: '+$scope.satellite)
+    console.log('$scope.satellite: '+$scope.satellite)
     if(!$scope.satellite){
       hasError = true
       msgRequiredShowHide('satelliteField',true);
@@ -562,14 +594,16 @@ dashboardControllers.controller('NewSubmissionsController', function($scope, $ro
       'dataSet' : $scope.satellite
     }
 
-    //console.log("Sending "+JSON.stringify(data));
+    console.log("Sending "+JSON.stringify(data));
     
     SubmissionService.postSubmission(data,
       function(response){
-        GlobalMsgService.pushMessageSuccess('Your job was submitted. Wait for the processing be completed. ' 
-              + 'If you activated the notifications you will get an email when finished.');
+        // GlobalMsgService.pushMessageSuccess('Your job was submitted. Wait for the processing be completed. ' 
+        //       + 'If you activated the notifications you will get an email when finished.');
         
         $scope.openCloseModal('submissionsModal', false);
+        $rootScope.showModalSuccess('Your job was submitted. Wait for the processing be completed. ' 
+              + 'If you activated the notifications you will get an email when finished.');
       }, 
       function(error){
         $log.error(JSON.stringify(error));
@@ -585,6 +619,48 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
   $log, $filter, $http, $timeout, AuthenticationService, RegionService, 
   GlobalMsgService, appConfig) {
 
+  //Region detail example
+  /*
+  *regionDetail: 
+  {  
+   "name":"region16",
+   "totalImgs":400,
+   "images":[  
+      {  
+         "name":"img_01",
+         "date":"2012-04-05",
+         "satellites":[  
+            {  
+               "name":"l5",
+               "link":"http://localhost:9080/images/img01"
+            }
+         ]
+      }
+   ],
+   "totalSatellitesImgs":{  
+      "l4":{  
+         "name":"L4",
+         "total":0
+      },
+      "l5":{  
+         "name":"L5",
+         "total":1
+      },
+      "l7":{  
+         "name":"L7",
+         "total":0
+      }
+   },
+   "color":[  
+      254,
+      178,
+      76,
+      0.5
+   ],
+   "cssColor":"rgb(254,178,76)",
+   "checked":false
+  */ 
+   
   var selectedRegion;
   var searchedRegions = [];
 
@@ -681,9 +757,11 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
   }
 
   function selectRegionOnMap(regionDetail){
-
-    selectedRegion = regionDetail;
-    $scope.$apply(updateRegionsDetails);
+    
+    $scope.$apply(function(){
+      $scope.searchFilters.regionFilter = regionDetail.name;
+      $('#sb-map-feature-options').show();
+    });
 
   };
 
@@ -694,6 +772,7 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
     }
     if(searchedRegions.length > 0){
       searchedRegions.forEach(function(regionDetail, index){
+        console.log("regionDetail: "+JSON.stringify(regionDetail));
         if($scope.selectedRegion != undefined && 
             regionDetail.name != selectedRegion.name){
           $scope.regionsDetails.push(regionDetail)
@@ -781,103 +860,3 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
     sapsMap.zoomOut()
   }
 });
-
-
-// dashboardControllers.controller("PaginationController", function($scope, $log) {
-
-//   $scope.itemsPerPage = 9999;
-//   $scope.itemsPerPageOptions = [5, 8, 10, 20, 50];
-//   $scope.currentPage = 0;
-//   $scope.totalPage = 0;
-//   $scope.prevPageDisabled = true;
-//   $scope.nextPageDisabled = true;
-//   $scope.filterValue = {};
-
-//   $scope.filterTable = function (submissionId) {
-     
-//       $log.debug("Filtering table for "+JSON.stringify($scope.filterValue)+' on .searchable-'+submissionId+' tr');
-      
-//       value = $scope.filterValue[submissionId]
-
-//       $log.debug('Specific: '+value);
-//       $log.debug('All: '+value);
-//       var rex = new RegExp(value, 'i');
-
-//       $('.'+submissionId+' tr').hide();
-//       $('.'+submissionId+' tr').filter(function () {
-//           //$log.debug("Testing "+$(this).text());
-//           var filterResult = rex.test($(this).text());
-//           return filterResult;
-//       }).show();
-
-
-//   };
-  
-//   $scope.pageCount = function(arrayElements) {
-//     if( Array.isArray(arrayElements)){
-//       //$scope.totalPage = Math.ceil(arrayElements.length/$scope.itemsPerPage)-1;
-//       $scope.totalPage = 0;
-//     }else{
-//       $scope.totalPage = 0;
-//     }
-//     return $scope.totalPage;
-//   };
-
-//   $scope.getPages = function() {
-//     var pages = [];
-//     var range = $scope.totalPage;
-//     for (var i = 0; i < range; i++) {
-//       pages.push(i+1);
-//     };
-//     prevPageCheck();
-//     nextPageCheck();
-//     return pages;
-//   };
-
-//   $scope.setPage = function(n) {
-//     $scope.currentPage = n;
-//     $('#filter').val('Search in table...');
-//     prevPageCheck();
-//     nextPageCheck();
-//   };
-
-//   $scope.prevPage = function() {
-//     if ($scope.currentPage > 0) {
-//       $scope.currentPage--;
-//     }
-//     prevPageCheck();
-//     $('#filter').val('Search in table...');
-//   };
-
-//   $scope.nextPage = function() {
-//     if( Array.isArray(arrayElements)){
-//       if ($scope.currentPage < $scope.totalPage) {
-//         $scope.currentPage++;
-//       }
-//       nextPageCheck();
-//       $('#filter').val('Search in table...');
-//     }
-//   };
-
-//   $scope.selectItensPerPage = function(n){
-//     $scope.itemsPerPage = n;
-//   };
-
-//   function prevPageCheck(){
-//     if($scope.currentPage == 0){
-//         $scope.prevPageDisabled = true;
-//     }else{
-//         $scope.prevPageDisabled = false;
-//     }
-//   }
-
-//   function nextPageCheck(){
-//     if($scope.currentPage == $scope.totalPage){
-//         $scope.nextPageDisabled = true;
-//     }else{
-//         $scope.nextPageDisabled = false;
-//     }
-//   }
-  
-
-// });

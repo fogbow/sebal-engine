@@ -11,18 +11,6 @@
               ng-model="submissionTags">
         </div>
 
-        <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.firstDate}} *</div>
-        <div id="firstYearField" style=" ">
-            <input type="text" class="saps-input input-small sb-width-100 saps-datepicker" id="firstYear" required>
-            <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
-        </div>
-
-        <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.lastDate}} *</div>
-        <div id="lastYearField" style=" ">
-            <input type="text" class="saps-input input-small sb-width-100 saps-datepicker" id="lastYear" required>
-            <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
-        </div>
-
         <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.region}} *</div>
         <div id="regionField" style=" ">
             <input type="text" class="saps-input saps-input input-small sb-width-90" ng-model="region" required >
@@ -33,6 +21,18 @@
                     <p>{{languageContent.infos.regionSearchFilter.eg}}</p>
                 </div>      
             </span>
+        </div>
+
+        <div style="font-weight: bold; font-size: 1.2em;" class="sb-col-lg-11">{{languageContent.mapFeature.submissionBox.label.firstDate}} *</div>
+        <div style="font-weight: bold; font-size: 1.2em;" class="sb-col-lg-9">{{languageContent.mapFeature.submissionBox.label.lastDate}} *</div>
+        
+        <div id="firstYearField" class="sb-col-lg-11">
+            <input type="text" class="saps-input input-small sb-width-90 saps-datepicker" id="firstYear" required>
+            <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
+        </div>
+        <div id="lastYearField" class="sb-col-lg-9">
+            <input type="text" class="saps-input input-small sb-width-100 saps-datepicker" id="lastYear" required>
+            <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
         </div>
 
         <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.sapsVersion}} *</div>
@@ -77,7 +77,7 @@
         </div>
 
         <div align="right">
-          <div ng-click="submitJob()" class="sb-button sb-main sb-width-sm" align="center">
+          <div ng-click="newSubmission()" class="sb-button sb-main sb-width-sm" align="center">
             {{languageContent.mapFeature.submissionBox.button.submit}}
           </div>
         </div>

@@ -29,10 +29,12 @@
 				},
 				navbar:{
 					menu:{
-						submission:"Submissions",
-						map:"Map",
-						help:"Help",
+						button1:"Processing",
+						button2:"Data",
+						button3:"Help",
 						logout:"Logout",
+						langopt:"Language",
+						settings:"Settings",
 					}
 				},
 				heatMap:{
@@ -43,13 +45,13 @@
 					searchBox:{
 						title:"Search",
 						label:{
-							generalSearch:"Find an area or TAG",
+							generalSearch:"Keywords or TAG",
 							detailSearch:"Detailed search",
 							region:"Region",
-							firstDate:"First Year",
-							lastDate:"Last Year",
-							sapsVersion:"SAPS Version",
-							sapsTag:"SAPS  Tag",
+							firstDate:"Initial date",
+							lastDate:"Final date",
+							sapsVersion:"Pre-processing script",
+							sapsTag:"Processing script",
 							satellite:"Satellites",
 						},
 						button:{
@@ -62,20 +64,20 @@
 						}
 					},
 					submissionBox:{
-						title:"New Submission",
+						title:"New Processing",
 						label:{
-							submissionName:"Submission Name",
+							submissionName:"Name",
 							submissionTags:"Tags",
-							firstDate:"First Year",
-							lastDate:"Last Year",
+							firstDate:"Initial date",
+							lastDate:"Final date",
 							region:"Region",
-							sapsVersion:"SAPS Version",
-							sapsTag:"SAPS  Tag",
+							sapsVersion:"Pre-processing script",
+							sapsTag:"Processing script",
 							satellite:"Satellites",
 							requiredField:"Required Field",
 						},
 						button:{
-							submit:"Submit",
+							submit:"Process",
 						},
 						raioButton:{
 							default:"Default",
@@ -141,10 +143,12 @@
 				},
 				navbar:{
 					menu:{
-						submission:"Submissões",
-						map:"Mapa",
-						help:"Ajuda",
+						button1:"Processamentos",
+						button2:"Dados",
+						button3:"Ajuda",
 						logout:"Sair",
+						langopt:"Idioma",
+						settings:"Configurações",
 					}
 				},
 				heatMap:{
@@ -155,13 +159,13 @@
 					searchBox:{
 						title:"Pesquisar",
 						label:{
-							generalSearch:"Encontre uma área ou TAG",
+							generalSearch:"Palavras chave ou TAG",
 							detailSearch:"Pesquisa detalhada",
 							region:"Região",
 							firstDate:"Data inicial",
 							lastDate:"Data final",
-							sapsVersion:"Versão do SAPS",
-							sapsTag:"TAG do SAPS",
+							sapsVersion:"Script de pré-processamento",
+							sapsTag:"Script de processamento",
 							satellite:"Satelites",
 						},
 						button:{
