@@ -36,6 +36,18 @@ dashboardServices.service('GlobalMsgService', function () {
     return message.level;
   }
 
+  this.globalSuccessModalMsg = function(msg){
+    var htmlMsg = "<div id='msg'>"+msg+"</div>"
+    var msgBody =  $('#global-sucess-modal').find('#msg-body')
+    var previousMSG = msgBody.find('#msg');
+    if(previousMSG){
+      previousMSG.remove();
+    }
+    msgBody.append(htmlMsg);
+    $('#global-sucess-modal').modal('show');
+    
+  }
+
 });
 
 dashboardServices.service('AuthenticationService', function($log, $http,
@@ -309,4 +321,22 @@ dashboardServices.service('RegionService', function($log, $http, AuthenticationS
   };
 
   return regionService;
+});
+
+dashboardServices.service('EmailService', function($log, $http, AuthenticationService, appConfig) {
+
+  var resourceUrl = appConfig.urlSapsService+appConfig.emailPath;
+  var emailService = {};
+
+  emailService.sendEmail = function(email, successCallback, errorCalback){
+    var data = {
+      data:email,
+    }
+    var headerCredentials = AuthenticationService.getHeaderCredentials();
+    $http.post(resourceUrl, data ,{headers: headerCredentials})
+      .success(successCallback).error(errorCalback);
+      
+  };
+
+  return emailService;
 });

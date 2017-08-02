@@ -8,18 +8,19 @@
 		<div id="sb-map-feature-details" class="sb-map-feature-details">
 			<div class="sb-region-detail-line">
 				<div class="col-lg-9 col-md-9 col-sm-9 sb-detail-label">
-		 			<input class="sb-checkbox-map" type="checkbox" ng-model="allDetailsChecked" ng-click="checkUncheckAllDetails()">
+		 			<input class="sb-checkbox-map" type="checkbox" ng-model="allDetailsChecked" ng-click="handleCheckUncheckAllDetails()">
 				</div>
 				<div align="center" class="col-lg-3 col-md-3 col-sm-3 sb-detail-label">
 					<div class="sb-span-round-button sb-rb-small sb-rb-white">
-						<span class="glyphicon glyphicon-send" aria-hidden="true">
+						<span class="glyphicon glyphicon-send" aria-hidden="true"
+							ng-click="sendEmail()">
 					</div>
 				</div>
 			</div>
 			<div ng-repeat="regionDetail in regionsDetails">
 				<div id="{{regionDetail.name}}-details" class="sb-region-detail-line" >
 					<div class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-						<input class="sb-checkbox-map" type="checkbox" ng-model="regionDetail.checked">
+						<input class="sb-checkbox-map" type="checkbox" ng-model="regionDetail.checked" ng-change="checkUncheckRegionDetail()">
 					</div>
 					<div class="col-lg-8 col-md-8 col-sm-8 sb-detail-label" ng-click="switchVisibility(regionDetail.name+'-images')">
 						<span class="glyphicon glyphicon-stop" 
@@ -33,21 +34,21 @@
 				<div id="{{regionDetail.name}}-images" class="sb-image-detail sb-hidden" >
 					<div class="sb-image-detail-line">
 						<div class="col-lg-1 col-md-1 col-sm-12">
-							<input class="sb-checkbox-map" type="checkbox" value="all">
+							<input class="sb-checkbox-map" type="checkbox" ng-model="regionDetail.allImgChecked" ng-click="handleCheckUncheckAllImages(regionDetail.name)">
 						</div>
 					</div>
 					<div class="sb-image-detail-line"
-						ng-repeat="images in regionDetail.images">
+						ng-repeat="image in regionDetail.images">
 						<div class="col-lg-1 col-md-1 col-sm-1">
-							<input class="sb-checkbox-map" type="checkbox" value="{{images.name}}">
+							<input class="sb-checkbox-map" type="checkbox" ng-model="image.checked" ng-change="checkUncheckImage(regionDetail.name)">
 						</div>
 						<div class="col-lg-4 col-md-4 col-sm-4">
-							{{images.date}}
+							{{image.date}}
 						</div>
 						<div >
 							<div class="col-lg-6 col-md-6 col-sm-6" 
 								align="right">
-								<div ng-repeat="sat in images.satellites" style="display: inline-block;">
+								<div ng-repeat="sat in image.satellites" style="display: inline-block;">
 									<strong>
 										{{sat.name}}
 										<span ng-show="sat.link" class="glyphicon glyphicon-ok-sign" aria-hidden="true"/>

@@ -128,6 +128,13 @@ var startApp = function(){
 		sebalApi.getRegionsDetails(reqUserInfo, regionsNames, callbackFunction);
 		
 	});
+	app.post("/email", extractUserInfo, function(req, res) {
+		var data = req.body.data;
+		logger.debug("Sending email: "+JSON.stringify(data))
+		var callbackFunction = registerCallBack(handleSendEmailResponse, req, res);
+		sebalApi.sendEmail(reqUserInfo, data, callbackFunction);
+		
+	});
 
 
 	//**** CALLBACK FUNCTIONS TO HANDLE SEBAL API RESPONSES ****//
@@ -249,6 +256,13 @@ var startApp = function(){
 		httpRes.status(resonse.code);
 		httpRes.end(JSON.stringify(formattedData));
 		
+	}
+
+	function handleSendEmailResponse(resonse, httpReq, httpRes){
+		//httpRes.setHeader("Access-Control-Allow-Origin", "*");
+		console.log("POST EMAIL - responding: "+resonse.data)
+		httpRes.status(resonse.code);
+		httpRes.end(JSON.stringify(resonse.data));
 	}
 
 	//HELPER FUNCTIONS

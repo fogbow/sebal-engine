@@ -616,7 +616,7 @@ dashboardControllers.controller('NewSubmissionsController', function($scope, $ro
 });
 
 dashboardControllers.controller('RegionController', function($scope, $rootScope,
-  $log, $filter, $http, $timeout, AuthenticationService, RegionService, 
+  $log, $filter, $http, $timeout, AuthenticationService, RegionService, EmailService,
   GlobalMsgService, appConfig) {
 
   //Region detail example
@@ -765,23 +765,23 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
 
   };
 
-  function updateRegionsDetails(){
-    $scope.regionsDetails = [];
-    if(selectedRegion != undefined){
-      $scope.regionsDetails.push(selectedRegion)
-    }
-    if(searchedRegions.length > 0){
-      searchedRegions.forEach(function(regionDetail, index){
-        console.log("regionDetail: "+JSON.stringify(regionDetail));
-        if($scope.selectedRegion != undefined && 
-            regionDetail.name != selectedRegion.name){
-          $scope.regionsDetails.push(regionDetail)
-        }else{
-          $scope.regionsDetails.push(regionDetail)
-        }
-      });
-    }
-  }
+  // function updateRegionsDetails(){
+  //   $scope.regionsDetails = [];
+  //   if(selectedRegion != undefined){
+  //     $scope.regionsDetails.push(selectedRegion)
+  //   }
+  //   if(searchedRegions.length > 0){
+  //     searchedRegions.forEach(function(regionDetail, index){
+  //       console.log("regionDetail: "+JSON.stringify(regionDetail));
+  //       if($scope.selectedRegion != undefined && 
+  //           regionDetail.name != selectedRegion.name){
+  //         $scope.regionsDetails.push(regionDetail)
+  //       }else{
+  //         $scope.regionsDetails.push(regionDetail)
+  //       }
+  //     });
+  //   }
+  // }
 
   sapsMap.on('mapMove',updateVisibleRegions)
   sapsMap.on('regionSelect',selectRegionOnMap)
@@ -814,8 +814,12 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
     //console.log("Returned: "+JSON.stringify(searchedRegions));
     searchedRegions.forEach(function(regionDetail, index){
       regionDetail.checked = false;
+      regionDetail.allImgChecked = false;
+      regionDetail.images.forEach(function(img, i){
+        img.checked = false;
+      });
     });
-    updateRegionsDetails();
+    $scope.regionsDetails = searchedRegions;
   }
 
   $scope.cleanSearch = function(){
@@ -847,12 +851,101 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
 
   }
 
-  $scope.checkUncheckAllDetails = function(){
-    $scope.allDetailsChecked = !$scope.allDetailsChecked;
+  $scope.sendEmail = function(){
+
+    var imgLinks = [];
     $scope.regionsDetails.forEach(function(regionDetail, index){
-      regionDetail.checked = $scope.allDetailsChecked;
+      if(regionDetail.checked){
+        regionDetail.images.forEach(function(img, i){
+          console.log("Img: "+JSON.stringify(img))
+          if(img.checked){
+            var newImgLinks = {
+              imgName:img.name,
+              links:[]
+            }
+            img.satellites.forEach(function(sat, ind){
+              if(sat.link != undefined){
+                newImgLinks.links.push(sat.link);
+              }
+            });
+            if(newImgLinks.links.length > 0){
+              imgLinks.push(newImgLinks);  
+            }
+          }
+        })
+      }
+    });
+
+    var email = {
+      email:AuthenticationService.getUserName(),
+      links:imgLinks
+    }
+    console.log("Sending "+JSON.stringify(email));
+
+    EmailService.sendEmail(email, 
+      function(data){
+        console.log("Return: "+JSON.stringify(data))
+        GlobalMsgService.globalSuccessModalMsg($rootScope.languageContent.messages.sendEmailSuccess)
+    },function(error){
+        console.log("Error: "+JSON.stringify(error))
+    })
+  }
+
+  $scope.handleCheckUncheckAllDetails = function(){
+    
+    $scope.allDetailsChecked = !$scope.allDetailsChecked
+    console.log("Handling for "+$scope.allDetailsChecked)
+    $scope.checkUncheckAllDetails($scope.allDetailsChecked);
+  }
+  $scope.checkUncheckAllDetails = function(check){
+    $scope.regionsDetails.forEach(function(regionDetail, index){
+      regionDetail.checked = check;
+      $scope.checkUncheckAllImages(regionDetail, check);
     });
   }
+  $scope.checkUncheckRegionDetail = function(){
+    var allChecked = true;
+    $scope.regionsDetails.forEach(function(regionDetail, index){
+      if(!regionDetail.checked){
+        allChecked=false;
+      }
+    });
+    $scope.allDetailsChecked = allChecked;
+  }
+  $scope.handleCheckUncheckAllImages = function(regionName){
+    var check;
+    for(var index=0; index < $scope.regionsDetails.length; index++){
+        if($scope.regionsDetails[index].name == regionName){
+          check = !$scope.regionsDetails[index].allImgChecked;
+          $scope.checkUncheckAllImages($scope.regionsDetails[index], check);
+          break;
+        }
+    }
+  }
+  $scope.checkUncheckAllImages = function(regionDetail, check){
+
+    regionDetail.allImgChecked = check;
+    regionDetail.images.forEach(function(img, i){
+      img.checked = check;
+    })
+  }
+  $scope.checkUncheckImage = function(regionName){
+    console.log("checkUncheckImage")
+    for(var index=0; index < $scope.regionsDetails.length; index++){
+        if($scope.regionsDetails[index].name == regionName){
+          var allChecked = true;
+          $scope.regionsDetails[index].images.forEach(function(img, i){
+            console.log("Img Checked? "+img.checked)
+            if(!img.checked){
+              allChecked=false;
+            }
+          })
+          $scope.regionsDetails[index].allImgChecked = allChecked;
+          break;
+        }
+    }
+  }
+
   $scope.zoomIn = function(){
     sapsMap.zoomIn()
   }

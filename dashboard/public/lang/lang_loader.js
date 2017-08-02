@@ -8,6 +8,12 @@
 			langShortName:"Eng",
 			img:"lang-icon-usa.png",
 			content:{
+				buttons:{
+					ok:"Ok",
+				},
+				messages:{
+					sendEmailSuccess:"Sent successfully,<br>check your email box.",
+				},
 				login:{
 					placeholdName:"NAME/EMAIL",
 					placeholdEmail:"PASSWORD",
@@ -122,6 +128,12 @@
 			langShortName:"Pt-br",
 			img:"lang-icon-br.png",
 			content:{
+				buttons:{
+					ok:"Ok",
+				},
+				messages:{
+					sendEmailSuccess:"Enviado com sucesso,<br>verifique sua caixa de email.",
+				},
 				login:{
 					placeholdName:"NOME/EMAIL",
 					placeholdEmail:"SENHA",

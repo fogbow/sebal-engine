@@ -364,5 +364,8 @@
 		display: inline-block;
 		margin-right: -4px;
 	}
-
+	.sb-modal-sucess .modal-body{
+		width: 200px !important;
+		min-height: 150px;
+	}
 }

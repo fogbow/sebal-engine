@@ -72,13 +72,11 @@
     <div id="global-sucess-modal" class="modal sb-modal-sucess" tabindex="-1" role="dialog" >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="panel-heading" style="border:none;">
-            <div align="right" class="sb-col-lg-20">
-              <img src="/images/close.png" ng-click="openCloseModal('global-sucess-modal', false)" style="width: 25px; cursor: pointer;"/>
-            </div>
-          </div>
-          <div class="modal-body">
-            {{modalMsgSuccess}}
+          <div class="modal-body" align="center">
+            <div id="msg-body"></div>
+            <div ng-click="openCloseModal('global-sucess-modal', false)"
+              style="margin-top: 20px" 
+              class="sb-button sb-main sb-width-sm" align="center">{{languageContent.buttons.ok}}</div>
           </div>
         </div>
       </div>

@@ -229,6 +229,14 @@
 		width: 250px;
 	}
 
+	.sb-modal-sucess .modal-body{
+		width: 100%;
+		min-height: 150px;
+	}
+	.sb-modal-sucess .modal-dialog{
+		width: 400px !important;
+	}
+
 	/* SIZES */
 	.sb-width-xs{
 		width: 100px !important;

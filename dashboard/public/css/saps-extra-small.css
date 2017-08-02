@@ -94,6 +94,11 @@
 		width: 300px;
 	}
 
+	.sb-modal-sucess .modal-body{
+		width: 200px !important;
+		min-height: 150px;
+	}
+
 	/* SIZES */
 	.sb-width-xs{
 		width: 50px !important;

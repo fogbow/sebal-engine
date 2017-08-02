@@ -121,7 +121,16 @@ var startApi = function(){
 				}
 				callbackFunction(response);
 			});
-		}
+		},
+		sendEmail: function(userInfo, data, callbackFunction){
+			var response = {
+				"resp": "OK",
+				"status" : "SUCCESS",
+				"code" : 200,
+				"data" : "Email will be sent to "+data.email
+			}
+			callbackFunction(response);
+		},
 	};
 
 	module.exports = api;

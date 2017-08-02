@@ -427,9 +427,11 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
 	background-color: rgb(137, 137, 137) !important;
 	color: rgb(255,255,255);
 }
-.sb-modal-sucess{
-
+.sb-modal-sucess .modal-body{
+	background-color: rgba(0,0,0,0) !important;
+	padding-top: 10%;
 }
 .sb-modal-sucess .modal-dialog{
+	border-radius: 25px;
 	margin-top: 15%;
 }

@@ -83,6 +83,7 @@ app.constant("appConfig", {
 	"submissionPath":"images",
 	"regionPath":"regions",
 	"regionDetailsPath":"regions/details",
+	"emailPath":"email",
 	"LOGIN_SUCCEED":"login.succeed",
 	"LOGIN_FAILED":"login.faild",
 	"LOGOUT_SUCCEED":"logout.succed",
