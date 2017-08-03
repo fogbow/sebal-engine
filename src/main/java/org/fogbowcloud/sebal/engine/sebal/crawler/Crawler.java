@@ -392,7 +392,7 @@ public class Crawler {
 
 	protected void download(double maxImagesToDownload) throws SQLException,
 			IOException {
-		LOGGER.debug("maxImagesToDownload=" + (int)maxImagesToDownload);
+		LOGGER.debug("maxImagesToDownload=" + 1);
 		List<ImageData> imageDataList = new ArrayList<ImageData>();
 
 		try {
@@ -400,8 +400,7 @@ public class Crawler {
 			// and sets this federation member as owner, and then gets all
 			// images
 			// marked as SELECTED
-			imageDataList = imageStore.getImagesToDownload(federationMember,
-					(int) maxImagesToDownload);
+			imageDataList = imageStore.getImagesToDownload(federationMember, 1);
 		} catch (SQLException e) {
 			LOGGER.error("Error while accessing not downloaded images in DB", e);
 		}
@@ -442,7 +441,7 @@ public class Crawler {
 		String volumeDirPath = properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH);
 		File volumePath = new File(volumeDirPath);
 		if (volumePath.exists() && volumePath.isDirectory()) {
-			double freeVolumeSpaceOutputDedicated = Double.valueOf(volumePath.getTotalSpace()) * 0.93;
+			double freeVolumeSpaceOutputDedicated = Double.valueOf(volumePath.getTotalSpace()) * 0.6;
 			double availableVolumeSpace = Double.valueOf(volumePath.getUsableSpace()) - freeVolumeSpaceOutputDedicated;
 			LOGGER.debug("totalDisk=" + Double.valueOf(volumePath.getTotalSpace()));
 			LOGGER.debug("freeVolumeSpaceOutputDedicated=" + freeVolumeSpaceOutputDedicated);
