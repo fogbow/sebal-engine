@@ -147,7 +147,7 @@ public class SebalTasks {
 				localRunScriptFile.getAbsolutePath(), remoteRunScriptPath);
 		LOGGER.debug("ScpUploadCommand=" + scpUploadCommand);
 		rTaskImpl.addCommand(new Command(scpUploadCommand,
-				Command.Type.LOCAL));		
+				Command.Type.LOCAL));
 
 		// adding remote commands
 		String remoteChmodInitScriptCommand = createChmodScriptCommand(remoteInitScriptPath);

@@ -154,7 +154,7 @@ public class Crawler {
 		try {			
 			while (true) {
 				cleanUnfinishedQueuedOutput();
-				//reSubmitErrorImages(properties);
+				removeCorruptedImages(properties);
 				removeErrorImages(properties);
 				purgeImagesFromVolume(properties);
 				deleteFetchedResultsFromVolume(properties);
@@ -175,6 +175,39 @@ public class Crawler {
 		}
 	}
 	
+	private void removeCorruptedImages(Properties properties) {
+		LOGGER.debug("Removing corrupted images from disk if it exists");
+		try {
+			List<ImageData> errorImages = imageStore.getIn(ImageState.CORRUPTED);
+
+			for (ImageData imageData : errorImages) {
+				if (imageData.getFederationMember().equals(federationMember)) {
+					String imageInputsDirPath = properties
+							.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH)
+							+ File.separator + "images" + imageData.getName();
+					String imageOutputsDirPath = properties
+							.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH)
+							+ File.separator + "results" + imageData.getName();
+					File imageInputsDir = new File(imageInputsDirPath);
+					File imageOutputsDir = new File(imageOutputsDirPath);
+
+					if (imageInputsDir.exists() && imageInputsDir.isDirectory()) {
+						FileUtils.deleteDirectory(imageInputsDir);
+					}
+
+					if (imageOutputsDir.exists()
+							&& imageOutputsDir.isDirectory()) {
+						FileUtils.deleteDirectory(imageOutputsDir);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			LOGGER.error("Error while getting images with corrupted state", e);
+		} catch (IOException e) {
+			LOGGER.error("Error while removing images with corrupted state from disk", e);
+		}
+	}
+
 	private void removeErrorImages(Properties properties) {
 		LOGGER.debug("Removing error images from disk if it exists");
 		try {
@@ -457,6 +490,7 @@ public class Crawler {
 				}
 				
 				if (exitValue != 0) {
+					LOGGER.error("fmaskExitValue=" + exitValue);
 					LOGGER.error("It was not possible run Fmask for image "
 							+ imageData);
 					markImageWithErrorAndUpdateState(imageData, properties);
@@ -635,7 +669,7 @@ public class Crawler {
 
 	protected void deleteImageFromDisk(final ImageData imageData,
 			String exportPath) throws IOException {
-		String imageDirPath = exportPath + "/images/" + imageData.getName();
+		String imageDirPath = exportPath + File.separator + "images" + File.separator + imageData.getName();
 		File imageDir = new File(imageDirPath);
 
 		LOGGER.info("Removing image " + imageData + " data under path "
@@ -708,7 +742,7 @@ public class Crawler {
 
 	private void deleteResultsFromDisk(ImageData imageData, String exportPath)
 			throws IOException {
-		String resultsDirPath = exportPath + "/results/" + imageData.getName();
+		String resultsDirPath = exportPath + File.separator +  "results" + File.separator + imageData.getName();
 		File resultsDir = new File(resultsDirPath);
 
 		if (!resultsDir.exists() || !resultsDir.isDirectory()) {
