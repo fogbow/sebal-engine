@@ -192,12 +192,12 @@ public class Crawler {
 					File imageOutputsDir = new File(imageOutputsDirPath);
 
 					if (imageInputsDir.exists() && imageInputsDir.isDirectory()) {
-						FileUtils.deleteDirectory(imageInputsDir);
+						deleteInputsFromDisk(imageData, SebalPropertiesConstants.SEBAL_EXPORT_PATH);
 					}
 
 					if (imageOutputsDir.exists()
 							&& imageOutputsDir.isDirectory()) {
-						FileUtils.deleteDirectory(imageOutputsDir);
+						deleteResultsFromDisk(imageData, SebalPropertiesConstants.SEBAL_EXPORT_PATH);
 					}
 				}
 			}
@@ -205,6 +205,8 @@ public class Crawler {
 			LOGGER.error("Error while getting images with corrupted state", e);
 		} catch (IOException e) {
 			LOGGER.error("Error while removing images with corrupted state from disk", e);
+		} catch (InterruptedException e) {
+			LOGGER.error("Error while deleting image/results from images with error");
 		}
 	}
 
@@ -223,21 +225,25 @@ public class Crawler {
 							+ File.separator + "results" + imageData.getName();
 					File imageInputsDir = new File(imageInputsDirPath);
 					File imageOutputsDir = new File(imageOutputsDirPath);
-
 					if (imageInputsDir.exists() && imageInputsDir.isDirectory()) {
-						FileUtils.deleteDirectory(imageInputsDir);
+						deleteImageFromDisk(imageData,
+								SebalPropertiesConstants.SEBAL_EXPORT_PATH);
 					}
 
 					if (imageOutputsDir.exists()
 							&& imageOutputsDir.isDirectory()) {
-						FileUtils.deleteDirectory(imageOutputsDir);
+						deleteResultsFromDisk(imageData,
+								SebalPropertiesConstants.SEBAL_EXPORT_PATH);
 					}
+
 				}
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Error while getting images with error", e);
 		} catch (IOException e) {
 			LOGGER.error("Error while removing images with error from disk", e);
+		} catch (InterruptedException e) {
+			LOGGER.error("Error while deleting image/results from images with error");
 		}
 	}
 
@@ -308,7 +314,11 @@ public class Crawler {
 		LOGGER.info("Deleting queued images results from disk");
 		List<ImageData> data = imageStore.getIn(ImageState.QUEUED);
 		for (ImageData imageData : data) {
-			deleteResultsFromDisk(imageData, properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH));
+			try {
+				deleteResultsFromDisk(imageData, properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH));
+			} catch (InterruptedException e) {
+				LOGGER.error("Error while deleting result files for image " + imageData.getName());
+			}
 		}
 	}
 	
@@ -625,6 +635,9 @@ public class Crawler {
 		} catch (SQLException e) {
 			LOGGER.error("Error while updating image data: " + imageData.getName(), e);
 			removeFromPendingAndUpdateState(imageData, properties);
+		} catch (InterruptedException e) {
+			LOGGER.error("Error while deleting image " + imageData.getName() + " from disk");
+			removeFromPendingAndUpdateState(imageData, properties);
 		}
 	}
 
@@ -648,15 +661,16 @@ public class Crawler {
 			try {
 				imageStore.updateImage(imageData);
 				imageData.setUpdateTime(imageStore.getImage(imageData.getName()).getUpdateTime());
+				deleteImageFromDisk(imageData,
+						properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH));
 			} catch (SQLException e) {
 				Crawler.LOGGER.error("Error while updating image data "
 						+ imageData.getName(), e);
 				imageData.setFederationMember(federationMember);
 				imageData.setState(ImageState.SELECTED);
+			} catch (InterruptedException e) {
+				LOGGER.error("Error while deleting image " + imageData.getName() + " from disk");
 			}
-
-			deleteImageFromDisk(imageData,
-					properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH));
 
 			LOGGER.debug("Removing image " + imageData
 					+ " from pending image map");
@@ -667,7 +681,7 @@ public class Crawler {
 	}
 
 	protected void deleteImageFromDisk(final ImageData imageData,
-			String exportPath) throws IOException {
+			String exportPath) throws IOException, InterruptedException {
 		String imageDirPath = exportPath + File.separator + "images" + File.separator + imageData.getName();
 		File imageDir = new File(imageDirPath);
 
@@ -675,7 +689,7 @@ public class Crawler {
 				+ imageDirPath);
 
 		if (isImageOnDisk(imageDirPath, imageDir)) {
-			FileUtils.deleteDirectory(imageDir);
+			deleteInputsFromDisk(imageData, SebalPropertiesConstants.SEBAL_EXPORT_PATH);
 		}
 	}
 
@@ -727,7 +741,7 @@ public class Crawler {
 	}
 	
 	private void deleteInputsFromDisk(ImageData imageData, String exportPath)
-			throws IOException {
+			throws IOException, InterruptedException {
 		String inputsDirPath = exportPath + "/images/" + imageData.getName();
 		File inputsDir = new File(inputsDirPath);
 
@@ -736,11 +750,13 @@ public class Crawler {
 		}
 
 		LOGGER.debug("Deleting inputs for " + imageData + " from " + inputsDirPath);
-		FileUtils.deleteDirectory(inputsDir);
+		ProcessBuilder builder = new ProcessBuilder("rm", "-r", inputsDirPath);
+		Process p = builder.start();
+		p.waitFor();
 	}
 
 	private void deleteResultsFromDisk(ImageData imageData, String exportPath)
-			throws IOException {
+			throws IOException, InterruptedException {
 		String resultsDirPath = exportPath + File.separator +  "results" + File.separator + imageData.getName();
 		File resultsDir = new File(resultsDirPath);
 
@@ -749,7 +765,9 @@ public class Crawler {
 		}
 
 		LOGGER.debug("Deleting results for " + imageData + " from " + resultsDirPath);
-		FileUtils.deleteDirectory(resultsDir);
+		ProcessBuilder builder = new ProcessBuilder("rm", "-r", resultsDirPath);
+		Process p = builder.start();
+		p.waitFor();
 	}
 
 	protected void purgeImagesFromVolume(Properties properties)
