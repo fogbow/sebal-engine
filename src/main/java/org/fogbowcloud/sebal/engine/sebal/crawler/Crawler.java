@@ -54,6 +54,7 @@ public class Crawler {
 
 	public static final Logger LOGGER = Logger.getLogger(Crawler.class);
 
+	private static final long TIMEOUT = 300000;
 
 	public Crawler(Properties properties, String crawlerIP, String nfsPort,
 			String federationMember) throws SQLException {
@@ -719,7 +720,7 @@ public class Crawler {
 
 				if (imageData.getState().equals(ImageState.FETCHED)
 						&& imageData.getFederationMember().equals(
-								federationMember) && imageResultsDir.exists()) {
+								federationMember) && imageResultsDir.exists()) {					
 					LOGGER.debug("Image " + imageData.getName() + " fetched");
 					LOGGER.info("Removing " + imageResultsPath);
 
@@ -750,9 +751,25 @@ public class Crawler {
 		}
 
 		LOGGER.debug("Deleting inputs for " + imageData + " from " + inputsDirPath);
-		ProcessBuilder builder = new ProcessBuilder("rm", "-r", inputsDirPath);
-		Process p = builder.start();
-		p.waitFor();
+		Boolean isProcessBuilderFinished = false; 
+		
+		ProcessBuilder builder = new ProcessBuilder("sudo", "rm", "-r", inputsDirPath);
+		Thread thread = new Thread(new MonitorProcess(imageData.getName(), builder, isProcessBuilderFinished),
+				"Thread ({ " + imageData.getName() + " removal })");
+		thread.start();
+		
+		long startProcessBuilderTime = System.currentTimeMillis();
+		long elapsedTime = 0; 
+		while (!isProcessBuilderFinished) {
+			long now = System.currentTimeMillis();
+			elapsedTime = now - startProcessBuilderTime;
+			
+			if (elapsedTime > TIMEOUT) {
+				LOGGER.debug("Timeout on image " + imageData.getName() + " removal process");
+				thread.interrupt();					
+				break;
+			}
+		}
 	}
 
 	private void deleteResultsFromDisk(ImageData imageData, String exportPath)
@@ -765,9 +782,25 @@ public class Crawler {
 		}
 
 		LOGGER.debug("Deleting results for " + imageData + " from " + resultsDirPath);
-		ProcessBuilder builder = new ProcessBuilder("rm", "-r", resultsDirPath);
-		Process p = builder.start();
-		p.waitFor();
+		Boolean isProcessBuilderFinished = false; 
+		
+		ProcessBuilder builder = new ProcessBuilder("sudo", "rm", "-r", resultsDirPath);
+		Thread thread = new Thread(new MonitorProcess(imageData.getName(), builder, isProcessBuilderFinished),
+				"Thread ({ " + imageData.getName() + " removal })");
+		thread.start();
+		
+		long startProcessBuilderTime = System.currentTimeMillis();
+		long elapsedTime = 0; 
+		while (!isProcessBuilderFinished) {
+			long now = System.currentTimeMillis();
+			elapsedTime = now - startProcessBuilderTime;
+			
+			if (elapsedTime > TIMEOUT) {
+				LOGGER.debug("Timeout on image " + imageData.getName() + " removal process");
+				thread.interrupt();
+				break;
+			}
+		}
 	}
 
 	protected void purgeImagesFromVolume(Properties properties)
