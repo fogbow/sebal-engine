@@ -765,6 +765,7 @@ public class Crawler {
 			}
 		}
 		
+		LOGGER.debug("Inputs removal timed out...destroying process");
 		p.destroy();
 	}
 
@@ -783,9 +784,12 @@ public class Crawler {
 		
 		long timeBetweenSleeps = 10000;		
 		for (long tryNumber = 0; tryNumber < TIMEOUT/timeBetweenSleeps; tryNumber++) {			
-			try {				
+			try {
+				Thread.sleep(timeBetweenSleeps);
 				int exitValue = p.exitValue();
 				if(exitValue == 0) {
+					LOGGER.debug("resultsRemovalExitValue=" + exitValue);
+					LOGGER.debug("ProcessOutput=" + getProcessOutput(p));
 					return;
 				}
 			} catch (IllegalThreadStateException e) {
@@ -793,7 +797,19 @@ public class Crawler {
 			}
 		}
 		
+		LOGGER.debug("Results removal timed out...destroying process");
 		p.destroy();
+	}
+	
+	private String getProcessOutput(Process p) throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		StringBuilder stringBuilder = new StringBuilder();
+		String line = null;
+		while ((line = reader.readLine()) != null) {
+			stringBuilder.append(line);
+			stringBuilder.append(System.getProperty("line.separator"));
+		}
+		return stringBuilder.toString();
 	}
 
 	protected void purgeImagesFromVolume(Properties properties)
