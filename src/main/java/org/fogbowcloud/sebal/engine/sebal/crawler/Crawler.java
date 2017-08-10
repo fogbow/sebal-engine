@@ -784,8 +784,7 @@ public class Crawler {
 					LOGGER.debug("Purging image " + imageData);
 
 					try {
-						deleteImageFromDisk(imageData,
-								properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH));
+						deleteImageFromDisk(imageData, exportPath);
 						deleteResultsFromDisk(imageData, exportPath);
 					} catch (IOException e) {
 						LOGGER.error("Error while deleting " + imageData, e);
