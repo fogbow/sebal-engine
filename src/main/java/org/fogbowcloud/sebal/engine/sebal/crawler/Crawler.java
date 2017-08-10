@@ -707,9 +707,7 @@ public class Crawler {
 		List<ImageData> setOfImageData = imageStore.getAllImages();
 		
 		LOGGER.debug("setOfImageData=" + setOfImageData.size());
-
 		String exportPath = properties.getProperty(SebalPropertiesConstants.SEBAL_EXPORT_PATH);
-
 		String resultsPath = exportPath + File.separator + "results";
 
 		if (!exportPath.isEmpty() && exportPath != null) {
@@ -751,25 +749,23 @@ public class Crawler {
 		}
 
 		LOGGER.debug("Deleting inputs for " + imageData + " from " + inputsDirPath);
-		Boolean isProcessBuilderFinished = false; 
-		
 		ProcessBuilder builder = new ProcessBuilder("sudo", "rm", "-r", inputsDirPath);
-		Thread thread = new Thread(new MonitorProcess(imageData.getName(), builder, isProcessBuilderFinished),
-				"Thread ({ " + imageData.getName() + " removal })");
-		thread.start();
+		Process p = builder.start();
 		
-		long startProcessBuilderTime = System.currentTimeMillis();
-		long elapsedTime = 0; 
-		while (!isProcessBuilderFinished) {
-			long now = System.currentTimeMillis();
-			elapsedTime = now - startProcessBuilderTime;
-			
-			if (elapsedTime > TIMEOUT) {
-				LOGGER.debug("Timeout on image " + imageData.getName() + " removal process");
-				thread.interrupt();					
-				break;
+		long timeBetweenSleeps = 10000;
+		for (long tryNumber = 0; tryNumber < TIMEOUT/timeBetweenSleeps; tryNumber++) {			
+			try {
+				Thread.sleep(timeBetweenSleeps);
+				int exitValue = p.exitValue();
+				if(exitValue == 0) {
+					return;
+				}
+			} catch (IllegalThreadStateException e) {
+				continue;
 			}
 		}
+		
+		p.destroy();
 	}
 
 	private void deleteResultsFromDisk(ImageData imageData, String exportPath)
@@ -781,26 +777,23 @@ public class Crawler {
 			return;
 		}
 
-		LOGGER.debug("Deleting results for " + imageData + " from " + resultsDirPath);
-		Boolean isProcessBuilderFinished = false; 
-		
+		LOGGER.debug("Deleting results for " + imageData + " from " + resultsDirPath); 
 		ProcessBuilder builder = new ProcessBuilder("sudo", "rm", "-r", resultsDirPath);
-		Thread thread = new Thread(new MonitorProcess(imageData.getName(), builder, isProcessBuilderFinished),
-				"Thread ({ " + imageData.getName() + " removal })");
-		thread.start();
+		Process p = builder.start();
 		
-		long startProcessBuilderTime = System.currentTimeMillis();
-		long elapsedTime = 0; 
-		while (!isProcessBuilderFinished) {
-			long now = System.currentTimeMillis();
-			elapsedTime = now - startProcessBuilderTime;
-			
-			if (elapsedTime > TIMEOUT) {
-				LOGGER.debug("Timeout on image " + imageData.getName() + " removal process");
-				thread.interrupt();
-				break;
+		long timeBetweenSleeps = 10000;		
+		for (long tryNumber = 0; tryNumber < TIMEOUT/timeBetweenSleeps; tryNumber++) {			
+			try {				
+				int exitValue = p.exitValue();
+				if(exitValue == 0) {
+					return;
+				}
+			} catch (IllegalThreadStateException e) {
+				continue;
 			}
 		}
+		
+		p.destroy();
 	}
 
 	protected void purgeImagesFromVolume(Properties properties)
