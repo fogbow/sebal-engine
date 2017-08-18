@@ -272,14 +272,15 @@ dashboardServices.service('SubmissionService', function($log, $http,
 
     var headerCredentials = AuthenticationService.getHeaderCredentials();
 
-    var req = {
-      method: 'POST',
-      url: resourceUrl,
-      data: dataForm,
-      headers: headerCredentials
-    };
+    // var req = {
+    //   method: 'POST',
+    //   url: resourceUrl,
+    //   data: dataForm,
+    //   headers: headerCredentials
+    // };
 
-    $http(req).success(successCallback).error(errorCalback);
+    // $http(req).success(successCallback).error(errorCalback);
+    successCallback("OK");
       
   };
 

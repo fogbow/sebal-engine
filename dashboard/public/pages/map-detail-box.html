@@ -3,7 +3,7 @@
 		<div class="sb-map-feature-label"
 		ng-click="selectRegionOnMap()">
 			<!-- <img src="/images/menu/contact.png"/> -->
-			<span class="glyphicon glyphicon-play" aria-hidden="true"></span> Detalhes da &aacute;rea
+			<span class="glyphicon glyphicon-play" aria-hidden="true"></span> {{languageContent.mapFeature.regionDetailBox.title}}
 		</div>
 		<div id="sb-map-feature-details" class="sb-map-feature-details">
 			<div class="sb-region-detail-line">
@@ -13,14 +13,20 @@
 				<div align="center" class="col-lg-3 col-md-3 col-sm-3 sb-detail-label">
 					<div class="sb-span-round-button sb-rb-small sb-rb-white">
 						<span class="glyphicon glyphicon-send" aria-hidden="true"
-							ng-click="sendEmail()">
+							ng-click="switchVisibility('detail-email-info')">
 					</div>
+				</div>
+			</div>
+			<div id="detail-email-info" class="email-info sb-hidden" align="center">
+				<div ng-bind-html="languageContent.mapFeature.regionDetailBox.emailInfo"></div>
+				<div ng-click="sendEmail()" class="sb-button sb-main sb-width-xs sb-height-sm" align="center">
+					  {{languageContent.mapFeature.regionDetailBox.button.sendMail}}
 				</div>
 			</div>
 			<div ng-repeat="regionDetail in regionsDetails">
 				<div id="{{regionDetail.name}}-details" class="sb-region-detail-line" >
 					<div class="col-lg-1 col-md-1 col-sm-1 sb-detail-label">
-						<input class="sb-checkbox-map" type="checkbox" ng-model="regionDetail.checked" ng-change="checkUncheckRegionDetail()">
+						<input class="sb-checkbox-map" type="checkbox" ng-model="regionDetail.checked" ng-change="checkUncheckRegionDetail({{regionDetail}})">
 					</div>
 					<div class="col-lg-8 col-md-8 col-sm-8 sb-detail-label" ng-click="switchVisibility(regionDetail.name+'-images')">
 						<span class="glyphicon glyphicon-stop" 

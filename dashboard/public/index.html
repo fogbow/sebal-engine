@@ -91,12 +91,12 @@
   <!-- jQuery -->
   <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="/bower_components/moment/min/moment.min.js"></script>
-  <!--Datapicker-->
-  <script type="text/javascript" src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+  
   
   <!-- Angular -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-sanitize.js"></script>
 
   <!-- NProgress Plugin -->
   <script src="vendor/plugins/nprogress/nprogress.js"></script>
@@ -108,16 +108,22 @@
   <script src="assets/js/utility/utility.js"></script>
   <script src="assets/js/demo/demo.js"></script>
   <script src="assets/js/main.js"></script>
-  <script src="vendor/bootstrap-3.3.7/js/bootstrap.js"></script>
+  <script src="vendor/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+  <!--Datapicker-->
+  <script type="text/javascript" src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
   <!-- Angular -->
   <script src="vendor/angular/angular-resource.min.js"></script>
   <script src="/lang/lang_loader.js"></script>
   <script src="dashboardApp.js"></script>
   <script src="controllers/dashboardControllers.js"></script>
+  <script src="controllers/submissionController.js"></script>
+  <script src="controllers/regionController.js"></script>
   <script src="services/dashboardServices.js"></script>
+  <!-- <script src="loadApp.js"></script> -->
   <!-- modal images -->
-  <script src="vendor/plugins/magnific/jquery.magnific-popup.js"></script>
-  <script src="vendor/plugins/highlight/highlight.pack.js"></script>
+  <!-- <script src="vendor/plugins/magnific/jquery.magnific-popup.js"></script> -->
+  <!-- <script src="vendor/plugins/highlight/highlight.pack.js"></script> -->
   <script src="vendor/jslnItemList/lnil.js"></script>
   <script src="https://openlayers.org/en/v3.20.1/build/ol.js"></script>
   <script src="/openlayersmap.js"></script>
@@ -125,33 +131,6 @@
   <script type="text/javascript">
     jQuery(document).ready(function() {
 
-    "use strict";
-
-    // Init Theme Core    
-    Core.init();
-
-    // Init Demo JS    
-    Demo.init();
-
-    //Nprogress
-
-    // Configure Progress Loader
-    NProgress.configure({
-      minimum: 0.15,
-      trickleRate: .07,
-      trickleSpeed: 360,
-      showSpinner: false,
-      barColor: 'npr-warning', // npr-warning, npr-success, npr-primary, etc (all contextuals available)
-      barPos: '' // 'null' - (default) - bar position: top of page
-        // 'npr-bottom' -  bar position: bottom of page header    
-        // 'npr-header' -  bar position: below header        
-    });
-
-    $('.magnific-link').magnificPopup({ 
-      type: 'image'
-      // other options
-      // gallery:{enabled:true}
-    });
 
   });
   </script>

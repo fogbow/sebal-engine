@@ -40,39 +40,46 @@
 				</div>	
 			</div>
 
-			<div id="saps-version-filter">
-				<div class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.sapsVersion}}</div>
-				<label class="radio-inline">
-					<input onclick="document.getElementById('saps-version-filter-input').setAttribute('disabled','disabled')" type="radio" name="saps-ver-radio-filter" id="rad-filter-defaul-ver" value="{{DEFAULT_VALUE}}" ng-model="$parent.searchFilters.sapsVersionOptFilter" checked > {{languageContent.mapFeature.searchBox.raioButton.default}}
-				</label>
-				<label class="radio-inline">
-					<input onclick="document.getElementById('saps-version-filter-input').removeAttribute('disabled')" type="radio" name="saps-ver-radio-filter" id="rad-filter-other-ver" value="{{OTHER_VALUE}}" ng-model="$parent.searchFilters.sapsVersionOptFilter">{{languageContent.mapFeature.searchBox.raioButton.other}}
-				</label>
-				<div id="saps-version-filter-field">
-				  <input id='saps-version-filter-input' disabled type="text" class="saps-input sb-width-md sb-height-sm" ng-model="$parent.searchFilters.sapsVersionFilter">
-				</div>
-	      	</div>
-
-	      	<div id="saps-tag-filter">
-				<div class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.sapsTag}}</div>
-				<label class="radio-inline">
-					<input onclick="document.getElementById('saps-tag-filter-input').setAttribute('disabled','disabled')" type="radio" name="saps-tag-radio" id="rad-filter-defaul-tag" value="{{DEFAULT_VALUE}}" ng-model="$parent.searchFilters.sapsTagOptFilter" checked> {{languageContent.mapFeature.searchBox.raioButton.default}}
-				</label>
-				<label class="radio-inline">
-					<input onclick="document.getElementById('saps-tag-filter-input').removeAttribute('disabled')" type="radio" name="saps-tag-radio" id="rad-filter-other-tag" value="{{OTHER_VALUE}}" ng-model="$parent.searchFilters.sapsTagOptFilter">{{languageContent.mapFeature.searchBox.raioButton.other}}
-				</label>
-				<div id="saps-version-filter-field">
-					<input id='saps-tag-filter-input' disabled type="text" class="saps-input sb-width-md sb-height-sm" ng-model="$parent.searchFilters.sapsTagFilter" required>
-				</div>
-	      	</div>
-
-	      	<div id="satellite-field">
+			<!-- Satellite field -->
+			<div id="satellite-field">
 	      		<div class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.satellite}}</div>
 				<label class="radio-inline" ng-repeat="sat in satelliteOpts">
 				  <input type="radio" name="inlineRadioOptions" id="radio-satellite-{{$index + 1}}" value="{{sat.value}}" ng-model="$parent.searchFilters.satellite">{{sat.label}}
 				</label>
 			</div>
-			
+
+			<!-- Dropdown for Processing Script -->
+			<br>
+			<div class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.processingScript}}</div>
+			<div class="dropdown">
+			  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownProcScript" aria-haspopup="true" aria-expanded="true" 
+			  	ng-click="showHide('dropdown-proc-script-opt')">
+			    {{searchFilters.processingScriptName}}
+			    <span class="caret"></span>
+			  </button>
+			  <ul id="dropdown-proc-script-opt" class="dropdown-menu" 
+			  	aria-labelledby="dropdownProcScript">
+			    <li ng-repeat="procScript in processingScripts"
+			    	ng-click="showHide('dropdown-proc-script-opt');changeProcScript(procScript)">{{procScript.name}}</li>
+			  </ul>
+			</div>
+
+			<!-- Dropdown for Pre Processing Script -->
+			<br>
+			<div class="sb-map-feature-field-label">{{languageContent.mapFeature.searchBox.label.preProcessingScript}}</div>
+			<div class="dropdown">
+			  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownPreProcScript" ng-click="showHide('dropdown-pre-proc-script-opt')" aria-haspopup="true" aria-expanded="true">
+			    {{searchFilters.preProcessingScriptName}}
+			    <span class="caret"></span>
+			  </button>
+			  <ul id='dropdown-pre-proc-script-opt' class="dropdown-menu" aria-labelledby="dropdownPreProcScript">
+			    <li ng-repeat="preProcScript in preProcessingScripts"
+			    	ng-click="showHide('dropdown-pre-proc-script-opt');changePreProcScript(preProcScript)">{{preProcScript.name}}</li>
+			  </ul>
+			</div>
+
+			<br>
+			<br>
 			<div class="row">
 				<div class="col-lg-6 col-md-6 col-sm-6" align="right">
 					<div ng-click="cleanSearch()" class="sb-button sb-second sb-width-sm" align="center">

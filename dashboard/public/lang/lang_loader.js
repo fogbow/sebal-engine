@@ -13,6 +13,7 @@
 				},
 				messages:{
 					sendEmailSuccess:"Sent successfully,<br>check your email box.",
+					successNewSubmission:'Successfully submitted',
 				},
 				login:{
 					placeholdName:"NAME/EMAIL",
@@ -56,8 +57,8 @@
 							region:"Region",
 							firstDate:"Initial date",
 							lastDate:"Final date",
-							sapsVersion:"Pre-processing script",
-							sapsTag:"Processing script",
+							preProcessingScript:"Pre-processing script",
+							processingScript:"Processing script",
 							satellite:"Satellites",
 						},
 						button:{
@@ -92,6 +93,10 @@
 					},
 					regionDetailBox:{
 						title:"Region details",
+						emailInfo: "Click <b>Send email</b> to Receive in Your Email Box <br>only the links from selected areas",
+						button:{
+							sendMail:"Send Email",
+						},
 						label:{
 							regionName:"Region",
 						},
@@ -114,11 +119,34 @@
 					button:{
 						newSubmission:"New submission"
 					},
+					scriptPanel:{
+						label:{
+							satellites:'Satellite',
+							preProcScript:'Pre-processing script',
+							procScript:'Processing script',
+						}
+					},
+					filterPanel:{
+						label:{
+							name:'Name',
+							tags:'Tags',
+							region:'Region',
+							initialDate:'Initial Date',
+							finalDate:'Final Date',
+							satellite:'Satellite',
+							processingScript:'Processing Script',
+							preProcessingScript:'Pre-processing Script',
+						},
+						button:{
+							filter:'Filter'
+						},
+					},
 					table:{
 						columnName:"Name",
 						columnCreationDate:"Creation date",
 						columnEndDate:"End date",
 						columnState:"State",
+						columnSatellite:"Satellite",
 					},
 				},
 			},
@@ -133,6 +161,7 @@
 				},
 				messages:{
 					sendEmailSuccess:"Enviado com sucesso,<br>verifique sua caixa de email.",
+					successNewSubmission:'Submetido com sucesso.'
 				},
 				login:{
 					placeholdName:"NOME/EMAIL",
@@ -176,8 +205,8 @@
 							region:"Região",
 							firstDate:"Data inicial",
 							lastDate:"Data final",
-							sapsVersion:"Script de pré-processamento",
-							sapsTag:"Script de processamento",
+							preProcessingScript:"Script de pré-processamento",
+							processingScript:"Script de processamento",
 							satellite:"Satelites",
 						},
 						button:{
@@ -212,6 +241,10 @@
 					},
 					regionDetailBox:{
 						title:"Detalhes da Região",
+						emailInfo: "Click em <b>Enviar email</b> para receber na sua Caixa de Email <br>apenas os links das áreas selecionadas",
+						button:{
+							sendMail:"Enviar Email",
+						},
 						label:{
 							regionName:"Área",
 						},
@@ -234,11 +267,34 @@
 					button:{
 						newSubmission:"Nova submissão"
 					},
+					scriptPanel:{
+						label:{
+							satellites:'Satelite',
+							preProcScript:'Script de pré-processamento',
+							procScript:'Script de processamento',
+						}
+					},
+					filterPanel:{
+						label:{
+							name:'Nome',
+							tags:'Tags',
+							region:'Região',
+							initialDate:'Data Inicial',
+							finalDate:'Data Final',
+							satellite:'Satelite',
+							processingScript:'Script de processamento',
+							preProcessingScript:'Script de pré-processamento',
+						},
+						button:{
+							filter:'Filtrar'
+						},
+					},
 					table:{
 						columnName:"Nome",
 						columnCreationDate:"Data de criação",
 						columnEndDate:"Data de finalização",
 						columnState:"Estado",
+						columnSatellite:"Satelite",
 					},
 				}
 			},

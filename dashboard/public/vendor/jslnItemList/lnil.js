@@ -105,7 +105,6 @@
 					}else{
 
 						inputListSize = itemsListElement.width();
-						console.log("List size: "+inputListSize)
 					}
 
 					if(lnilConfig.options.permanentInput){
@@ -441,7 +440,7 @@
 
 				inputElement.css('width',inputSizePercent+'%');
 
-				console.log('lineSize: '+lineSize+' -- Inputsize: '+inputSizePercent)
+				// console.log('lineSize: '+lineSize+' -- Inputsize: '+inputSizePercent)
 			}
 
 			var isStringEmpty = function(str){

@@ -1,9 +1,14 @@
 var app = angular.module('schedulerDashboard', [
 	'dashboardControllers',
 	'dashboardServices',
+	'ngSanitize',
 	'ngRoute'
 	//'ui.bootstrap'
 ]);
+
+//Initializing controllers module.
+angular.module('dashboardControllers', []);
+
 //Global Functions available on pages
 app.run(function($rootScope) {
 
@@ -28,15 +33,22 @@ app.run(function($rootScope) {
 			}
 		}
 	};
+	$rootScope.showHide = function() {
+		for(var index=0; index < arguments.length; index++){
+			var elementId = arguments[index];
+			if(	"string" === typeof elementId){
+				$("#"+elementId).toggle();;
+			}
+		}
+	};
+	
 	$rootScope.validateDate = function (date){
 
 	    re = /^[0-3]?[0-9]\/[01]?[0-9]\/[12][90][0-9][0-9]$/
 
 	    if(date == '' || !date.match(re)) {
-	      console.log('Invalid date');
 	      return false;
 	    }
-	    console.log('Valid date');
 	    return true;
 	};
 	$rootScope.parseDate = function (date) {
@@ -50,6 +62,21 @@ app.run(function($rootScope) {
 		    y = parseInt(arrDate[2], 10);
 		// console.log("Creating date: d"+d+" - m"+m+" - y"+y)
 		return new Date(y, m - 1, d);
+	};
+
+	$rootScope.validateString = function (str) {
+		var isValid = true;
+
+	    isValid = !(!str || 0 === str.length);
+	    if(!isValid){
+	    	return isValid;
+	    }
+	    isValid = !(!str || /^\s*$/.test(str));
+	    if(!isValid){
+	    	return isValid;
+	    }
+	    isValid = !(str.length === 0 || !str.trim());
+		return isValid;
 	};
 
 	function loadDefaultLang(){
@@ -90,9 +117,9 @@ app.constant("appConfig", {
 	"DEFAULT_SB_VERSION":"version-001",
 	"DEFAULT_SB_TAG":"tag-001",
 	"SATELLITE_OPTS":[
-		{"label":"Landsat 5", "value":"landsat_5"},
-		{"label":"Landsat 7", "value":"landsat_7"},
-		{"label":"Landsat 8", "value":"landsat_8"}
+		{"label":"Landsat 4", "value":"l4"},
+		{"label":"Landsat 5", "value":"l5"},
+		{"label":"Landsat 7", "value":"l7"}
 	],
 	"MODAL_OPENED":"modalOpened",
 	"MODAL_CLOSED":"modalClosed"

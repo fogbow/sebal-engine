@@ -32,7 +32,7 @@
 }
 .saps-input, .saps-input.input-small, .saps-label, .sb-map-features, 
 .zoom-control, .sb-table-detail, .list-group-item, .sb-map-feature-details,
-.sb-image-detail-line{
+.sb-image-detail-line, .submission-script-panel, .submissions-list-filter{
 	background-color: rgb(255,255,255) !important; 
 }
 .nav-button-selected, .nav-button:hover{
@@ -116,9 +116,13 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
 	top: -18px;
 	background-color: rgba(150,150,150,1);
 	border-radius: 0px;
-	margin-bottom: 10px;
 	padding-top:10px;
 	padding-bottom: 10px;
+}
+.submission-script-panel{
+	min-height: 35px;
+    padding: 5px 5px 5px 5px;
+    margin-top: -17px;
 }
 /*LANG CHOSER*/
 .lang-choser-item,.lang-chosen img{
@@ -134,6 +138,7 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
 /*SUBMISSION LIST*/
 .sb-submissions-panel{
 	overflow-y: auto !important;
+	margin-bottom: 15px;
 }
 /*REGION FEATURES*/
 .sb-map-features{
@@ -266,6 +271,21 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
     display: inline !important;
     margin-left: -35px !important;
 }
+.saps-input-image input{
+	display: inline-block;
+	background-color: white;
+	border-style: solid;  
+	border-width: 1px 1px 1px 1px; 
+	border-color: rgb(120,130,140);
+	height: 35px;
+	padding: 5px 32px 5px 10px;
+}
+.saps-input-image .input-icon{
+	display: inline-block;
+	height: 35px;
+	position: relative;
+	right: 30px;
+}
 /* STEPS PANEL */
 .sb-steps-panel-ht{
 	font-size: 1.5em;
@@ -288,6 +308,18 @@ div.saps-label button{
 
 .saps-label.sb-error{
 	font-weight: bold;
+}
+
+/*Filter Box*/
+.sb-search-box{
+	min-height: 45px;
+}
+.submissions-list-filter{
+	padding: 10px 20px 10px 16px;
+    margin: -10px 0px 0px 0px
+}
+.sb-submission-panel{
+	margin-bottom: 0px !important;
 }
 
 
@@ -434,4 +466,13 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
 .sb-modal-sucess .modal-dialog{
 	border-radius: 25px;
 	margin-top: 15%;
+}
+
+.email-info{
+	font-size: 1.2em;
+	padding: 10px 10px 10px 10px;
+}
+
+.dropdown-menu li:hover{
+	background-color: rgba(10,10,10,0.2)
 }

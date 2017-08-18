@@ -43,37 +43,156 @@
           </div>
         </div>
       </div>
-      <div id="search-box" class="row panel-default sb-search-box" >
+      <div id="search-box" class="panel-default" >
+        <div class="sb-search-box">
+          <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="margin-top: 5px;">
+            <div class="sb-checkbox-sub-list">
+            <input type="checkbox" ng-model="allSubmissionsChecked" ng-change="checkAllImages()">
+              <img ng-hide="ss.showDetail" src="/images/b-left.png"/>
+              <img ng-show="ss.showDetail" src="/images/b-down.png"/>
+            </div>
+          </div>
+          <div align="right" class="col-lg-2 col-md-2 col-sm-2" style="font-size: 1em; padding-top: 8px;">
+            <div align="center" class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block; margin-right: 10px">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true">
+            </div>
+            <div align="center" class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block; margin-right: 10px">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true">
+            </div>
+            <div align="center" class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block;">
+              <span class="glyphicon glyphicon-send" aria-hidden="true" ng-click="switchVisibility('submissions-email-info')">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-3" align="right" style="padding-left:0px;">
+            <div class="saps-input-image" style="display: inline-block;">
+                <input type="text" class="saps-input sb-md sb-height-sm" id="filter-all" ng-model="filterValue['searchable']" placeholder="Search in all submissions" ng-change="filterTable('searchable')">
+                </input>
+                <div class="input-icon">
+                  <img src="/images/search.png"/>
+                </div>
+            </div>
+            <div align="center" class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block;">
+              <span class="glyphicon glyphicon-filter" aria-hidden="true" ng-click="switchVisibility('filter-box')"></span>
+            </div>
+          </div>
+        </div>
+        <div id="submissions-email-info" class="email-info sb-hidden" align="center" style="background-color: white; margin-top: -10px">
+          <div ng-bind-html="languageContent.mapFeature.regionDetailBox.emailInfo"></div>
+          <div ng-click="sendEmail()" class="sb-button sb-main sb-width-xs sb-height-sm" align="center">
+              {{languageContent.mapFeature.regionDetailBox.button.sendMail}}
+          </div>
+        </div>
+        <div id="filter-box" class="sb-hidden">
+          <div id="submissions-list-filter-box" class="submissions-list-filter">
+            <form>  
+              <div><b>{{languageContent.submissionsList.filterPanel.label.name}}</b></div>
+              <div>
+                <input type="text" class="saps-input sb-width-lg sb-height-sm"
+                  id="search-region-filter" ng-model="searchFilters.name">
+              </div>
+              <div><b>{{languageContent.submissionsList.filterPanel.label.tags}}</b></div>
+              <div>
+                <input type="text" class="saps-input sb-width-lg sb-height-sm" 
+                  id="search-term" ng-model="searchFilters.tags">
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4"><b>{{languageContent.submissionsList.filterPanel.label.region}}</b></div>
+                <div class="col-lg-2 col-md-2 col-sm-2"><b>{{languageContent.submissionsList.filterPanel.label.initialDate}}</b></div>
+                <div class="col-lg-2 col-md-2 col-sm-2"><b>{{languageContent.submissionsList.filterPanel.label.finalDate}}</b></div>  
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                  <div>
+                    <input type="text" class="saps-input sb-width-lg sb-height-sm" 
+                      id="search-term" ng-model="searchFilters.region">
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                  <div id="filter-initial-date">
+                          <input type="text" class="saps-input sb-width-sm sb-height-sm saps-datepicker" id="filter-initial-date-input">
+                      </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                  <div id="filter-final-date">
+                          <input type="text" class="saps-input sb-width-sm sb-height-sm saps-datepicker" id="filter-final-date-input">
+                      </div>
+                </div>  
+              </div>
 
-        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="margin-top: 5px;">
-          <div class="sb-checkbox-sub-list">
-          <input type="checkbox" ng-model="allSubmissionsChecked" ng-change="checkAllImages()">
-            <img ng-hide="ss.showDetail" src="/images/b-left.png"/>
-            <img ng-show="ss.showDetail" src="/images/b-down.png"/>
+              <!-- Satellite field -->
+              <br>
+              <div id="satellite-field">
+                    <div><b>{{languageContent.submissionsList.filterPanel.label.satellite}}</b></div>
+                <label class="radio-inline" ng-repeat="sat in satelliteOpts">
+                  <input type="radio" name="inlineRadioOptions" id="radio-satellite-{{$index + 1}}" value="{{sat.value}}" ng-model="searchFilters.satellite">{{sat.label}}
+                </label>
+              </div>
+
+              <!-- Dropdown for Processing Script -->
+              <br>
+              <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2"><b>{{languageContent.submissionsList.filterPanel.label.processingScript}}</b></div>
+                <div class="col-lg-2 col-md-2 col-sm-2"><b>{{languageContent.submissionsList.filterPanel.label.preProcessingScript}}</b></div>
+              </div>
+              <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                  <div class="dropdown" style="display: inline;">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownProcScript" aria-haspopup="true" aria-expanded="true" 
+                      ng-click="showHide('dropdown-proc-script-opt')"
+                      style="min-width: 150px; text-align: left">
+                      <div style="display: inline; float: left">
+                        {{searchFilters.processingScriptName}}
+                      </div>
+                      <div style="display: inline; float: right">
+                        <span class="caret"></span>
+                      </div>
+                    </button>
+                    <ul id="dropdown-proc-script-opt" class="dropdown-menu" 
+                      aria-labelledby="dropdownProcScript">
+                      <li ng-repeat="procScript in processingScripts"
+                        ng-click="showHide('dropdown-proc-script-opt');changeProcScript(procScript)">{{procScript.name}}</li>
+                    </ul>
+                  </div>
+                  <span class="glyphicon glyphicon-info-sign sb-tooltip" aria-hidden="true">
+                </div>
+                <!-- Dropdown for Pre Processing Script -->
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                  <div class="dropdown" style="display: inline;">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownPreProcScript" ng-click="showHide('dropdown-pre-proc-script-opt')" aria-haspopup="true" aria-expanded="true" 
+                    style="min-width: 150px;">
+                      <div style="display: inline; float: left">
+                        {{searchFilters.preProcessingScriptName}}
+                      </div>
+                      <div style="display: inline; float: right">
+                        <span class="caret"></span>
+                      </div>
+                    </button>
+                    <ul id='dropdown-pre-proc-script-opt' class="dropdown-menu" aria-labelledby="dropdownPreProcScript">
+                      <li ng-repeat="preProcScript in preProcessingScripts"
+                        ng-click="showHide('dropdown-pre-proc-script-opt');changePreProcScript(preProcScript)">{{preProcScript.name}}</li>
+                    </ul>
+                  </div>
+                  <span class="glyphicon glyphicon-info-sign sb-tooltip" aria-hidden="true">
+                </div>
+              </div>
+              <br>
+              <br>
+              <div class="row">               
+                <div class="col-lg-8 col-md-8 col-sm-8" align="right">
+                  <div ng-click="filterSubmissions()" class="sb-button sb-main sb-width-xs"
+                   align="center" style="margin-right: 30px;">
+                    {{languageContent.submissionsList.filterPanel.button.filter}}
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-        <div align="right" class="col-lg-2 col-md-2 col-sm-2" style="font-size: 1em; padding-top: 8px;">
-          <div align="center" class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block; margin-right: 10px">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true">
-          </div>
-          <div align="center" class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block; margin-right: 10px">
-            <span class="glyphicon glyphicon-trash" aria-hidden="true">
-          </div>
-          <div align="center" class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block;">
-            <span class="glyphicon glyphicon-send" aria-hidden="true">
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3" align="right">
-              <input type="text" class="saps-input sb-md sb-height-sm" id="filter-all" ng-model="filterValue['searchable']" placeholder="Search in all submissions" ng-change="filterTable('searchable')">
-              </input>
-              <img src="/images/search.png"/>
-        </div>
-        <!-- END SEARCH BOX -->
       </div>
-
+      <!-- END SEARCH BOX -->
       <div id="tables-box" class="sb-submissions-panel">
           <div class="tray tray-center pn">
-            <div ng-repeat="ss in sapsSubmissions" class="panel panel-default sb-submission-panel">
+            <div ng-show="ss.show" ng-repeat="ss in sapsSubmissions" class="panel panel-default sb-submission-panel">
 
               <div class="panel-heading">
                   <div align="left" class="sb-col-lg-11 sb-col-md-11 sb-col-sm-11 sb-col-xs-20">
@@ -104,12 +223,47 @@
                     {{ss.totalError}}&nbsp;<img src="/images/steps/error.png"/>&nbsp;&nbsp;
                   </div>
                   <div align="right" class="sb-col-lg-2 sb-col-md-2 sb-col-sm-2 sb-col-xs-12">
-                        <h4>{{ss.date}}</h4>
+                        <h4>{{ss.date | date:'yyyy-MM-dd'}}</h4>
                   </div>
               </div>
               <div id="panel-body-sub{{$index}}" class="panel-body">
                 <div class="row">
                   <div id="{{ss.id}}-tags-div">{{generateTagsComponent(ss)}}</div>
+                </div>
+                <div class="row submission-script-panel">
+                  <div align="center" class="sb-col-lg-7 sb-col-md-7 sb-col-sm-7 sb-col-xs-20">
+                    <b>{{languageContent.submissionsList.scriptPanel.label.satellites}}:</b> 
+                    <strong>
+                      L4
+                      <span ng-show="ss.sat4" class="glyphicon glyphicon-ok-sign" aria-hidden="true"/>
+                      </span>
+                      <span ng-hide="ss.sat4" class="glyphicon glyphicon-ban-circle" aria-hidden="true">
+                      </span>
+                    </strong>
+                    &nbsp;
+                    <strong>
+                      L5
+                      <span ng-show="ss.sat5" class="glyphicon glyphicon-ok-sign" aria-hidden="true"/>
+                      </span>
+                      <span ng-hide="ss.sat5" class="glyphicon glyphicon-ban-circle" aria-hidden="true">
+                      </span>
+                    </strong>
+                    &nbsp;
+                    <strong>
+                      L7
+                      <span ng-show="ss.sat7" class="glyphicon glyphicon-ok-sign" aria-hidden="true"/>
+                      </span>
+                      <span ng-hide="ss.sat7" class="glyphicon glyphicon-ban-circle" aria-hidden="true">
+                      </span>
+                    </strong>
+                    &nbsp;
+                  </div>
+                  <div align="center" class="sb-col-lg-6 sb-col-md-6 sb-col-sm-6 sb-col-xs-20">
+                    <b>{{languageContent.submissionsList.scriptPanel.label.preProcScript}}:</b> {{ss.preProcessingScript}}
+                  </div>
+                  <div align="center" class="sb-col-lg-7 sb-col-md-7 sb-col-sm-7 sb-col-xs-20">
+                    <b>{{languageContent.submissionsList.scriptPanel.label.procScript}}:</b> <input type='text' readonly class='sb-width-md' value='{{ss.processingScript}}'/>
+                  </div>
                 </div>
                 <div id="table-div-sub{{$index}}" >
                   <!-- message listings table -->
@@ -128,12 +282,13 @@
                             </div>
                           </div>
                           <div align="center" class="col-lg-1 col-md-1 col-sm-1" style="font-size: 1em; padding-top: 8px;">
+                            <div class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block;">
+                              <span class="glyphicon glyphicon-remove" aria-hidden="true">
+                            </div>
                             <div class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block; margin-right: 10px">
                               <span class="glyphicon glyphicon-trash" aria-hidden="true">
                             </div>
-                            <div class="sb-span-round-button sb-rb-med sb-rb-grey" style="display: inline-block;">
-                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true">
-                            </div>
+                            
                           </div>
                           <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" class="saps-input sb-md sb-height-sm" id="filter-{{ss.id}}" ng-model="filterValue[ss.id]" placeholder="Search in {{ss.name}}" ng-change="filterTable(ss.id)">
@@ -147,14 +302,11 @@
                         <th>
                           <div class="div-table-th row" style="min-height: 40px; padding-top: 10px;">
                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">#</div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-7">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-7">
                               {{languageContent.submissionsList.table.columnName}}
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">
-                              {{languageContent.submissionsList.table.columnCreationDate}}
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">
-                              {{languageContent.submissionsList.table.columnEndDate}}
+                              {{languageContent.submissionsList.table.columnSatellite}}
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
                               {{languageContent.submissionsList.table.columnState}}
@@ -172,10 +324,12 @@
                               ng-model="i.checked" ng-change="checkUncheckImageByName(ss.id, i.checked)">
                               {{$index + 1}}
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-7 selectable" ng-click="showDetail('detail'+$index, i)" style="cursor:pointer">{{i.name}}</div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">{{i.creationTime | date : 'yyyy-MM-dd' }}</div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">{{i.updateTime | date : 'yyyy-MM-dd' }}</div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">{{i.state}}</div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-7 selectable" ng-click="showDetail('detail'+$index, i)" style="cursor:pointer">{{i.name}}</div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 mobile-hide">{{i.sat}}</div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                              {{i.state}} <span ng-show="i.state == 'error'" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                            </div>
+
                           </div>
                           </div>
                           </div>
