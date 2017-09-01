@@ -161,8 +161,8 @@
 
 	/*BUTTON*/
 	.sb-span-round-button{
+	    cursor: pointer;
 	    background-color: rgb(255,255,255);
-	    border-radius: 25px;
 	    /*width: 25px;*/
     	padding: 2px 3px 1px 1px;
 	}
@@ -199,6 +199,10 @@
 	    height: 20px;
 	    margin-top: 0px !important;
 	}
+	.saps-input{
+		padding-left: 10px;
+		padding-right: 10px;
+	}
 	.sb-checkbox-sub-list{
 		width: 70px;
 	    height: 30px;
@@ -212,15 +216,9 @@
 	}
 	.sb-checkbox-sub-list img{
 		position: relative;
-		position: relative;
 		left: 5px;
 		bottom: 5px;
 	}
-	.saps-input{
-		padding-left: 10px;
-		padding-right: 10px;
-	}
-
 	/* FORM ITENS */
 	.sb-button, .saps-input{
 		margin-top: 5px;
@@ -229,6 +227,14 @@
 		font-size: 1.1em;
 		height:40px;
 		width: 250px;
+	}
+
+	.sb-modal-sucess .modal-body{
+		width: 100%;
+		min-height: 150px;
+	}
+	.sb-modal-sucess .modal-dialog{
+		width: 400px !important;
 	}
 
 	/* SIZES */
@@ -363,9 +369,5 @@
 		width: 100%;
 		display: inline-block;
 		margin-right: -4px;
-	}
-	.sb-modal-sucess .modal-body{
-		width: 200px !important;
-		min-height: 150px;
 	}
 }

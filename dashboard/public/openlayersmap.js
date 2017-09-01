@@ -193,7 +193,7 @@ function initiateMap(elementId){
           item.coordinates[3]
         ];
 
-        gridLayers.push(createNewRegion(item.name, item.id, polygonCoords));
+        gridLayers.push(createNewRegion(item.regionName, item.regionId, polygonCoords));
 
         var newSquare = SquareSelection(polygonCoords);
         gridArray.push(newSquare)
@@ -243,7 +243,7 @@ function initiateMap(elementId){
   }; 
 
   function createNewRegion(regionName, regionId, polygonCoords){
-    
+
     var polygonFeature = new ol.Feature(
     new ol.geom.Polygon([polygonCoords]));
 
@@ -267,7 +267,6 @@ function initiateMap(elementId){
     { 
       regionName: regionName,
       regionId: regionId,
-      detailLoaded: false,
       coordinates: polygonCoords,
       source: new ol.source.Vector({
         features: [polygonFeature]
@@ -297,10 +296,8 @@ function initiateMap(elementId){
           var regionSelection = SquareSelection(item.get("coordinates"));
           if(regionSelection.isInsideOf(mapSelection) 
             || regionSelection.intersects(mapSelection)){
-            if(!item.get("detailLoaded")){
-              visibleRegions.push(item.get("regionName"))  
-            }
-            
+            console.log("Visible region found: "+item.getKeys())
+            visibleRegions.push(item.get("regionName"))  
           }
       })
     }
@@ -308,9 +305,7 @@ function initiateMap(elementId){
     return visibleRegions;
   }
 
-  var updateRegionDetail = function (regionDetail){
-
-    //console.log("Updating "+JSON.stringify(regionDetail));
+  var updateRegionMapColor = function (regionDetail){
 
     var heatMap = new ol.style.Fill({
           color: [255, 255, 255, 0]
@@ -333,14 +328,13 @@ function initiateMap(elementId){
 
     gridLayerGroup.getLayers().forEach(function(item, index){
       //ITEM: newLayerVector
-      if(item.get("regionName") == regionDetail.name){
-        item.set("detailLoaded",true);
+      if(item.get("regionName") == regionDetail.regionName){
         //item.set("regionDetail",regionDetail);
         var source = item.getSource();
         var features = source.getFeatures();
         // console.log(JSON.stringify(features))
         var polygon = features[0];
-        polygon.set("regionDetail",regionDetail)
+        polygon.set("regionName", regionDetail.regionName)
         polygon.setStyle(new ol.style.Style({
           stroke: new ol.style.Stroke({
             width: 1,
@@ -354,7 +348,7 @@ function initiateMap(elementId){
   }
   var getRegionsByName = function(regionName){
     
-    var regionsDetails = [];
+    var regionsName = [];
 
     map.getLayers().forEach(function(item, index){
 
@@ -371,8 +365,8 @@ function initiateMap(elementId){
             var source = item.getSource();
             var features = source.getFeatures();
             var polygon = features[0];
-            if(polygon.get('regionDetail') != undefined){
-              regionsDetails.push(polygon.get('regionDetail'))
+            if(polygon.get('regionName') != undefined){
+              regionsName.push(polygon.get('regionName'))
             }  
           }
           // if(regionName == item.get("regionName")){
@@ -383,7 +377,7 @@ function initiateMap(elementId){
           // }
       })
     }
-    return regionsDetails;
+    return regionsName;
   }
 
   /// ********* INTERACTIONS **********************
@@ -395,28 +389,53 @@ function initiateMap(elementId){
     if(polygon != undefined){
       //console.log("Previous: "+polygon.get("regionName"))
       var style = this.previous.getStyle();
-      style.setStroke(new ol.style.Stroke({
+      if(style){
+        style.setStroke(new ol.style.Stroke({
               width: 1,
               color: [0, 0, 0, 1]
-      }));
-      var fill = style.getFill();
-      var color = fill.getColor();
-      color[3] = 0.5; 
-      fill.setColor(color);
-
+        }));
+        var fill = style.getFill();
+        var color = fill.getColor();
+        color[3] = 0.5; 
+        fill.setColor(color);
+      }else{
+        // var style = new ol.style.Style({
+        //   stroke: new ol.style.Stroke({
+        //     width: 1,
+        //     color: [0, 0, 0, 1]
+        //   }),
+        //   fill: new ol.style.Fill({
+        //     color: [255, 255, 255, 0]
+        //   })
+        // });
+        // polygon.setStyle(style);
+      }
     }
   };
   select.applySelectionStyle = function(polygon){
     if(polygon != undefined){
       var style = polygon.getStyle();
-      style.setStroke(new ol.style.Stroke({
+      if(style){
+        style.setStroke(new ol.style.Stroke({
               width: 4,
               color: [0, 125, 111, 1]
-      }));
-      var fill = style.getFill();
-      var color = fill.getColor();
-      color[3] = 1; 
-      fill.setColor(color);
+        }));
+        var fill = style.getFill();
+        var color = fill.getColor();
+        color[3] = 1; 
+        fill.setColor(color);
+      }else{
+        // var style = new ol.style.Style({
+        //   stroke: new ol.style.Stroke({
+        //     width: 1,
+        //     color: [0, 0, 0, 1]
+        //   }),
+        //   fill: new ol.style.Fill({
+        //     color: [255, 255, 255, 0]
+        //   })
+        // });
+        // polygon.setStyle(style);
+      }
     }
   }
   // a DragBox interaction used to select features by drawing boxes
@@ -440,7 +459,7 @@ function initiateMap(elementId){
       this.previous = polygon;
       this.applySelectionStyle(this.previous);
       if(eventHandlers.regionSelect !== undefined){
-        eventHandlers.regionSelect(polygon.get('regionDetail'));  
+        eventHandlers.regionSelect(polygon.get('regionName'));  
       }
     }
     
@@ -510,7 +529,7 @@ function initiateMap(elementId){
   var sapsMapAPI = {
     generateGrid: generateGridFunc,
     getVisibleUnloadedRegions: getVisibleUnloadedRegions,
-    updateRegionDetail: updateRegionDetail,
+    updateRegionMapColor: updateRegionMapColor,
     getRegionsByName:getRegionsByName,
     zoomIn: function() {
       //console.log("Applying zoom in");

@@ -44,11 +44,15 @@ app.run(function($rootScope) {
 	
 	$rootScope.validateDate = function (date){
 
+		console.log("Validating "+date)
+
 	    re = /^[0-3]?[0-9]\/[01]?[0-9]\/[12][90][0-9][0-9]$/
 
 	    if(date == '' || !date.match(re)) {
-	      return false;
+			console.log("Date "+date+" is invalid")
+	      	return false;
 	    }
+	    console.log("Date "+date+" is valid")
 	    return true;
 	};
 	$rootScope.parseDate = function (date) {
@@ -60,6 +64,18 @@ app.run(function($rootScope) {
 		var d = parseInt(arrDate[0], 10),
 		    m = parseInt(arrDate[1], 10),
 		    y = parseInt(arrDate[2], 10);
+		// console.log("Creating date: d"+d+" - m"+m+" - y"+y)
+		return new Date(y, m - 1, d);
+	};
+	$rootScope.parseDateUS = function (date) {
+		
+		var arrDate = date.split("-");
+
+		// console.log("arrDate: "+JSON.stringify(arrDate))
+
+		var d = parseInt(arrDate[2], 10),
+		    m = parseInt(arrDate[1], 10),
+		    y = parseInt(arrDate[0], 10);
 		// console.log("Creating date: d"+d+" - m"+m+" - y"+y)
 		return new Date(y, m - 1, d);
 	};

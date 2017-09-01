@@ -40,7 +40,7 @@ dashboardControllers.controller('ListSubmissionsController', function($scope, $r
       {name:'Pre-Script-01', value:'pscp-01'},
       {name:'Pre-Script-02', value:'pscp-02'},
   ]
-
+  console.log("procScriptOpts: "+JSON.stringify($scope.processingScripts));
   // Filters
   $scope.searchFilters = {
     name:'',

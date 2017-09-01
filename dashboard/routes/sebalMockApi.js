@@ -103,7 +103,6 @@ var startApi = function(){
 					
 					var responseData = [];
 					var regionsDetails = JSON.parse(data)
-
 					regionNames.forEach(function(regionName, index){
 
 						for(count = 0; count < regionsDetails.length; count++){
@@ -118,6 +117,7 @@ var startApi = function(){
 					response.status = "SUCCESS"
 					response.code = 200;
 					response.data = responseData;
+
 				}
 				callbackFunction(response);
 			});

@@ -6,50 +6,43 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
 
   //Region detail example
   /*
-  *regionDetail: 
-  {  
-   "name":"region16",
-   "totalImgs":400,
-   "images":[  
+  region : {
+    "regionId":"",
+    "name":"",
+    "coordinates":[[-4730840.311557829,-576916.6894965108],[-4730840.311557829,-619381.7052104976],[-4639166.835634475,-619381.7052104976],[-4639166.835634475,-576916.6894965108]],
+    "regionDetail":{
+      "regionName":"",
+      "totalImages":100,
+      "processedImages":[processedImageObject],
+
+    }
+  }
+  processedImage:{
+    "name":"img_01",
+    "date":"2012-04-05",
+    "outputs":[  
       {  
-         "name":"img_01",
-         "date":"2012-04-05",
-         "satellites":[  
-            {  
-               "name":"l5",
-               "link":"http://localhost:9080/images/img01"
-            }
-         ]
+      "satelliteName":"L5",
+      "preProcessingScrip":"pre-script01",
+      "processingScrip":"script01",
+      "link":"http://localhost:9080/images/img01"
       }
-   ],
-   "totalSatellitesImgs":{  
-      "l4":{  
-         "name":"L4",
-         "total":0
-      },
-      "l5":{  
-         "name":"L5",
-         "total":1
-      },
-      "l7":{  
-         "name":"L7",
-         "total":0
-      }
-   },
-   "color":[  
-      254,
-      178,
-      76,
-      0.5
-   ],
-   "cssColor":"rgb(254,178,76)",
-   "checked":false
+    ]
+    "totalImgBySatelitte":[
+      {name:"L4", total:0}
+    ]
+  }
   */ 
    
   var selectedRegion;
-  var searchedRegions = [];
+  $scope.searchedRegions = [];
+  $scope.regionsDetails = [];
+  var loadedregions = [];
 
+  //Variables for interface controler
   $scope.satelliteOpts = appConfig.SATELLITE_OPTS;
+  $scope.linksSelected = false;
+  $scope.allDetailsChecked = false;
 
   // Script options
   $scope.processingScripts =[
@@ -65,8 +58,14 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
       {name:'Pre-Script-02', value:'pscp-02'},
   ]
 
+  //Initializing data picker
+  $(function () {
+      $('.saps-datepicker').datetimepicker({
+          format: 'DD/MM/YYYY'
+      });
+  });
 
-  // Filters
+  // Filters for region search
   $scope.searchFilters = {
     generalSearch:'',
     regionFilter:'',
@@ -77,35 +76,20 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
     satellite:''
   };
 
-  $scope.linksSelected = false;
+  //-------- BEGIN- Methods for action on MAP --------//
 
-  // var htmlMsg = "<div id='emailInfo'>"+msg+"</div>"
-  // var msgBody =  $('#global-sucess-modal').find('#msg-body')
-  //   var previousMSG = msgBody.find('#msg');
-  //   if(previousMSG){
-  //     previousMSG.remove();
-  //   }
-  //   msgBody.append(htmlMsg);
-  //   $('#global-sucess-modal').modal('show');
-
-  $('#rad-filter-defaul-ver').prop( "checked", 'checked' );
-  $('#rad-filter-other-ver').prop( "checked", null );
-  $('#rad-filter-defaul-tag').prop( "checked", 'checked' );
-  $('#rad-filter-other-tag').prop( "checked", null );
-  // $scope.cleanSearch();
-  // $scope.
-  // $scope.
-  // $scope.
-  $scope.regionsDetails = [];
-  $scope.allDetailsChecked = false;
-
-  $(function () {
-      $('.saps-datepicker').datetimepicker({
-          format: 'DD/MM/YYYY'
-      });
-  });
-
+  //Initializing saps map
   var sapsMap = initiateMap("map");
+
+  //Handle for action of selecting an specific region on map
+  function selectRegionOnMap(regionName){
+    
+    $scope.$apply(function(){
+      $scope.searchFilters.regionFilter = regionName;
+      $('#sb-map-feature-options').show();
+    });
+
+  };
 
   function callbackBoxSelectionInfo(selectionInfo){
     $scope.message = 'Selection: '+JSON.stringify(selectionInfo);
@@ -118,47 +102,70 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
 
   };
 
-  function updateVisibleRegions(){
+  //Method called when a zoom or moviment is applied to the saps map.
+  // function updateVisibleRegions(){
+
     
-    var visibleReqions = sapsMap.getVisibleUnloadedRegions();
-    if(visibleReqions.length > 0){
-      RegionService.getRegionsDetails(visibleReqions, 
-      function(data){
+  //   var visibleReqionNames = sapsMap.getVisibleUnloadedRegions();
+    
+  //   if(visibleReqionNames.length > 0){
 
-        data.forEach(function(regionDetail ,index){
+  //     RegionService.getRegionsDetails(visibleReqionNames, 
+  //     function(data){
 
-          var transparency = $rootScope.heatMap.transparency;
+  //       data.forEach(function(regionDetail ,index){
 
-          for(var index = 0; index < $rootScope.heatMap.colours.length; index++){
+  //         var transparency = $rootScope.heatMap.transparency;
 
-            var item = $rootScope.heatMap.colours[index];
+  //         for(var index = 0; index < $rootScope.heatMap.colours.length; index++){
 
-            if( (item.minValue == undefined && regionDetail.totalImgs <= item.maxValue) ||
-                (item.maxValue == undefined && regionDetail.totalImgs >= item.minValue) ||
-                (regionDetail.totalImgs >= item.minValue && regionDetail.totalImgs <= item.maxValue) ){
+  //           var item = $rootScope.heatMap.colours[index];
+
+  //           if( (item.minValue == undefined && regionDetail.processedImages.length <= item.maxValue) ||
+  //               (item.maxValue == undefined && regionDetail.processedImages.length >= item.minValue) ||
+  //               (regionDetail.processedImages.length >= item.minValue && regionDetail.processedImages.length <= item.maxValue) ){
               
-              regionDetail.color = [item.r, item.g, item.b, transparency];
-              regionDetail.cssColor = "rgb("+item.r+","+item.g+","+item.b+")"
-              break;
-            }
+  //             regionDetail.color = [item.r, item.g, item.b, transparency];
+  //             regionDetail.cssColor = "rgb("+item.r+","+item.g+","+item.b+")"
+  //             break;
+  //           }
 
-          };
-          sapsMap.updateRegionDetail(regionDetail);
-        });
-      },
-      function(error){
-        GlobalMsgService.pushMessageFail("Erro while trying to load regions' information: "+error)
-      });
-    }
+  //         };
+  //         //TODO update regions on memory
+  //         sapsMap.updateRegionMapColor(regionDetail);
+  //       });
+  //     },
+  //     function(error){
+  //       GlobalMsgService.pushMessageFail("Erro while trying to load regions' information: "+error)
+  //     });
+  //   }
     
-  }
+  //}
+
+  //sapsMap.on('mapMove',updateVisibleRegions)
+  sapsMap.on('regionSelect',selectRegionOnMap)
+  sapsMap.on('regionBoxSelect',callbackBoxSelectionInfo)
+
+  //-------- END- Methods for action on MAP --------//
 
   function loadRegions(){
 
       RegionService.getRegions(
         function(response){
           sapsMap.generateGrid(response);
-          updateVisibleRegions();
+
+          response.forEach(function(region ,index){
+            
+            if(region.regionDetail && region.regionDetail.processedImages){
+              processRegionHeatmap(region);
+              sapsMap.updateRegionMapColor(region.regionDetail);
+            }
+            
+          });
+
+          loadedregions = response;
+
+
         },
         function(error){
           console.log('Error while trying to ge regions: '+error)
@@ -166,36 +173,23 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
 
   }
 
-  function selectRegionOnMap(regionDetail){
-    
-    $scope.$apply(function(){
-      $scope.searchFilters.regionFilter = regionDetail.name;
-      $('#sb-map-feature-options').show();
-    });
+  function processRegionHeatmap(region){
+    var transparency = $rootScope.heatMap.transparency;
 
-  };
+    for(var index = 0; index < $rootScope.heatMap.colours.length; index++){
 
-  // function updateRegionsDetails(){
-  //   $scope.regionsDetails = [];
-  //   if(selectedRegion != undefined){
-  //     $scope.regionsDetails.push(selectedRegion)
-  //   }
-  //   if(searchedRegions.length > 0){
-  //     searchedRegions.forEach(function(regionDetail, index){
-  //       console.log("regionDetail: "+JSON.stringify(regionDetail));
-  //       if($scope.selectedRegion != undefined && 
-  //           regionDetail.name != selectedRegion.name){
-  //         $scope.regionsDetails.push(regionDetail)
-  //       }else{
-  //         $scope.regionsDetails.push(regionDetail)
-  //       }
-  //     });
-  //   }
-  // }
+      var item = $rootScope.heatMap.colours[index];
 
-  sapsMap.on('mapMove',updateVisibleRegions)
-  sapsMap.on('regionSelect',selectRegionOnMap)
-  sapsMap.on('regionBoxSelect',callbackBoxSelectionInfo)
+      if( (item.minValue == undefined && region.regionDetail.processedImages.length <= item.maxValue) ||
+          (item.maxValue == undefined && region.regionDetail.processedImages.length >= item.minValue) ||
+          (region.regionDetail.processedImages.length >= item.minValue && region.regionDetail.processedImages.length <= item.maxValue) ){
+        
+        region.regionDetail.color = [item.r, item.g, item.b, transparency];
+        region.regionDetail.cssColor = "rgb("+item.r+","+item.g+","+item.b+")"
+        break;
+      }
+    };
+  }
 
   loadRegions();
 
@@ -213,34 +207,162 @@ dashboardControllers.controller('RegionController', function($scope, $rootScope,
 
   $scope.submitSearch = function(){
 
-    if(!$rootScope.validateDate($('#search-first-year-input').val())){
-      $scope.firstYearFilter = $rootScope.parseDate($('#search-first-year-input').val())
+    var isAnd = true;
+    $scope.searchedRegions = [];
+
+    console.log("Date: "+$('#search-first-year-input').val()+" -- "+$('#search-last-year-input').val())
+
+    if($rootScope.validateDate($('#search-first-year-input').val())){
+      $scope.searchFilters.initialDate = $rootScope.parseDate($('#search-first-year-input').val())
     }
 
-    if(!$rootScope.validateDate($('#search-last-year-input').val())){
-      $scope.lastYearFilter = $rootScope.parseDate($('#search-last-year-input').val())
+    if($rootScope.validateDate($('#search-last-year-input').val())){
+      $scope.searchFilters.finalDate = $rootScope.parseDate($('#search-last-year-input').val())
     }
 
-    if($scope.firstYearFilter > $scope.lastYearFilter){
+    if($scope.searchFilters.initialDate > $scope.searchFilters.finalDate){
       console.log("Last year date must be greater than first year date")
       $scope.modalMsgError = "Last year date must be greater than first year date";
-      hasError = true
     }
 
-    console.log('regionFilter = '+$scope.regionFilter)
+    console.log('searchFilters = '+JSON.stringify($scope.searchFilters))
 
-    //$scope.regionsDetails.push({name:"ola mundo"})
+    loadedregions.forEach(function(region, index){
 
-    searchedRegions = sapsMap.getRegionsByName($scope.regionFilter);
-    //console.log("Returned: "+JSON.stringify(searchedRegions));
-    searchedRegions.forEach(function(regionDetail, index){
-      regionDetail.checked = false;
-      regionDetail.allImgChecked = false;
-      regionDetail.images.forEach(function(img, i){
+      var matches = false;
+      var filterNameOk = false;
+      var filterTagsOk = true;
+      var filterRegionOk = true;
+
+
+      var selectedRegion = {
+        regionName:undefined,
+        processedImages:[],
+        color: undefined,
+        cssColor: undefined
+      }
+
+      if(region.regionName && region.regionDetail){
+        
+        if($rootScope.validateString($scope.searchFilters.regionFilter)){
+          if(region.regionName.toLowerCase() == $scope.searchFilters.regionFilter.toLowerCase() ||
+            region.regionName.toLowerCase().includes($scope.searchFilters.regionFilter.toLowerCase())){
+            console.log("Nome ok")
+            filterNameOk = true;
+            selectedRegion.regionName = region.regionName;
+            selectedRegion.color = region.regionDetail.color;
+            selectedRegion.cssColor = region.regionDetail.cssColor;
+          }
+        }
+        //TODO verificar com Chico como deve ser esse campo "Keywords and Tags"
+        // if($rootScope.validateString($scope.searchFilters.generalSearch)){
+        //   if(!region.name.toLowerCase().includes($scope.searchFilters.generalSearch.toLowerCase())){
+        //     matches = false;
+        //   }
+        // }
+        if(filterNameOk && region.regionDetail.processedImages){
+          
+          
+
+          region.regionDetail.processedImages.forEach(function(image, ind){
+
+            console.log("Verifing: "+JSON.stringify(image))
+
+            image.totalImgBySatelitte = [{name:"L4", total: 0},{name:"L5", total: 0},{name:"L7", total: 0}]
+
+            console.log("Testing image "+JSON.stringify(image))
+
+            var filterSatelliteOk = false;
+            var filterInitialDateOk = false;
+            var filterFinalDateOk = false;
+            var filterProcessingScriptOk = false;
+            var filterPreProcessingScriptOk = false;
+
+            if($scope.searchFilters.initialDate && $scope.searchFilters.finalDate){
+              
+              var imageDate = imageDate = $rootScope.parseDateUS(image.date);
+              
+              if(imageDate >= $scope.searchFilters.initialDate &&
+                  imageDate <= $scope.searchFilters.finalDate){
+                console.log("Dates ok")
+                filterInitialDateOk = true;
+                filterFinalDateOk = true;
+              }
+            }
+            for(var i = 0; i < image.outputs.length; i++){
+
+              image.totalImgBySatelitte.forEach(function(totalSat, z){
+
+                console.log("Comparing "+image.outputs[i].satelliteName.toLowerCase()+" and "+totalSat.name.toLowerCase())
+
+                if(image.outputs[i].satelliteName.toLowerCase() == totalSat.name.toLowerCase()){
+                  console.log("Incrementing "+JSON.stringify(totalSat))
+                  totalSat.total = ++totalSat.total;
+                }
+              })
+
+              if($rootScope.validateString($scope.searchFilters.satellite)){
+                if($scope.searchFilters.satellite.toLowerCase() == image.outputs[i].satelliteName.toLowerCase()){
+                  console.log("Satelites ok")
+                  filterSatelliteOk = true;
+                }
+              }      
+              if($rootScope.validateString($scope.searchFilters.processingScriptValue)){
+                if($scope.searchFilters.processingScriptValue == image.outputs[i].processingScript){
+                  console.log("Process Script ok")
+                  filterProcessingScriptOk = true;
+                }
+              }
+              if($rootScope.validateString($scope.searchFilters.preProcessingScriptValue)){
+                if($scope.searchFilters.preProcessingScriptValue == image.outputs[i].preProcessingScript){
+                  console.log("Pre Process Script ok")
+                  filterPreProcessingScriptOk = true;
+                }
+              }
+            }
+            
+            if(isAnd){
+              if(filterSatelliteOk && filterInitialDateOk && filterFinalDateOk
+                    && filterProcessingScriptOk && filterPreProcessingScriptOk){
+                selectedRegion.processedImages.push(image);
+              }
+            }else{
+              if(filterSatelliteOk || filterInitialDateOk || filterFinalDateOk
+                    || filterProcessingScriptOk || filterPreProcessingScriptOk){
+                selectedRegion.processedImages.push(image);
+              }
+            }
+
+          })          
+        }
+
+      }
+        
+      if(isAnd){
+        if(filterNameOk && filterTagsOk && filterRegionOk){
+          matches = true;
+        }
+      }else{
+        if(filterNameOk || filterTagsOk || filterRegionOk){
+          matches = true;
+        }
+      }
+      console.log("Trying Push "+JSON.stringify(selectedRegion))
+      if(matches && selectedRegion.processedImages.length > 0){
+        console.log("Pushing "+selectedRegion)
+        $scope.searchedRegions.push(selectedRegion)
+      }
+
+    });
+    //Adding interface controllers
+    $scope.searchedRegions.forEach(function(region, index){
+      console.log("Verifing Detail: "+JSON.stringify(region))
+      region.checked = false;
+      region.allImgChecked = false;
+      region.processedImages.forEach(function(img, i){
         img.checked = false;
       });
     });
-    $scope.regionsDetails = searchedRegions;
   }
 
   $scope.cleanSearch = function(){

@@ -128,6 +128,13 @@ var startApp = function(){
 		sebalApi.getRegionsDetails(reqUserInfo, regionsNames, callbackFunction);
 		
 	});
+	app.get("/regions/search", extractUserInfo, function(req, res) {
+		var regionsNames = req.query.regionsNames.split(',');
+		logger.debug("Getting regions details")
+		var callbackFunction = registerCallBack(handleGetRegionsDetailsResponse, req, res);
+		sebalApi.getRegionsDetails(reqUserInfo, regionsNames, callbackFunction);
+		
+	});
 	app.post("/email", extractUserInfo, function(req, res) {
 		var data = req.body.data;
 		logger.debug("Sending email: "+JSON.stringify(data))
@@ -153,108 +160,88 @@ var startApp = function(){
 	}
 
 	//TODO create one handle for each API endpoint? Format response for FRONTEND
-	function handleGetRegionsResponse(resonse, httpReq, httpRes){
-		//httpRes.setHeader("Access-Control-Allow-Origin", "*");
-		//console.log("responding: "+resonse.data)
-		var formattedData = [];
-		resonse.data.forEach(function(item, index){
+	function handleGetRegionsResponse(resonseRegions, httpReq, httpRes){
+		
+		var regionsNames = [];
 
-			var region ={
-				"id": item.regionId,
-				"name": item.regionName,
-				"coordinates": []
-			}
-			for(var count=0; count < item.coordinates.length; count=count+2){
-				region.coordinates.push([item.coordinates[count],item.coordinates[count+1]])
-			}
-			formattedData.push(region)
+		resonseRegions.data.forEach(function(item, index){
+			regionsNames.push(item.regionName);
 		})
-		httpRes.status(resonse.code);
-		httpRes.end(JSON.stringify(formattedData));
+
+		sebalApi.getRegionsDetails(reqUserInfo, regionsNames, function(regionDetailsResponse){
+			
+			regionDetailsResponse.data.forEach(function(regionDetail, index){
+
+				var l4 = {name:"L4", total:0};
+				var l5 = {name:"L5", total:0};
+				var l7 = {name:"L7", total:0};
+				totalImgBySatelitte = [];
+
+				regionDetail.processedImages.forEach(function(processedImage, ind){
+					processedImage.outputs.forEach(function(output, i){
+						if(output.satelliteName === l4.name){
+							l4.total = l4.total+1;
+						}else if(output.satelliteName === l5.name){
+							l5.total = l5.total+1;
+						}else if(output.satelliteName === l7.name){
+							l7.total = l7.total+1;
+						}
+					})
+					
+				});
+				totalImgBySatelitte.push(l4);
+				totalImgBySatelitte.push(l5);
+				totalImgBySatelitte.push(l7);
+				
+				regionDetail.totalImgBySatelitte = totalImgBySatelitte;
+				
+				resonseRegions.data.forEach(function(region, index){
+					if(regionDetail.regionName == region.regionName){
+						region.regionDetail = regionDetail;
+					}
+				})
+			})
+			//console.log("responding: "+JSON.stringify(resonseRegions.data))
+			httpRes.status(resonseRegions.code);
+			httpRes.end(JSON.stringify(resonseRegions.data));
+		});
+
+		
 		
 	}
 
 	function handleGetRegionsDetailsResponse(resonse, httpReq, httpRes){
 		//httpRes.setHeader("Access-Control-Allow-Origin", "*");
 		//console.log("responding: "+resonse.data)
-		var formattedData = [];
-		resonse.data.forEach(function(item, index){
-			//console.log("item: "+JSON.stringify(item));
-			var regionDetail ={
-				"name": "",
-				"totalImgs": 0,
-				"images": [],
-				"totalSatellitesImgs": {}
-			}
-			//console.log("item.images: "+item.images)
-			regionDetail.name = item.regionName;
-			regionDetail.images = item.images;
-			var totalImgs = 0;
-			var satelliteTotal = {
-				l4:{
-					name:"l4",
-					total:0
-				},
-				l5:{
-					name:"l5",
-					total:0
-				},
-				l7:{
-					name:"l7",
-					total:0
-				}
-			};
+		
+		resonse.data.forEach(function(regionDetail, index){
+			
+			var l4 = {name:"L4", total:0};
+			var l5 = {name:"L5", total:0};
+			var l7 = {name:"L7", total:0};
+			totalImgBySatelitte = [];
 
-			regionDetail.images.forEach(function(image, index){
-				var sat04 = undefined;
-				var sat05 = undefined;
-				var sat07 = undefined;
-				totalImgs++;
-				image.satellites.forEach(function(sat, index){
-					//console.log(JSON.stringify(satelliteTotal[sat.name]))
-					if(satelliteTotal.l4.name == sat.name){
-						sat04 = sat;
+			regionDetail.processedImages.forEach(function(processedImage, ind){
+				processedImage.outputs.forEach(function(output, i){
+					if(output.satelliteName === l4.name){
+						l4.total = l4.total+1;
+					}else if(output.satelliteName === l5.name){
+						l5.total = l5.total+1;
+					}else if(output.satelliteName === l7.name){
+						l7.total = l7.total+1;
 					}
-					if(satelliteTotal.l5.name == sat.name){
-						sat05 = sat;
-					}
-					if(satelliteTotal.l7.name == sat.name){
-						sat07 = sat;
-					}
-					satelliteTotal[sat.name].total = satelliteTotal[sat.name].total+1;
-				});
-
-				image.satellites = [];
-
-				if(!sat04){
-					sat04 = {
-						name:satelliteTotal.l4.name,
-               			link:undefined
-					}
-				}
-				image.satellites.push(sat04);
-				if(!sat05){
-					sat05 = {
-						name:satelliteTotal.l5.name,
-               			link:undefined
-					}
-					
-				}
-				image.satellites.push(sat05);
-				if(!sat07){
-					sat07 = {
-						name:satelliteTotal.l7.name,
-               			link:undefined
-					}
-				}
-				image.satellites.push(sat07);
+				})
+				
 			});
-			regionDetail.totalImgs = item.imgsProcessed;//TODO Change this for totalImgs
-			regionDetail.totalSatellitesImgs = satelliteTotal;
-			formattedData.push(regionDetail)
+			totalImgBySatelitte.push(l4);
+			totalImgBySatelitte.push(l5);
+			totalImgBySatelitte.push(l7);
+			
+			regionDetail.totalImgBySatelitte = totalImgBySatelitte;
+
 		})
 		httpRes.status(resonse.code);
-		httpRes.end(JSON.stringify(formattedData));
+		httpRes.end(JSON.stringify(resonse.data));
 		
 	}
 
