@@ -107,11 +107,48 @@ var startApp = function(){
 		- images
 		- regions
 	*/
+	app.get("/auth", extractUserInfo, function(req, res) {
+		
+		logger.debug("Authenticating user")
+		
+		sebalApi.authenticate(reqUserInfo, function(validUser){
+			
+			var response = {
+				"resp": undefined,
+				"status" : undefined,
+				"code" : undefined,
+				"data" : ""
+			}
+
+			if(validUser){
+				response.status = "SUCCESS"
+				response.code = 200;
+				response.data = "User authorized"
+			}else{
+				response.status = "ERROR";
+				response.code = 401;
+				response.data = "User unauthorized";
+			}
+
+			res.status(response.code);
+			res.end(JSON.stringify(response.data));
+				
+		});
+		
+	});
+	app.post("/auth/create", function(req, res) {
+		
+		logger.debug("Creating user")
+		var data = req.body.data;
+		var callbackFunction = registerCallBack(handleResponsePassthrough, req, res);
+		sebalApi.createUser(data, callbackFunction);
+		
+	});
 	//Return list of images
 	app.get("/images", extractUserInfo, function(req, res) {
 		
 		logger.debug("Getting images")
-		var callbackFunction = registerCallBack(handleGetImagesResponse, req, res);
+		var callbackFunction = registerCallBack(handleResponsePassthrough, req, res);
 		sebalApi.getImages(reqUserInfo, callbackFunction);
 		
 	});
@@ -146,75 +183,80 @@ var startApp = function(){
 
 	//**** CALLBACK FUNCTIONS TO HANDLE SEBAL API RESPONSES ****//
 	function registerCallBack(callBackfunction, httpReq, httpRes){
-		return function(resonse){
-			callBackfunction(resonse, httpReq, httpRes);
+		return function(response){
+			callBackfunction(response, httpReq, httpRes);
 		}
 	}
 
-	//TODO create one handle for each API endpoint? Format response for FRONTEND
-	function handleGetImagesResponse(resonse, httpReq, httpRes){
-		//httpRes.setHeader("Access-Control-Allow-Origin", "*");
-		httpRes.status(resonse.code);
-		httpRes.end(JSON.stringify(resonse.data));
-		
+	function handleResponsePassthrough(response, httpReq, httpRes){
+		httpRes.status(response.code);
+		var data;
+		if(typeof response.data == 'string'){
+			data = response.data
+		}else{
+			data = JSON.stringify(response.data)
+		}
+		httpRes.end(data);
 	}
 
+
 	//TODO create one handle for each API endpoint? Format response for FRONTEND
-	function handleGetRegionsResponse(resonseRegions, httpReq, httpRes){
+	function handleGetRegionsResponse(responseRegions, httpReq, httpRes){
 		
 		var regionsNames = [];
 
-		resonseRegions.data.forEach(function(item, index){
+		responseRegions.data.forEach(function(item, index){
 			regionsNames.push(item.regionName);
 		})
-
+		logger.debug("Getting details w/ user: "+JSON.stringify(reqUserInfo))
 		sebalApi.getRegionsDetails(reqUserInfo, regionsNames, function(regionDetailsResponse){
-			
-			regionDetailsResponse.data.forEach(function(regionDetail, index){
+			if(Array.isArray(regionDetailsResponse.data)){
+				regionDetailsResponse.data.forEach(function(regionDetail, index){
 
-				var l4 = {name:"L4", total:0};
-				var l5 = {name:"L5", total:0};
-				var l7 = {name:"L7", total:0};
-				totalImgBySatelitte = [];
+					var l4 = {name:"L4", total:0};
+					var l5 = {name:"L5", total:0};
+					var l7 = {name:"L7", total:0};
+					totalImgBySatelitte = [];
 
-				regionDetail.processedImages.forEach(function(processedImage, ind){
-					processedImage.outputs.forEach(function(output, i){
-						if(output.satelliteName === l4.name){
-							l4.total = l4.total+1;
-						}else if(output.satelliteName === l5.name){
-							l5.total = l5.total+1;
-						}else if(output.satelliteName === l7.name){
-							l7.total = l7.total+1;
+					regionDetail.processedImages.forEach(function(processedImage, ind){
+						processedImage.outputs.forEach(function(output, i){
+							if(output.satelliteName === l4.name){
+								l4.total = l4.total+1;
+							}else if(output.satelliteName === l5.name){
+								l5.total = l5.total+1;
+							}else if(output.satelliteName === l7.name){
+								l7.total = l7.total+1;
+							}
+						})
+						
+					});
+					totalImgBySatelitte.push(l4);
+					totalImgBySatelitte.push(l5);
+					totalImgBySatelitte.push(l7);
+					
+					regionDetail.totalImgBySatelitte = totalImgBySatelitte;
+					
+					responseRegions.data.forEach(function(region, index){
+						if(regionDetail.regionName == region.regionName){
+							region.regionDetail = regionDetail;
 						}
 					})
-					
-				});
-				totalImgBySatelitte.push(l4);
-				totalImgBySatelitte.push(l5);
-				totalImgBySatelitte.push(l7);
-				
-				regionDetail.totalImgBySatelitte = totalImgBySatelitte;
-				
-				resonseRegions.data.forEach(function(region, index){
-					if(regionDetail.regionName == region.regionName){
-						region.regionDetail = regionDetail;
-					}
 				})
-			})
-			//console.log("responding: "+JSON.stringify(resonseRegions.data))
-			httpRes.status(resonseRegions.code);
-			httpRes.end(JSON.stringify(resonseRegions.data));
+			}
+			//console.log("responding: "+JSON.stringify(responseRegions.data))
+			httpRes.status(responseRegions.code);
+			httpRes.end(JSON.stringify(responseRegions.data));
 		});
 
 		
 		
 	}
 
-	function handleGetRegionsDetailsResponse(resonse, httpReq, httpRes){
+	function handleGetRegionsDetailsResponse(response, httpReq, httpRes){
 		//httpRes.setHeader("Access-Control-Allow-Origin", "*");
-		//console.log("responding: "+resonse.data)
+		//console.log("responding: "+response.data)
 		
-		resonse.data.forEach(function(regionDetail, index){
+		response.data.forEach(function(regionDetail, index){
 			
 			var l4 = {name:"L4", total:0};
 			var l5 = {name:"L5", total:0};
@@ -240,16 +282,16 @@ var startApp = function(){
 			regionDetail.totalImgBySatelitte = totalImgBySatelitte;
 
 		})
-		httpRes.status(resonse.code);
-		httpRes.end(JSON.stringify(resonse.data));
+		httpRes.status(response.code);
+		httpRes.end(JSON.stringify(response.data));
 		
 	}
 
-	function handleSendEmailResponse(resonse, httpReq, httpRes){
+	function handleSendEmailResponse(response, httpReq, httpRes){
 		//httpRes.setHeader("Access-Control-Allow-Origin", "*");
-		console.log("POST EMAIL - responding: "+resonse.data)
-		httpRes.status(resonse.code);
-		httpRes.end(JSON.stringify(resonse.data));
+		console.log("POST EMAIL - responding: "+response.data)
+		httpRes.status(response.code);
+		httpRes.end(JSON.stringify(response.data));
 	}
 
 	//HELPER FUNCTIONS
@@ -264,8 +306,10 @@ var startApp = function(){
 			res.setHeader("Access-Control-Allow-Origin", "*");
 			res.status(400);
 			res.end("User credentials not informed");
+		}else{
+			next();	
 		}
-		next();
+		
 
 	}
 }

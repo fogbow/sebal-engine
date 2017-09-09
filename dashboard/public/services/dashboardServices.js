@@ -53,7 +53,8 @@ dashboardServices.service('GlobalMsgService', function () {
 dashboardServices.service('AuthenticationService', function($log, $http,
   Session, appConfig) {
 
-	var resourceUrl = appConfig.urlSapsService+appConfig.submissionPath;
+	var resourceAuthUrl = appConfig.urlSapsService+appConfig.authPath;
+  var resourceCreateUrl = appConfig.urlSapsService+appConfig.authCreatePath;
 	var authService = {};
 
   var getCredentials = function(){
@@ -88,7 +89,7 @@ dashboardServices.service('AuthenticationService', function($log, $http,
       callbackError(loginError);
     }
     //console.log("Getting images with headers: "+JSON.stringify(headerCredentials))
-    $http.get(resourceUrl, {headers: {'userEmail': userLogin, 'userPass': password}})
+    $http.get(resourceAuthUrl, {headers: {'userEmail': userLogin, 'userPass': password}})
       .success(loginSuccessHandler).error(loginErrorHandler);
 
       // $.ajax({
@@ -107,7 +108,7 @@ dashboardServices.service('AuthenticationService', function($log, $http,
       //LOGIN_SUCCEED, LOGIN_FAILED, LOGOUT_SUCCEED
       Session.createTokenSession(username, authToken);
       
-  		$http.get(resourceUrl, {headers: { 'x-auth-token': sessionToken} })
+  		$http.get(resourceAuthUrl, {headers: { 'x-auth-token': sessionToken} })
              .success(function (response) {
                 //console.log("Return: "+JSON.stringify(response));
                 var authToken = "TOKEN-SEBAL" // fix this hardcode to get token from HEADERS
@@ -138,39 +139,17 @@ dashboardServices.service('AuthenticationService', function($log, $http,
   authService.createNewUser = function (name, email, password, passwordConfirm, callbackSuccess, callbackError) {
     
     //Session.createBasicSession(userName, email, password);
-    dataForm = {
+    newUser = {
       'userEmail' : email,
       'userName' : name,
       'userPass' : password,
       'userPassConfirm' : passwordConfirm
     }
-    //console.log('Service will send '+JSON.stringify(dataForm));
-    var req = {
-      method: 'POST',
-      url: resourceUrl,
-      data: dataForm
-    };
-    console.log("Creating new user: "+name+" - "+email)
-    $http(req).success(callbackSuccess).error(callbackError);
-
-    // var createUserSuccessHandler = function(response){
-    //   //console.log("Return: "+JSON.stringify(response));
-    //   if(callbackSuccess){
-    //     callbackSuccess(response)  
-    //   }
-      
-    // }
-  
-    // var createUserErrorHandler = function(error, status){
-    //   if(callbackError){
-    //     callbackError(error);
-    //   }
-      
-    // }
-    // 
-    // // $http.get(resourceUrl, {headers: {'userName' : userName, 'userEmail': email, 'userPass': password}})
-    // //   .success(createUserSuccessHandler).error(createUserErrorHandler);
-    // createUserSuccessHandler("Success")
+    var data = {
+      data:newUser,
+    }
+    $http.post(resourceCreateUrl, data)
+      .success(callbackSuccess).error(callbackError);
     
   }
 

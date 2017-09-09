@@ -4,7 +4,9 @@ var exec = require('child_process').exec;
 var router = express.Router();
 
 var imagesFile = "/mockFiles/images.json";
-var regionsFile = "/mockFiles/regions.json";
+var regionsFile = "/saps_files/regions.json";
+var regionsDetailsFile = "/mockFiles/regions_details.json";
+var userFile = "/mockFiles/users.json";
 
 var response = {
 	"status" : undefined,
@@ -14,53 +16,132 @@ var response = {
 
 var startApi = function(){
 
-	console.log("Starting Sebal api");
+	//console.log("Starting Sebal api");
 
-	var validateUser = function(userInfo){
-
-		console.log("User - "+JSON.stringify(userInfo));
-
-		if(userInfo.userEmail !== "admin@admin.com" || userInfo.userPass !== "admin"){
-			
-			console.log("invalid user");
-			return false;
-
-		}
-		console.log("Valid user");
-		return true;
-	}
-	
-	var loadFileInfo = function(fileName, callbackFunction){		
+	var loadFileInfo = function(fileName, isJson, callbackFunction){		
 		
 		fs.readFile( __dirname + fileName, 'utf8', function (err, data) {
 		   	
 		   	if(err){
-				response.status = "ERROR"
-				response.code = 500;
-				response.data = err
+				callbackFunction(undefined);
 			}else{
-				response.status = "SUCCESS"
-				response.code = 200;
-				response.data = JSON.parse(data)
+				var content = data;
+				if(isJson){
+					content = JSON.parse(content)
+				}
+				callbackFunction(content)
 			}
-			callbackFunction(response);
 
 		});
 	}
 
-	var api = {
-		getImages: function(userInfo, callbackFunction){
-			
-			if(!validateUser(userInfo)){
-				response.status = "ERROR";
-				response.code = 401;
-				response.data = "User unauthorized";
-				callbackFunction(response);
-			}else{
-				loadFileInfo(imagesFile, callbackFunction);
-			}
-			loadFileInfo(imagesFile, callbackFunction);
 
+	var api = {
+		authenticate: function(userInfo, callbackFunction){
+			loadFileInfo(userFile, true, function(content){
+				var userValid = false;
+				if(content != undefined){
+					var users = content;
+					if(Array.isArray(users)){
+						users.forEach(function(user, index){
+							if(user.userEmail == userInfo.userEmail && user.userPass == userInfo.userPass){
+								userValid = true;
+							}
+						});
+					}
+				}
+				//console.log("User valild? "+userValid)
+				callbackFunction(userValid);
+			})
+		},
+		createUser: function(userInfo, callbackFunction){
+			loadFileInfo(userFile, true, function(content){
+
+				var newUser = {
+					"userEmail":userInfo.userEmail, 
+					"userPass":userInfo.userPass
+				}
+
+				var users = []
+
+				if(content != undefined){
+					users = content;
+				}
+
+				if(users.length > 0){
+					users.forEach(function(user, index){
+						if(user.userEmail == userInfo.userEmail){
+							var response = {
+							"resp": "ERROR",
+							"status" : undefined,
+							"code" : 500,
+							"data" : "Error. User with this email already exists"
+							}
+							callbackFunction(response);
+						}
+						
+					});
+				}
+
+				users.push(newUser)
+
+				var usersStr = JSON.stringify(users);
+
+				fs.writeFile(__dirname +userFile, usersStr, (err) => {  
+				    
+				    var response = {
+						"resp": undefined,
+						"status" : undefined,
+						"code" : undefined,
+						"data" : ""
+					}
+
+				    if(err){
+				    	response.status = "ERROR";
+						response.code = 401;
+						response.data = "Error while creating user";
+				    }else{
+				    	response.status = "SUCCESS"
+						response.code = 200;
+						response.data = "User successfulyy created."
+				    }
+
+					callbackFunction(response);
+				});
+			})
+		},
+		getImages: function(userInfo, callbackFunction){
+
+			this.authenticate(userInfo, function(authenticatedUser){
+
+				var response = {
+					"resp": undefined,
+					"status" : undefined,
+					"code" : undefined,
+					"data" : ""
+				}
+
+				if(!authenticatedUser){
+					response.status = "ERROR";
+					response.code = 401;
+					response.data = "User unauthorized";
+					callbackFunction(response);
+				}else{
+					loadFileInfo(imagesFile, true, function(content){
+
+						if(content == undefined){
+							response.status = "ERROR";
+							response.code = 401;
+							response.data = "User unauthorized";
+							callbackFunction(response);
+						}else{
+							response.status = "SUCCESS"
+							response.code = 200;
+							response.data = content
+						}
+					});
+				}
+			});
 		},
 		getImage: function(userInfo, imageId, callbackFunction){
 			console.log("Returning mock specific image")
@@ -72,54 +153,70 @@ var startApi = function(){
 				"code" : undefined,
 				"data" : ""
 			}
-			fs.readFile( __dirname + "/saps_files/regions.json", 'utf8', function (err, data) {
-			   	if(err){
-			   		console.log(err)
-					response.status = "ERROR"
-					response.code = 500;
-					response.data = err
+			this.authenticate(userInfo, function(authenticatedUser){
+				if(!authenticatedUser){
+					response.status = "ERROR";
+					response.code = 401;
+					response.data = "User unauthorized";
+					callbackFunction(response);
 				}else{
-					response.status = "SUCCESS"
-					response.code = 200;
-					response.data = JSON.parse(data)
+					loadFileInfo(regionsFile, true, function(content){
+						if(content == undefined){
+							response.status = "ERROR";
+							response.code = 401;
+							response.data = "User unauthorized";
+						}else{
+							response.status = "SUCCESS"
+							response.code = 200;
+							response.data = content
+						}
+						callbackFunction(response);
+					});
 				}
-				callbackFunction(response);
 			});
 		},
 		getRegionsDetails: function(userInfo, regionNames, callbackFunction){
+
 			var response = {
 				"resp": undefined,
 				"status" : undefined,
 				"code" : undefined,
 				"data" : ""
 			}
-			fs.readFile( __dirname + "/mockFiles/regions_details.json", 'utf8', function (err, data) {
-			   	if(err){
-			   		console.log(err)
-					response.status = "ERROR"
-					response.code = 500;
-					response.data = err
+			this.authenticate(userInfo, function(authenticatedUser){
+
+				if(!authenticatedUser){
+					response.status = "ERROR";
+					response.code = 401;
+					response.data = "User unauthorized";
+					callbackFunction(response);
 				}else{
-					
-					var responseData = [];
-					var regionsDetails = JSON.parse(data)
-					regionNames.forEach(function(regionName, index){
+					loadFileInfo(regionsDetailsFile, true, function(content){
+						if(content == undefined){
+							response.status = "ERROR";
+							response.code = 500;
+							response.data = "Error while getting regions details";
+						}else{
+							var responseData = [];
+							var regionsDetails = content;
+							regionNames.forEach(function(regionName, index){
 
-						for(count = 0; count < regionsDetails.length; count++){
-							if(regionName == regionsDetails[count].regionName){
-								responseData.push(regionsDetails[count]);
-								break;
-							}
+								for(count = 0; count < regionsDetails.length; count++){
+									if(regionName == regionsDetails[count].regionName){
+										responseData.push(regionsDetails[count]);
+										break;
+									}
+								}
+
+							});
+
+							response.status = "SUCCESS"
+							response.code = 200;
+							response.data = responseData;
 						}
-
+						callbackFunction(response);
 					});
-
-					response.status = "SUCCESS"
-					response.code = 200;
-					response.data = responseData;
-
 				}
-				callbackFunction(response);
 			});
 		},
 		sendEmail: function(userInfo, data, callbackFunction){

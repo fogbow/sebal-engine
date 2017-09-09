@@ -12,6 +12,12 @@ api = {
 		var getImagesEndpoint = sebalConfig.getImagesEndpoint;
 
 		return {
+			authenticate: function(userInfo, callbackFunction){
+
+			},
+			createUser: function(userInfo, callbackFunction){
+
+			},
 			getImages: function(userInfo, callbackFunction){
 
 				var response = {

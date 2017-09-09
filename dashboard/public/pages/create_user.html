@@ -9,7 +9,7 @@
   <div class="create-account-panel">
     <div class="panel panel-default">
     <div class="panel-heading" style="padding: 15px 15px 15px 15px;">
-      <div class="row">
+      <div >
         <h3 class="panel-title">{{languageContent.createAccount.title}}</h3>
       </div>
     </div>
@@ -17,7 +17,7 @@
       <div id="formContent" ng-show="create === true">
         <form action="/" id="createUserFormId">
  
-          <div ng-show="errorMsg !== undefined" class="saps-label sb-error sb-md" id="alert-login">
+          <div align="center" ng-show="errorMsg" class="sb-error sb-lg" id="alert-login" style="background-color: rgb(255,150,120); padding: 5px 10px 5px 5px;  margin-bottom: 5px; border-radius: 10px;">
                 <button type="button" class="close" ng-click="clearLoginMsg()" aria-hidden="true">×</button>
                 <i class="fa fa-info"></i>
                 {{errorMsg}}

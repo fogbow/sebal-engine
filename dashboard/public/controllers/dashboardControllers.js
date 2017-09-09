@@ -176,8 +176,8 @@ dashboardControllers.controller('LoginController', function($scope, $rootScope, 
       function(response){ //Erro call back
         //$rootScope.$broadcast(appConfig.CREATE_USER_FAIL, "Create user failed");
         console.log("Create user error: "+JSON.stringify(response));
-        $scope.msg = response.msg;
-        $scope.create = false;
+        $scope.errorMsg = response;
+        $scope.create = true;
       }
     );
   }
