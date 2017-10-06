@@ -77,16 +77,10 @@ dashboardServices.service('AuthenticationService', function($log, $http,
       callbackSuccess(response)
     }
   
-    var loginErrorHandler = function(error, status){
-      //console.log("Error no login: "+JSON.stringify(error))
+    var loginErrorHandler = function(error){
+      console.log("Error no login: "+JSON.stringify(error))
       Session.destroy();
-      var loginError = {msg:'', status:status}
-      if(loginError.status == 401){
-        loginError.msg = 'Invalid Credentials. Check your login and password.'
-      }else{
-        loginError.msg = 'Server erro while processing your login request. Contact system administrator.'
-      }
-      callbackError(loginError);
+      callbackError(error);
     }
     //console.log("Getting images with headers: "+JSON.stringify(headerCredentials))
     $http.get(resourceAuthUrl, {headers: {'userEmail': userLogin, 'userPass': password}})

@@ -150,8 +150,8 @@ dashboardControllers.controller('LoginController', function($scope, $rootScope, 
         $location.path('/regions-map');
       }, 
       function(response){ //Erro call back
-        console.log("Login error: "+JSON.stringify(response));
-        $scope.errorMsg = response.msg;
+        console.log("Login error: "+response);
+        $scope.errorMsg = "Login faild.\n"+response;
       }
     );
   }

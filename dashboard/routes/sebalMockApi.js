@@ -39,19 +39,45 @@ var startApi = function(){
 	var api = {
 		authenticate: function(userInfo, callbackFunction){
 			loadFileInfo(userFile, true, function(content){
-				var userValid = false;
+				// Status code:
+				/*
+				* 200 - User authorized
+				* 401 - Wrong credentials 
+				* 403 - User not active yet
+				* 404 - User not found
+				*/ 
+				var userValidation = {
+					valid: false,
+					code: 404,
+					msg: "User not found."	
+				};
 				if(content != undefined){
 					var users = content;
 					if(Array.isArray(users)){
 						users.forEach(function(user, index){
-							if(user.userEmail == userInfo.userEmail && user.userPass == userInfo.userPass){
-								userValid = true;
+							if(user.userEmail == userInfo.userEmail){
+								if(user.userPass == userInfo.userPass){
+									if(user.status == "active"){
+										userValidation.valid = true;
+										userValidation.code = 200;
+										userValidation.msg = "User validated with success."
+									}else{
+
+										userValidation.valid = false;
+										userValidation.code = 403;
+										userValidation.msg = "User not active."
+									}
+								}else{
+									userValidation.valid = false;
+									userValidation.code = 401;
+									userValidation.msg = "Wrong credentials."
+								}
 							}
 						});
 					}
 				}
 				//console.log("User valild? "+userValid)
-				callbackFunction(userValid);
+				callbackFunction(userValidation);
 			})
 		},
 		createUser: function(userInfo, callbackFunction){
@@ -87,7 +113,7 @@ var startApi = function(){
 
 				var usersStr = JSON.stringify(users);
 
-				fs.writeFile(__dirname +userFile, usersStr, (err) => {  
+				fs.writeFile(__dirname +userFile, usersStr, function(err){  
 				    
 				    var response = {
 						"resp": undefined,
@@ -121,10 +147,10 @@ var startApi = function(){
 					"data" : ""
 				}
 
-				if(!authenticatedUser){
+				if(!authenticatedUser.valid){
 					response.status = "ERROR";
-					response.code = 401;
-					response.data = "User unauthorized";
+					response.code = authenticatedUser.code;
+					response.data = authenticatedUser.msg;
 					callbackFunction(response);
 				}else{
 					loadFileInfo(imagesFile, true, function(content){
@@ -154,10 +180,10 @@ var startApi = function(){
 				"data" : ""
 			}
 			this.authenticate(userInfo, function(authenticatedUser){
-				if(!authenticatedUser){
+				if(!authenticatedUser.valid){
 					response.status = "ERROR";
-					response.code = 401;
-					response.data = "User unauthorized";
+					response.code = authenticatedUser.code;
+					response.data = authenticatedUser.msg;
 					callbackFunction(response);
 				}else{
 					loadFileInfo(regionsFile, true, function(content){
@@ -185,10 +211,10 @@ var startApi = function(){
 			}
 			this.authenticate(userInfo, function(authenticatedUser){
 
-				if(!authenticatedUser){
+				if(!authenticatedUser.valid){
 					response.status = "ERROR";
-					response.code = 401;
-					response.data = "User unauthorized";
+					response.code = authenticatedUser.code;
+					response.data = authenticatedUser.msg;
 					callbackFunction(response);
 				}else{
 					loadFileInfo(regionsDetailsFile, true, function(content){

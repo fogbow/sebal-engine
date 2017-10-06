@@ -1,68 +1,55 @@
 <form ng-controller="NewSubmissionsController">
-        <div style="font-weight: bold; font-size: 1.2em; ">{{languageContent.mapFeature.submissionBox.label.submissionName}}</div>
-        <div style=" ">
-            <input type="text" class="saps-input input-small sb-width-100"  id="submissionName" 
-              ng-model="submissionName" required>
-        </div>
-
-        <div style="font-weight: bold; font-size: 1.2em; ">{{languageContent.mapFeature.submissionBox.label.submissionTags}}</div>
-        <div style=" ">
-            <input type="text" class="saps-input input-small sb-width-100"  id="submissionTags" 
-              ng-model="submissionTags">
-        </div>
+       
 
         <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.region}} *</div>
         <div id="regionField" style=" ">
-            <input type="text" class="saps-input saps-input input-small sb-width-90" ng-model="region" required >
+            <div style="font-weight: bold; font-size: 1em;" class="sb-col-lg-9">Top Left</div>
+            <br>
+            <input type="text" class="saps-input saps-input input-small sb-width-49" ng-model="$scope.newSubmission.topLeftCoord.lat" required placeholder="Latitude">
+            <input type="text" class="saps-input saps-input input-small sb-width-49" ng-model="$scope.newSubmission.topLeftCoord.lat" required placeholder="Longitude">
+            <div style="font-weight: bold; font-size: 1em;" class="sb-col-lg-9">Bottom Right</div>
+            <br>
+            <input type="text" class="saps-input saps-input input-small sb-width-49" ng-model="$scope.newSubmission.bottomRightCoord.lat" required placeholder="Latitude">
+            <input type="text" class="saps-input saps-input input-small sb-width-49" ng-model="$scope.newSubmission.bottomRightCoord.long" required placeholder="Longitude">
+
             <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
-            <span class="glyphicon glyphicon-plus-sign sb-tooltip" aria-hidden="true" style="font-size: 1.5em">
+          <!--   <span class="glyphicon glyphicon-plus-sign sb-tooltip" aria-hidden="true" style="font-size: 1.5em">
                 <div class="sb-info">
                     <p>{{languageContent.infos.regionSearchFilter.info}}</p>
                     <p>{{languageContent.infos.regionSearchFilter.eg}}</p>
                 </div>      
-            </span>
+            </span> -->
         </div>
 
         <div style="font-weight: bold; font-size: 1.2em;" class="sb-col-lg-11">{{languageContent.mapFeature.submissionBox.label.firstDate}} *</div>
         <div style="font-weight: bold; font-size: 1.2em;" class="sb-col-lg-9">{{languageContent.mapFeature.submissionBox.label.lastDate}} *</div>
         
         <div id="firstYearField" class="sb-col-lg-11">
-            <input type="text" class="saps-input input-small sb-width-90 saps-datepicker" id="firstYear" required>
+            <input type="text" class="saps-input input-small sb-width-90 saps-datepicker" id="subformFirstYear" required>
             <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
         </div>
         <div id="lastYearField" class="sb-col-lg-9">
-            <input type="text" class="saps-input input-small sb-width-100 saps-datepicker" id="lastYear" required>
+            <input type="text" class="saps-input input-small sb-width-100 saps-datepicker" id="subformLastYear" required>
             <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
         </div>
 
         <br>
-        <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.satellite}} *</div>
-
-        <div id="satelliteField" style="  margin-bottom: 20px;">
-            <div style="font-size: 1.2em;">
-
-              <label class="radio-inline" ng-repeat="sat in satelliteOpts">
-                <input type="radio" name="inlineRadioOptions" id="radioSatellite{{$index + 1}}" value="{{sat.value}}" ng-model="satellite">{{sat.label}}
-              </label>
-            </div>
-            <div class="sb-required sb-hidden">{{languageContent.mapFeature.submissionBox.label.requiredField}}</div>
-        </div>
 
         <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.sapsVersion}} *</div>
         <div style="font-size: 1.2em;">
             <div class="dropdown" style="display: inline;">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownPreProcScript" ng-click="showHide('sub-preproc-script-drop')" aria-haspopup="true" aria-expanded="true" 
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownInputGathering" ng-click="showHide('inputGatheringDrop')" aria-haspopup="true" aria-expanded="true" 
                 style="min-width: 150px;">
                   <div style="display: inline; float: left">
-                    {{preProcessingScriptName}}
+                    {{selectedInputGatheringName}}
                   </div>
                   <div style="display: inline; float: right">
                     <span class="caret"></span>
                   </div>
                 </button>
-                <ul id='sub-preproc-script-drop' class="dropdown-menu" aria-labelledby="dropdownPreProcScript">
-                  <li ng-repeat="preProcScript in preProcessingScripts"
-                    ng-click="showHide('sub-preproc-script-drop');changePreProcScript(preProcScript)">{{preProcScript.name}}</li>
+                <ul id='inputGatheringDrop' class="dropdown-menu" aria-labelledby="dropdownInputGathering">
+                  <li ng-repeat="inputGathering in inputGatheringOptions"
+                    ng-click="showHide('inputGatheringDrop');changeInputGathering(inputGathering)">{{inputGathering.name}}</li>
                 </ul>
               </div>
               <span class="glyphicon glyphicon-info-sign sb-tooltip" aria-hidden="true">
@@ -72,20 +59,43 @@
         <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.sapsTag}} *</div>
         <div style="font-size: 1.2em;  ">
             <div class="dropdown" style="display: inline;">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownProcScript" aria-haspopup="true" aria-expanded="true" 
-                  ng-click="showHide('sub-proc-script-drop')"
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownInputPreprocessing" aria-haspopup="true" aria-expanded="true" 
+                  ng-click="showHide('inputPreprocessingDrop')"
                   style="min-width: 150px; text-align: left">
                   <div style="display: inline; float: left">
-                    {{processingScriptName}}
+                    {{selectedInputPreprocessingName}}
                   </div>
                   <div style="display: inline; float: right">
                     <span class="caret"></span>
                   </div>
                 </button>
-                <ul id="sub-proc-script-drop" class="dropdown-menu" 
-                  aria-labelledby="dropdownProcScript">
-                  <li ng-repeat="procScript in processingScripts"
-                    ng-click="showHide('sub-proc-script-drop');changeProcScript(procScript)">{{procScript.name}}</li>
+                <ul id="inputPreprocessingDrop" class="dropdown-menu" 
+                  aria-labelledby="dropdownInputPreprocessing">
+                  <li ng-repeat="inputPreprocessing in inputPreprocessingOptions"
+                    ng-click="showHide('inputPreprocessingDrop');changeInputPreprocessing(inputPreprocessing)">{{inputPreprocessing.name}}</li>
+                </ul>
+              </div>
+              <span class="glyphicon glyphicon-info-sign sb-tooltip" aria-hidden="true">
+            </div>
+        </div>
+        <br>
+        <div style="font-weight: bold; font-size: 1.2em;  ">{{languageContent.mapFeature.submissionBox.label.sapsTag}} *</div>
+        <div style="font-size: 1.2em;  ">
+            <div class="dropdown" style="display: inline;">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownAlgorithimExecution" aria-haspopup="true" aria-expanded="true" 
+                  ng-click="showHide('algorithimExecutionOts')"
+                  style="min-width: 150px; text-align: left">
+                  <div style="display: inline; float: left">
+                    {{selectedAlgorithimExecutionName}}
+                  </div>
+                  <div style="display: inline; float: right">
+                    <span class="caret"></span>
+                  </div>
+                </button>
+                <ul id="algorithimExecutionOts" class="dropdown-menu" 
+                  aria-labelledby="dropdownAlgorithimExecution">
+                  <li ng-repeat="algorithimExecution in algorithimExecutionOptions"
+                    ng-click="showHide('algorithimExecutionOts');changeAlgorithimExecution(algorithimExecution)">{{algorithimExecution.name}}</li>
                 </ul>
               </div>
               <span class="glyphicon glyphicon-info-sign sb-tooltip" aria-hidden="true">

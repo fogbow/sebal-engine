@@ -420,6 +420,9 @@ div.div-table-row:hover, div.div-table-row:hover .main-column{
 .sb-width-90{
 	width: 90% !important;
 }
+.sb-width-49{
+	width: 49% !important;
+}
 .sb-tooltip:hover div.sb-info{
 	visibility: visible;
 }

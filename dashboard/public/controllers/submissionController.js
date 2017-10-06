@@ -529,30 +529,45 @@ dashboardControllers.controller('ListSubmissionsController', function($scope, $r
 
 dashboardControllers.controller('NewSubmissionsController', function($scope, $rootScope, $log, $filter, 
   $timeout, AuthenticationService, SubmissionService, GlobalMsgService, appConfig) {
-  
-  $scope.DEFAULT_VALUE = 'd';
-  $scope.OTHER_VALUE = 'o';
+
   $scope.modalMsgError = undefined;
-  $scope.satelliteOpts = appConfig.SATELLITE_OPTS;
+  // $scope.satelliteOpts = appConfig.SATELLITE_OPTS;
+
+  $scope.newSubmission = {
+    topLeftCoord:{lat:0,long:0},
+    bottomRightCoord:{lat:0,long:0},
+    initialDate: undefined,
+    finalDate: undefined,
+    inputGathering: undefined,
+    inputPreprocessing: undefined,
+    algorithimExecution: undefined
+  }
 
   // Script options
-  $scope.processingScripts =[
+  $scope.inputGatheringOptions =[
       {name:'DEFAULT', value:'default_script'},
       {name:'Script-01', value:'scp-01'},
       {name:'Script-02', value:'scp-02'},
   ]
   
-
-  $scope.preProcessingScripts =[
+  $scope.inputPreprocessingOptions =[
       {name:'DEFAULT', value:'default_pre-script'},
       {name:'Pre-Script-01', value:'pscp-01'},
       {name:'Pre-Script-02', value:'pscp-02'},
   ]
 
-  $scope.processingScriptName = $scope.processingScripts[0].name;
-  $scope.processingScriptValue = $scope.processingScripts[0].value;
-  $scope.preProcessingScriptName = $scope.preProcessingScripts[0].name;
-  $scope.preProcessingScriptValue = $scope.preProcessingScripts[0].value;
+  $scope.algorithimExecutionOptions =[
+      {name:'DEFAULT', value:'default_algorithim'},
+      {name:'Algo-Script-01', value:'ascp-01'},
+      {name:'Algo-Script-02', value:'ascp-02'},
+  ]
+
+  $scope.selectedInputGatheringName = $scope.inputGatheringOptions[0].name;
+  $scope.selectedInputGatheringValue = $scope.inputGatheringOptions[0].value;
+  $scope.selectedInputPreprocessingName = $scope.inputPreprocessingOptions[0].name;
+  $scope.selectedInputPreprocessingValue = $scope.inputPreprocessingOptions[0].value;
+  $scope.selectedAlgorithimExecutionName = $scope.algorithimExecutionOptions[0].name;
+  $scope.selectedAlgorithimExecutionValue = $scope.algorithimExecutionOptions[0].value;
 
   $scope.$on(appConfig.MODAL_OPENED, function (event, value) {
     $scope.cleanForm();
@@ -583,43 +598,38 @@ dashboardControllers.controller('NewSubmissionsController', function($scope, $ro
   });
 
   //Interface controls
-  $scope.changeProcScript = function(newScriptOpt){
-    $scope.processingScriptName = newScriptOpt.name;
-    $scope.processingScriptValue = newScriptOpt.value;
+  $scope.changeInputGathering = function(newGatheringOpt){
+    $scope.selectedInputGatheringName = newGatheringOpt.name;
+    $scope.selectedInputGatheringValue = newGatheringOpt.value;
   };
 
+  $scope.changeInputPreprocessing = function(newPreprocessingOpt){
+    $scope.selectedInputPreprocessingName = newPreprocessingOpt.name;
+    $scope.selectedInputPreprocessingValue = newPreprocessingOpt.value;
+  }
 
-  $scope.changePreProcScript = function(newScriptOpt){
-    $scope.preProcessingScriptName = newScriptOpt.name;
-    $scope.preProcessingScriptValue = newScriptOpt.value;
+  $scope.changeAlgorithimExecution = function(newAlgorithimOpt){
+    $scope.selectedAlgorithimExecutionName = newAlgorithimOpt.name;
+    $scope.selectedAlgorithimExecutionValue = newAlgorithimOpt.value;
   }
 
   $scope.cleanForm = function(){
       
       $scope.submissionName = undefined;
-      $('#firstYear').val('')
-      $('#lastYear').val('')
-      $scope.region = undefined;
+      $('#firstYear').val('');
+      $('#lastYear').val('');
       
-      $scope.processingScriptName = $scope.processingScripts[0].name;
-      $scope.processingScriptValue = $scope.processingScripts[0].value;
-      $scope.preProcessingScriptName = $scope.preProcessingScripts[0].name;
-      $scope.preProcessingScriptValue = $scope.preProcessingScripts[0].value;
-    
-
-      $scope.satelliteOpts.forEach(function(item, index){
-        $('#radioSatellite'+(index+1)).prop( "checked", null );
-      });
+      $scope.selectedInputGatheringName = $scope.inputGatheringOptions[0].name;
+      $scope.selectedInputGatheringValue = $scope.inputGatheringOptions[0].value;
+      $scope.selectedInputPreprocessingName = $scope.inputPreprocessingOptions[0].name;
+      $scope.selectedInputPreprocessingValue = $scope.inputPreprocessingOptions[0].value;
+      $scope.selectedAlgorithimExecutionName = $scope.algorithimExecutionOptions[0].name;
+      $scope.selectedAlgorithimExecutionValue = $scope.algorithimExecutionOptions[0].value;
 
       //Clean error msgs
       $scope.modalMsgError = undefined;
       msgRequiredShowHide('firstYearField', false);
       msgRequiredShowHide('lastYearField', false);
-      msgRequiredShowHide('regionField',false);
-      msgRequiredShowHide('versionField',false);
-      // $('#radioSatellite1').prop( "checked", null );
-      // $('#radioSatellite2').prop( "checked", null );
-      // $('#radioSatellite3').prop( "checked", null );
 
   }
 
@@ -629,23 +639,23 @@ dashboardControllers.controller('NewSubmissionsController', function($scope, $ro
     hasError = false;
     $scope.modalMsgError = undefined;
 
-    if(!$rootScope.validateDate($('#firstYear').val())){
+    if(!$rootScope.validateDate($('#subformFirstYear').val())){
       hasError = true
       msgRequiredShowHide('firstYearField',true);
     }else{
-      $scope.firstYear = $rootScope.parseDate($('#firstYear').val())
+       $scope.newSubmission.initialDate = $rootScope.parseDate($('#subformFirstYear').val())
       msgRequiredShowHide('firstYearField', false);
     }
 
-    if(!$rootScope.validateDate($('#lastYear').val())){
+    if(!$rootScope.validateDate($('#subformLastYear').val())){
       hasError = true
       msgRequiredShowHide('lastYearField',true);
     }else{
-      $scope.lastYear = $rootScope.parseDate($('#lastYear').val())
+      $scope.newSubmission.finalDate = $rootScope.parseDate($('#subformLastYear').val())
       msgRequiredShowHide('lastYearField', false);
     }
 
-    if($scope.firstYear > $scope.lastYear){
+    if($scope.newSubmission.initialDate > $scope.newSubmission.finalDate){
       console.log("Last year date must be greater than first year date")
       $scope.modalMsgError = "Last year date must be greater than first year date";
       hasError = true
@@ -658,25 +668,34 @@ dashboardControllers.controller('NewSubmissionsController', function($scope, $ro
       msgRequiredShowHide('regionField',false);
     }
 
-
-    $scope.satelliteOpts.forEach(function(item, index){
-
-      var radioId = '#radioSatellite'+(index+1)
-          
-      if($(radioId).prop('checked')){
-        $scope.satellite = $(radioId).prop('value');
-      }
-        // console.log(radioId+' Value: '+$(radioId).prop('value'))
-        // console.log(radioId+' Checked: '+$(radioId).prop('checked'))
-    });
-
-    console.log('$scope.satellite: '+$scope.satellite)
-    if(!$scope.satellite){
-      hasError = true
-      msgRequiredShowHide('satelliteField',true);
-    }else{
-      msgRequiredShowHide('satelliteField',false);
+    $scope.newSubmission = {
+      topLeftCoord:{lat:0,long:0},
+      bottomRightCoord:{lat:0,long:0},
+      initialDate: undefined,
+      finalDate: undefined,
+      inputGathering: undefined,
+      inputPreprocessing: undefined,
+      algorithimExecution: undefined
     }
+
+    // $scope.satelliteOpts.forEach(function(item, index){
+
+    //   var radioId = '#radioSatellite'+(index+1)
+          
+    //   if($(radioId).prop('checked')){
+    //     $scope.satellite = $(radioId).prop('value');
+    //   }
+    //     // console.log(radioId+' Value: '+$(radioId).prop('value'))
+    //     // console.log(radioId+' Checked: '+$(radioId).prop('checked'))
+    // });
+
+    // console.log('$scope.satellite: '+$scope.satellite)
+    // if(!$scope.satellite){
+    //   hasError = true
+    //   msgRequiredShowHide('satelliteField',true);
+    // }else{
+    //   msgRequiredShowHide('satelliteField',false);
+    // }
 
     if(hasError){
       return

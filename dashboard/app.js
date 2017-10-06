@@ -25,7 +25,7 @@ var logger;
 
 var loadAppConfig = function(){
 	
-	fs.readFile( __dirname + "/" + "dashboard.config", 'utf8', function (err, data) {
+	fs.readFile( __dirname + "/" + "backend.config", 'utf8', function (err, data) {
    		
    		appConfig = JSON.parse(data);
 
@@ -112,26 +112,9 @@ var startApp = function(){
 		logger.debug("Authenticating user")
 		
 		sebalApi.authenticate(reqUserInfo, function(validUser){
-			
-			var response = {
-				"resp": undefined,
-				"status" : undefined,
-				"code" : undefined,
-				"data" : ""
-			}
-
-			if(validUser){
-				response.status = "SUCCESS"
-				response.code = 200;
-				response.data = "User authorized"
-			}else{
-				response.status = "ERROR";
-				response.code = 401;
-				response.data = "User unauthorized";
-			}
-
-			res.status(response.code);
-			res.end(JSON.stringify(response.data));
+			console.log("Validation: "+JSON.stringify(validUser))
+			res.status(validUser.code);
+			res.end(validUser.msg);
 				
 		});
 		
@@ -205,85 +188,93 @@ var startApp = function(){
 		
 		var regionsNames = [];
 
-		responseRegions.data.forEach(function(item, index){
-			regionsNames.push(item.regionName);
-		})
-		logger.debug("Getting details w/ user: "+JSON.stringify(reqUserInfo))
-		sebalApi.getRegionsDetails(reqUserInfo, regionsNames, function(regionDetailsResponse){
-			if(Array.isArray(regionDetailsResponse.data)){
-				regionDetailsResponse.data.forEach(function(regionDetail, index){
+		if(responseRegions.code == 200){
+			responseRegions.data.forEach(function(item, index){
+				regionsNames.push(item.regionName);
+			})
+			logger.debug("Getting details w/ user: "+JSON.stringify(reqUserInfo))
+			sebalApi.getRegionsDetails(reqUserInfo, regionsNames, function(regionDetailsResponse){
+				if(Array.isArray(regionDetailsResponse.data)){
+					regionDetailsResponse.data.forEach(function(regionDetail, index){
 
-					var l4 = {name:"L4", total:0};
-					var l5 = {name:"L5", total:0};
-					var l7 = {name:"L7", total:0};
-					totalImgBySatelitte = [];
+						var l4 = {name:"L4", total:0};
+						var l5 = {name:"L5", total:0};
+						var l7 = {name:"L7", total:0};
+						totalImgBySatelitte = [];
 
-					regionDetail.processedImages.forEach(function(processedImage, ind){
-						processedImage.outputs.forEach(function(output, i){
-							if(output.satelliteName === l4.name){
-								l4.total = l4.total+1;
-							}else if(output.satelliteName === l5.name){
-								l5.total = l5.total+1;
-							}else if(output.satelliteName === l7.name){
-								l7.total = l7.total+1;
+						regionDetail.processedImages.forEach(function(processedImage, ind){
+							processedImage.outputs.forEach(function(output, i){
+								if(output.satelliteName === l4.name){
+									l4.total = l4.total+1;
+								}else if(output.satelliteName === l5.name){
+									l5.total = l5.total+1;
+								}else if(output.satelliteName === l7.name){
+									l7.total = l7.total+1;
+								}
+							})
+						});
+						
+						totalImgBySatelitte.push(l4);
+						totalImgBySatelitte.push(l5);
+						totalImgBySatelitte.push(l7);
+						
+						regionDetail.totalImgBySatelitte = totalImgBySatelitte;
+						
+						responseRegions.data.forEach(function(region, index){
+							if(regionDetail.regionName == region.regionName){
+								region.regionDetail = regionDetail;
 							}
 						})
-						
-					});
-					totalImgBySatelitte.push(l4);
-					totalImgBySatelitte.push(l5);
-					totalImgBySatelitte.push(l7);
-					
-					regionDetail.totalImgBySatelitte = totalImgBySatelitte;
-					
-					responseRegions.data.forEach(function(region, index){
-						if(regionDetail.regionName == region.regionName){
-							region.regionDetail = regionDetail;
-						}
 					})
-				})
-			}
-			//console.log("responding: "+JSON.stringify(responseRegions.data))
+				}
+				//console.log("responding: "+JSON.stringify(responseRegions.data))
+				httpRes.status(responseRegions.code);
+				httpRes.end(JSON.stringify(responseRegions.data));
+			});
+		}else{
 			httpRes.status(responseRegions.code);
-			httpRes.end(JSON.stringify(responseRegions.data));
-		});
-
-		
+			httpRes.end(responseRegions.data);
+		}
 		
 	}
 
 	function handleGetRegionsDetailsResponse(response, httpReq, httpRes){
 		//httpRes.setHeader("Access-Control-Allow-Origin", "*");
 		//console.log("responding: "+response.data)
-		
-		response.data.forEach(function(regionDetail, index){
+		if(response.code == 200){
+			response.data.forEach(function(regionDetail, index){
 			
-			var l4 = {name:"L4", total:0};
-			var l5 = {name:"L5", total:0};
-			var l7 = {name:"L7", total:0};
-			totalImgBySatelitte = [];
+				var l4 = {name:"L4", total:0};
+				var l5 = {name:"L5", total:0};
+				var l7 = {name:"L7", total:0};
+				totalImgBySatelitte = [];
 
-			regionDetail.processedImages.forEach(function(processedImage, ind){
-				processedImage.outputs.forEach(function(output, i){
-					if(output.satelliteName === l4.name){
-						l4.total = l4.total+1;
-					}else if(output.satelliteName === l5.name){
-						l5.total = l5.total+1;
-					}else if(output.satelliteName === l7.name){
-						l7.total = l7.total+1;
-					}
-				})
+				regionDetail.processedImages.forEach(function(processedImage, ind){
+					processedImage.outputs.forEach(function(output, i){
+						if(output.satelliteName === l4.name){
+							l4.total = l4.total+1;
+						}else if(output.satelliteName === l5.name){
+							l5.total = l5.total+1;
+						}else if(output.satelliteName === l7.name){
+							l7.total = l7.total+1;
+						}
+					})
+					
+				});
+				totalImgBySatelitte.push(l4);
+				totalImgBySatelitte.push(l5);
+				totalImgBySatelitte.push(l7);
 				
-			});
-			totalImgBySatelitte.push(l4);
-			totalImgBySatelitte.push(l5);
-			totalImgBySatelitte.push(l7);
-			
-			regionDetail.totalImgBySatelitte = totalImgBySatelitte;
+				regionDetail.totalImgBySatelitte = totalImgBySatelitte;
 
-		})
-		httpRes.status(response.code);
-		httpRes.end(JSON.stringify(response.data));
+			})
+			httpRes.status(response.code);
+			httpRes.end(JSON.stringify(response.data));
+		}else{
+			httpRes.status(response.code);
+			httpRes.end(response.data);
+		}
+		
 		
 	}
 
